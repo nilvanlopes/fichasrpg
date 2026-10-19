@@ -1,11 +1,12 @@
 import React from "react";
 
-export function LineField({ name, label, value, onChange, className = "" }) {
+export function LineField({ name, label, value, onChange, className = "", numeric = false }) {
   return (
     <input
       className={("line-input " + className).trim()}
       data-field={name}
       aria-label={label}
+      inputMode={numeric ? "numeric" : undefined}
       value={value ?? ""}
       onChange={(event) => onChange(name, event.target.value)}
     />
@@ -25,6 +26,7 @@ export function BoxField({
       className={("box-input " + (readOnly ? "readonly " : "") + className).trim()}
       data-field={name}
       aria-label={label}
+      inputMode="numeric"
       value={value ?? ""}
       readOnly={readOnly}
       onChange={(event) => onChange(name, event.target.value)}
@@ -38,6 +40,7 @@ export function MiniField({ name, label, value, onChange, readOnly = false }) {
       className={"mini-input" + (readOnly ? " readonly" : "")}
       data-field={name}
       aria-label={label}
+      inputMode="numeric"
       value={value ?? ""}
       readOnly={readOnly}
       onChange={(event) => onChange(name, event.target.value)}

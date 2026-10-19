@@ -1,15 +1,16 @@
 import React from "react";
 import { CheckField, LineField } from "./FormField";
 
-function IdentityLabel({ children, name, label, form, onChange }) {
+function IdentityLabel({ children, name, label, form, onChange, numeric = false, className = "" }) {
   return (
-    <label className="identity-label">
+    <label className={"identity-label " + className}>
       {children}
       <LineField
         name={name}
         label={label}
         value={form[name]}
         onChange={onChange}
+        numeric={numeric}
       />
     </label>
   );
@@ -89,6 +90,7 @@ export function IdentitySection({ form, onChange }) {
           label="Nível de poder"
           form={form}
           onChange={onChange}
+          numeric
         >
           Nível de Poder{" "}
         </IdentityLabel>
@@ -97,16 +99,18 @@ export function IdentitySection({ form, onChange }) {
           label="Pontos de poder"
           form={form}
           onChange={onChange}
+          numeric
+          className="power-points-field"
         >
           Pontos de Poder{" "}
         </IdentityLabel>
-        <IdentityLabel name="tamanho" label="Tamanho" form={form} onChange={onChange}>
+        <IdentityLabel name="tamanho" label="Tamanho" form={form} onChange={onChange} numeric>
           Tamanho{" "}
         </IdentityLabel>
-        <IdentityLabel name="altura" label="Altura" form={form} onChange={onChange}>
+        <IdentityLabel name="altura" label="Altura" form={form} onChange={onChange} numeric>
           Altura{" "}
         </IdentityLabel>
-        <IdentityLabel name="peso" label="Peso" form={form} onChange={onChange}>
+        <IdentityLabel name="peso" label="Peso" form={form} onChange={onChange} numeric>
           Peso{" "}
         </IdentityLabel>
       </div>
@@ -115,7 +119,7 @@ export function IdentitySection({ form, onChange }) {
         <IdentityLabel name="genero" label="Gênero" form={form} onChange={onChange}>
           Gênero{" "}
         </IdentityLabel>
-        <IdentityLabel name="idade" label="Idade" form={form} onChange={onChange}>
+        <IdentityLabel name="idade" label="Idade" form={form} onChange={onChange} numeric>
           Idade{" "}
         </IdentityLabel>
         <IdentityLabel name="olhos" label="Olhos" form={form} onChange={onChange}>

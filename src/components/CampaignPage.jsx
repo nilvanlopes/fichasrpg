@@ -18,7 +18,7 @@ function CampaignInfo({ form, onChange }) {
           </label>
           <label className="campaign-info-label">
             Pontos de poder{" "}
-            <LineField name="pontos-poder" label="Pontos de poder" value={form["pontos-poder"]} onChange={onChange} />
+            <LineField name="pontos-poder" label="Pontos de poder" value={form["pontos-poder"]} onChange={onChange} numeric />
           </label>
         </div>
         <div className="campaign-info-row">

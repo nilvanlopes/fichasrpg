@@ -1,6 +1,6 @@
 services:
   web:
-    image: fichamutantes:latest
+    image: fichasrpg:latest
     read_only: true
     volumes:
       - type: tmpfs
@@ -35,20 +35,30 @@ services:
       start_period: 10s
 
   api:
-    image: fichamutantes-api:latest
+    image: fichasrpg-api:latest
     read_only: true
     cap_drop:
       - ALL
     environment:
       DB_HOST: postgres
-      DB_NAME: fichamutantes
-      DB_USER: fichamutantes
-      DB_PASSWORD_FILE: /run/secrets/fichamutantes_db_password
-      PUBLIC_ORIGIN: https://fichamutantes.nilvanlopes.com
-      AUTHENTIK_AUTH_URL: http://authentik-outpost-fichamutantes_proxy:9000/outpost.goauthentik.io/auth/traefik
+      DB_NAME: fichasrpg
+      DB_USER: fichasrpg
+      DB_PASSWORD_FILE: /run/secrets/fichasrpg_db_password
+      PUBLIC_ORIGIN: https://fichasrpg.nilvanlopes.com
+      AUTHENTIK_AUTH_URL: http://authentik-outpost-fichasrpg_proxy:9000/outpost.goauthentik.io/auth/traefik
+      AUTHENTIK_BASE_URL: ${AUTHENTIK_BASE_URL:-https://authentik.nilvanlopes.com}
+      AUTHENTIK_API_TOKEN: ${AUTHENTIK_API_TOKEN:?execute o deploy carregando as variáveis de autenticação}
+      AUTHENTIK_INVITE_FLOW_SLUG: ${AUTHENTIK_INVITE_FLOW_SLUG:-foundry-enrollment}
+      AUTHENTIK_FICHASRPG_GROUP_NAME: fichasrpg-users
+      AUTHENTIK_FICHASRPG_USER_PATH: users/fichasrpg
+      AUTHENTIK_FOUNDRY_GROUP_NAME: ${AUTHENTIK_FOUNDRY_GROUP_NAME:-foundry-users}
+      AUTHENTIK_GOOGLE_SOURCE_SLUG: ${AUTHENTIK_GOOGLE_SOURCE_SLUG:-google}
+      AUTHENTIK_FICHASRPG_APP_URL: https://fichasrpg.nilvanlopes.com
+      GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID:-}
+      GOOGLE_CLIENT_SECRET: ${GOOGLE_CLIENT_SECRET:-}
     secrets:
-      - source: fichamutantes_db_password
-        target: fichamutantes_db_password
+      - source: fichasrpg_db_password
+        target: fichasrpg_db_password
         uid: "1000"
         gid: "1000"
         mode: 0400
@@ -81,11 +91,11 @@ services:
   postgres:
     image: postgres:16-alpine@sha256:cf78e76683b9ca8c5733cbbdce6c9262b45b6767934dd0a95e671f9a0fc20685
     environment:
-      POSTGRES_DB: fichamutantes
-      POSTGRES_USER: fichamutantes
-      POSTGRES_PASSWORD_FILE: /run/secrets/fichamutantes_db_password
+      POSTGRES_DB: fichasrpg
+      POSTGRES_USER: fichasrpg
+      POSTGRES_PASSWORD_FILE: /run/secrets/fichasrpg_db_password
     secrets:
-      - fichamutantes_db_password
+      - fichasrpg_db_password
     volumes:
       - postgres_data:/var/lib/postgresql/data
     networks:
@@ -103,7 +113,7 @@ services:
         limits:
           memory: 256M
     healthcheck:
-      test: ["CMD", "pg_isready", "-U", "fichamutantes", "-d", "fichamutantes"]
+      test: ["CMD", "pg_isready", "-U", "fichasrpg", "-d", "fichasrpg"]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -118,7 +128,9 @@ networks:
 
 volumes:
   postgres_data:
+    external: true
+    name: fichasrpg_postgres_data
 
 secrets:
-  fichamutantes_db_password:
+  fichasrpg_db_password:
     external: true

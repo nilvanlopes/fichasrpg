@@ -2,8 +2,11 @@ import React, { useMemo } from "react";
 import { abilities, skills } from "./data";
 import { CampaignPage } from "./components/CampaignPage";
 import { CharacterPage } from "./components/CharacterPage";
+import { SheetsDashboard } from "./components/SheetsDashboard";
+import { SignupPage } from "./components/SignupPage";
 import { Toolbar } from "./components/Toolbar";
-import { useAccountSheet } from "./useAccountSheet";
+import { VampireEditor } from "./systems/vampiro/VampireEditor";
+import { useRpgSheet } from "./useRpgSheet";
 
 function numeric(form, name) {
   return Number(form[name] || 0);
@@ -88,8 +91,8 @@ function useCalculatedValues(form) {
   }, [form]);
 }
 
-export default function App() {
-  const sheet = useAccountSheet();
+function MutantesEditor({ sheetId }) {
+  const sheet = useRpgSheet(sheetId, "mutantes");
   const derived = useCalculatedValues(sheet.form);
   return (
     <>
@@ -99,6 +102,14 @@ export default function App() {
         onClear={sheet.clear}
         onReload={sheet.reload}
         onLogout={sheet.logout}
+        onExport={sheet.exportFile}
+        onImport={sheet.importFile}
+        importing={sheet.importing}
+        onDelete={sheet.remove}
+        deleting={sheet.deleting}
+        sheetId={sheet.sheet?.id}
+        sheetName={sheet.sheet?.name}
+        system="mutantes"
         user={sheet.user}
         disabled={!sheet.ready || Boolean(sheet.legacy)}
         saving={sheet.saving}
@@ -109,7 +120,7 @@ export default function App() {
           <h1>{sheet.loading ? "Carregando sua ficha…" : "Não foi possível abrir sua ficha"}</h1>
           <p>{sheet.status}</p>
           {!sheet.loading && (["LOGIN_REQUIRED", "ACCESS_DENIED"].includes(sheet.failure)
-            ? <a href="/outpost.goauthentik.io/sign_out">Entrar com sua conta</a>
+            ? <a href="/outpost.goauthentik.io/start">Entrar com sua conta</a>
             : <button type="button" onClick={sheet.reload}>Tentar novamente</button>)}
         </section>
       ) : (
@@ -121,7 +132,7 @@ export default function App() {
               <button type="button" onClick={sheet.startEmpty}>Começar com ficha vazia</button>
             </section>
           )}
-          <fieldset className="sheet-fields" disabled={Boolean(sheet.legacy) || sheet.failure === "SHEET_CONFLICT"}>
+          <fieldset className="sheet-fields" disabled={sheet.importing || Boolean(sheet.legacy) || sheet.failure === "SHEET_CONFLICT"}>
             <main className="sheets">
               <CharacterPage form={sheet.form} derived={derived} onChange={sheet.onChange} />
               <CampaignPage form={sheet.form} derived={derived} onChange={sheet.onChange} />
@@ -131,4 +142,20 @@ export default function App() {
       )}
     </>
   );
+}
+
+function SheetRoute({ system, sheetId }) {
+  if (system === "mutantes") return <MutantesEditor sheetId={sheetId} />;
+  if (system === "vampiro") return <VampireEditor sheetId={sheetId} />;
+  return <main className="account-notice"><h1>Sistema não encontrado</h1><a href="/">Voltar às fichas</a></main>;
+}
+
+export default function App() {
+  const segments = window.location.pathname.split("/").filter(Boolean);
+  if (segments[0] === "cadastro") return <SignupPage />;
+  if (segments[0] === "sistemas" && segments.length === 3) {
+    return <SheetRoute system={segments[1]} sheetId={segments[2]} />;
+  }
+  if (segments.length > 0) return <main className="account-notice"><h1>Página não encontrada</h1><a href="/">Voltar às fichas</a></main>;
+  return <SheetsDashboard />;
 }

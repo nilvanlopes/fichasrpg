@@ -9,8 +9,8 @@ export async function createPool(env = process.env) {
   return new pg.Pool({
     host: env.DB_HOST || "postgres",
     port: Number(env.DB_PORT || 5432),
-    database: env.DB_NAME || "fichamutantes",
-    user: env.DB_USER || "fichamutantes",
+    database: env.DB_NAME || "fichasrpg",
+    user: env.DB_USER || "fichasrpg",
     password,
     max: 5,
     connectionTimeoutMillis: 5000,

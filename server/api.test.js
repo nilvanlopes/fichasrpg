@@ -5,8 +5,8 @@ import { once } from "node:events";
 import { createApp } from "./app.js";
 import { createPool, initializeSchema } from "./db.js";
 
-if (process.env.DB_NAME !== "fichamutantes_test") throw new Error("Use a dedicated fichamutantes_test database");
-const origin = "https://fichamutantes.nilvanlopes.com";
+if (process.env.DB_NAME !== "fichasrpg_test") throw new Error("Use a dedicated fichasrpg_test database");
+const origin = "https://fichasrpg.nilvanlopes.com";
 const uidA = "a".repeat(64), uidB = "b".repeat(64);
 let pool, auth, server, base;
 let usernameA = "pyu";
@@ -18,13 +18,13 @@ before(async () => {
   await pool.query("TRUNCATE sheets, accounts");
   auth = createServer((req, res) => {
     const cookie = req.headers.cookie;
-    assert.equal(req.headers["x-forwarded-host"], "fichamutantes.nilvanlopes.com");
+    assert.equal(req.headers["x-forwarded-host"], "fichasrpg.nilvanlopes.com");
     if (cookie === "session=broken") { res.writeHead(503); return res.end(); }
     if (!["session=A", "session=B", "session=outsider"].includes(cookie)) { res.writeHead(302, { Location: origin }); return res.end(); }
     res.writeHead(200, {
       "X-authentik-uid": cookie === "session=A" ? uidA : uidB,
       "X-authentik-username": cookie === "session=A" ? usernameA : "player-b",
-      "X-authentik-groups": cookie === "session=outsider" ? "foundry-users" : "fichamutantes",
+      "X-authentik-groups": cookie === "session=outsider" ? "foundry-users" : "fichasrpg-users",
     });
     res.end();
   }).listen(0, "127.0.0.1");
@@ -50,6 +50,14 @@ function put(user, form, revision, overrides = {}) {
     body: JSON.stringify({ form, revision }),
   });
 }
+
+test("logout redirects to the Authentik outpost even without an active application session", async () => {
+  const response = await fetch(base + "/api/logout?next=https://example.org", { redirect: "manual" });
+  assert.equal(response.status, 302);
+  assert.equal(response.headers.get("Location"), new URL("/outpost.goauthentik.io/sign_out",
+    process.env.AUTHENTIK_FICHASRPG_APP_URL || "https://fichasrpg.nilvanlopes.com").href);
+  assert.equal(response.headers.get("Cache-Control"), "no-store");
+});
 
 test("forged identity headers cannot authenticate a request", async () => {
   const response = await fetch(base + "/api/sheet", { headers: { "X-authentik-uid": uidA, "X-authentik-username": "pyu" } });

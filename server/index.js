@@ -16,8 +16,8 @@ for (let attempt = 1; ; attempt++) {
 }
 const app = createApp({
   pool,
-  publicOrigin: process.env.PUBLIC_ORIGIN || "https://fichamutantes.nilvanlopes.com",
-  authUrl: process.env.AUTHENTIK_AUTH_URL || "http://authentik-outpost-fichamutantes_proxy:9000/outpost.goauthentik.io/auth/traefik",
+  publicOrigin: process.env.PUBLIC_ORIGIN || "https://fichasrpg.nilvanlopes.com",
+  authUrl: process.env.AUTHENTIK_AUTH_URL || "http://authentik-outpost-fichasrpg_proxy:9000/outpost.goauthentik.io/auth/traefik",
 });
 const server = app.listen(Number(process.env.PORT || 3000), "0.0.0.0", () => console.log("Ficha API listening"));
 for (const signal of ["SIGTERM", "SIGINT"]) {

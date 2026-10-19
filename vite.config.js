@@ -3,9 +3,9 @@ import { defineConfig } from "vite";
 export default defineConfig({
   server: {
     host: "0.0.0.0",
-    allowedHosts: ["fichamutantes.localnetwork"],
+    allowedHosts: ["fichasrpg.localnetwork"],
     proxy: {
-      "/api": "http://fichamutantes_dev_api:3000",
+      "/api": "http://fichasrpg_dev_api:3000",
     },
   },
 });

@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <title>RPG</title>
+  <rect width="64" height="64" rx="12" fill="#100f14" />
+  <g fill="#f2eee8" fill-rule="evenodd">
+    <path d="M5 15h8c6 0 9 3 9 9v3c0 4-2 7-5 8l6 14h-7l-5-13v13H5V15Zm6 6v9h2c2 0 3-1 3-3v-3c0-2-1-3-3-3h-2Z" />
+    <path d="M25 15h7c6 0 9 3 9 9v4c0 6-3 9-9 9h-1v12h-6V15Zm6 6v10h1c2 0 3-1 3-3v-4c0-2-1-3-3-3h-1Z" />
+    <path d="M59 24h-6v-2c0-1-1-2-2-2s-2 1-2 2v20c0 2 1 2 2 2s2 0 2-2v-7h-3v-6h9v14c0 5-3 7-8 7s-8-2-8-7V22c0-5 3-8 8-8s8 3 8 8v2Z" />
+  </g>
+</svg>

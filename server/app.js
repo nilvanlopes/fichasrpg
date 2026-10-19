@@ -1,4 +1,8 @@
 import express from "express";
+import { registerSignupRoutes } from "./signup.js";
+
+const SYSTEMS = new Set(["mutantes", "vampiro"]);
+const SYSTEM_LABELS = { mutantes: "Mutantes & Malfeitores", vampiro: "Vampiro: A Máscara" };
 
 function validForm(form) {
   if (!form || typeof form !== "object" || Array.isArray(form)) return false;
@@ -11,24 +15,63 @@ function validForm(form) {
   );
 }
 
+function validSheetId(id) {
+  return /^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(id || "");
+}
+
+function safeName(value, system) {
+  if (value === undefined || value === null || value === "") return `Nova ficha de ${SYSTEM_LABELS[system]}`;
+  if (typeof value !== "string") return null;
+  const name = value.trim();
+  return name.length > 0 && name.length <= 120 ? name : null;
+}
+
+function requestAccountMatches(req, res) {
+  if (req.get("X-Ficha-Account") !== req.account.uid) {
+    res.status(409).json({ error: "ACCOUNT_CHANGED" });
+    return false;
+  }
+  return true;
+}
+
 export function createApp({ pool, authUrl, publicOrigin, fetchAuth = fetch }) {
   const app = express();
   const origin = new URL(publicOrigin).origin;
+  const allowedOrigins = new Set([
+    origin,
+    ...(process.env.PUBLIC_ORIGINS || "").split(",").map(value => value.trim()).filter(Boolean)
+      .map(value => new URL(value).origin),
+  ]);
   app.disable("x-powered-by");
   app.use((req, res, next) => {
     res.set({ "Cache-Control": "no-store", Vary: "Cookie", "X-Content-Type-Options": "nosniff" });
     next();
   });
+  app.use(express.json({ limit: "512kb", type: "application/json" }));
+
   app.get("/healthz", async (req, res) => {
     await pool.query("SELECT 1");
     res.json({ ok: true });
   });
 
+  // Registration is intentionally public; all sheet and account APIs below
+  // still require an Authentik session in the fichasrpg-users group.
+  registerSignupRoutes(app, origin);
+
+  app.get("/api/logout", (req, res) => {
+    const appUrl = process.env.AUTHENTIK_FICHASRPG_APP_URL || "https://fichasrpg.nilvanlopes.com";
+    res.redirect(302, new URL("/outpost.goauthentik.io/sign_out", appUrl).href);
+  });
+
   app.use("/api", async (req, res, next) => {
     if (!["GET", "HEAD"].includes(req.method) &&
-        (req.get("Origin") !== origin || req.get("X-Ficha-Request") !== "1")) {
+        (!allowedOrigins.has(req.get("Origin")) || req.get("X-Ficha-Request") !== "1")) {
       return res.status(403).json({ error: "INVALID_ORIGIN" });
     }
+    const forwardedHost = req.get("X-Forwarded-Host");
+    const forwardedProto = (req.get("X-Forwarded-Proto") || new URL(origin).protocol.slice(0, -1)).replace(/:$/, "");
+    const forwardedOrigin = forwardedHost ? new URL(`${forwardedProto}://${forwardedHost}`).origin : origin;
+    const requestOrigin = allowedOrigins.has(forwardedOrigin) ? forwardedOrigin : origin;
     if (process.env.DEV_AUTH_BYPASS === "1") {
       const username = process.env.DEV_AUTH_USERNAME || "pyu";
       const { rows } = await pool.query(
@@ -41,18 +84,17 @@ export function createApp({ pool, authUrl, publicOrigin, fetchAuth = fetch }) {
       if (!req.get("Cookie")) return res.status(401).json({ error: "LOGIN_REQUIRED" });
       let auth;
       try {
-        // A identidade vem de uma nova validação da sessão no outpost.
-        // Nunca usamos os headers de identidade enviados pelo navegador.
+        // Read identity only from a fresh session validation with the outpost.
         auth = await fetchAuth(authUrl, {
           redirect: "manual",
           signal: AbortSignal.timeout(5000),
           headers: {
             Cookie: req.get("Cookie"),
-            "X-Forwarded-Host": new URL(origin).host,
-            "X-Forwarded-Proto": new URL(origin).protocol.slice(0, -1),
+            "X-Forwarded-Host": new URL(requestOrigin).host,
+            "X-Forwarded-Proto": new URL(requestOrigin).protocol.slice(0, -1),
             "X-Forwarded-Uri": req.originalUrl,
             "X-Forwarded-Method": req.method,
-            "X-Original-URL": new URL(req.originalUrl, origin).href,
+            "X-Original-URL": new URL(req.originalUrl, requestOrigin).href,
           },
         });
       } catch {
@@ -67,7 +109,7 @@ export function createApp({ pool, authUrl, publicOrigin, fetchAuth = fetch }) {
       const uid = auth.headers.get("X-authentik-uid") || "";
       const username = auth.headers.get("X-authentik-username") || "";
       const groups = (auth.headers.get("X-authentik-groups") || "").split("|");
-      if (!/^[a-f0-9]{64}$/.test(uid) || !username || !groups.includes("fichamutantes")) {
+      if (!/^[a-f0-9]{64}$/.test(uid) || !username || !groups.includes("fichasrpg-users")) {
         return res.status(403).json({ error: "ACCESS_DENIED" });
       }
       req.account = { uid, username, name: auth.headers.get("X-authentik-name") || username };
@@ -79,8 +121,65 @@ export function createApp({ pool, authUrl, publicOrigin, fetchAuth = fetch }) {
   });
 
   app.get("/api/session", (req, res) => res.json({ user: req.account }));
+
+  app.get("/api/sheets", async (req, res) => {
+    const { rows } = await pool.query(`SELECT id, system, name, revision, created_at, updated_at
+      FROM sheets WHERE owner_uid = $1 ORDER BY updated_at DESC, created_at DESC`, [req.account.uid]);
+    res.json({ user: req.account, sheets: rows });
+  });
+
+  app.post("/api/sheets", async (req, res) => {
+    if (!requestAccountMatches(req, res)) return;
+    const { system, name, form = {} } = req.body || {};
+    if (!SYSTEMS.has(system) || !validForm(form)) return res.status(400).json({ error: "INVALID_SHEET" });
+    const sheetName = safeName(name, system);
+    if (!sheetName) return res.status(400).json({ error: "INVALID_SHEET_NAME" });
+    const { rows } = await pool.query(`INSERT INTO sheets (owner_uid, system, name, form)
+      VALUES ($1, $2, $3, $4::jsonb)
+      RETURNING id, system, name, form, revision, created_at, updated_at`,
+    [req.account.uid, system, sheetName, JSON.stringify(form)]);
+    res.status(201).json({ sheet: rows[0] });
+  });
+
+  app.get("/api/sheets/:id", async (req, res) => {
+    if (!validSheetId(req.params.id)) return res.status(404).json({ error: "SHEET_NOT_FOUND" });
+    const { rows } = await pool.query(`SELECT id, system, name, form, revision, created_at, updated_at
+      FROM sheets WHERE id = $1 AND owner_uid = $2`, [req.params.id, req.account.uid]);
+    if (!rows.length) return res.status(404).json({ error: "SHEET_NOT_FOUND" });
+    res.json({ user: req.account, sheet: rows[0] });
+  });
+
+  app.put("/api/sheets/:id", async (req, res) => {
+    if (!requestAccountMatches(req, res)) return;
+    if (!validSheetId(req.params.id)) return res.status(404).json({ error: "SHEET_NOT_FOUND" });
+    const { form, revision, name } = req.body || {};
+    if (!validForm(form) || !Number.isInteger(revision) || revision < 1 || revision >= 2147483647 ||
+        Object.keys(req.body || {}).some(key => !["form", "revision", "name"].includes(key))) {
+      return res.status(400).json({ error: "INVALID_SHEET" });
+    }
+    const nextName = name === undefined ? null : safeName(name, "mutantes");
+    if (name !== undefined && !nextName) return res.status(400).json({ error: "INVALID_SHEET_NAME" });
+    const { rows } = await pool.query(`UPDATE sheets
+      SET form = $3::jsonb, name = COALESCE($4, name), revision = revision + 1, updated_at = now()
+      WHERE id = $1 AND owner_uid = $2 AND revision = $5
+      RETURNING id, system, name, revision, updated_at`,
+    [req.params.id, req.account.uid, JSON.stringify(form), nextName, revision]);
+    if (!rows.length) return res.status(409).json({ error: "SHEET_CONFLICT" });
+    res.json({ sheet: rows[0] });
+  });
+
+  app.delete("/api/sheets/:id", async (req, res) => {
+    if (!requestAccountMatches(req, res)) return;
+    if (!validSheetId(req.params.id)) return res.status(404).json({ error: "SHEET_NOT_FOUND" });
+    const { rowCount } = await pool.query("DELETE FROM sheets WHERE id = $1 AND owner_uid = $2", [req.params.id, req.account.uid]);
+    if (!rowCount) return res.status(404).json({ error: "SHEET_NOT_FOUND" });
+    res.status(204).end();
+  });
+
+  // Backwards compatibility for a browser that still has the old Mutantes UI cached.
   app.get("/api/sheet", async (req, res) => {
-    const { rows } = await pool.query("SELECT form, revision, updated_at FROM sheets WHERE owner_uid = $1", [req.account.uid]);
+    const { rows } = await pool.query(`SELECT id, form, revision, updated_at FROM sheets
+      WHERE owner_uid = $1 AND system = 'mutantes' ORDER BY created_at LIMIT 1`, [req.account.uid]);
     const sheet = rows[0];
     res.json({
       user: req.account,
@@ -89,22 +188,25 @@ export function createApp({ pool, authUrl, publicOrigin, fetchAuth = fetch }) {
     });
   });
 
-  app.put("/api/sheet", express.json({ limit: "512kb", type: "application/json" }), async (req, res) => {
-    if (req.get("X-Ficha-Account") !== req.account.uid) {
-      return res.status(409).json({ error: "ACCOUNT_CHANGED" });
-    }
+  app.put("/api/sheet", async (req, res) => {
+    if (!requestAccountMatches(req, res)) return;
     const { form, revision } = req.body || {};
     if (!validForm(form) || !Number.isInteger(revision) || revision < 0 || revision >= 2147483647 ||
-        Object.keys(req.body).some(key => !["form", "revision"].includes(key))) {
+        Object.keys(req.body || {}).some(key => !["form", "revision"].includes(key))) {
       return res.status(400).json({ error: "INVALID_SHEET" });
     }
-    // A conta é sempre a confirmada pelo outpost; nenhum ID do corpo seleciona registros.
-    const args = [req.account.uid, JSON.stringify(form)];
-    const { rows } = revision === 0
-      ? await pool.query(`INSERT INTO sheets (owner_uid, form) VALUES ($1, $2::jsonb)
-          ON CONFLICT (owner_uid) DO NOTHING RETURNING revision, updated_at`, args)
-      : await pool.query(`UPDATE sheets SET form = $2::jsonb, revision = revision + 1, updated_at = now()
-          WHERE owner_uid = $1 AND revision = $3 RETURNING revision, updated_at`, [...args, revision]);
+    let rows;
+    if (revision === 0) {
+      ({ rows } = await pool.query(`INSERT INTO sheets (owner_uid, system, name, form)
+        SELECT $1, 'mutantes', $3, $2::jsonb
+        WHERE NOT EXISTS (SELECT 1 FROM sheets WHERE owner_uid = $1 AND system = 'mutantes')
+        RETURNING revision, updated_at`, [req.account.uid, JSON.stringify(form), `Ficha de ${req.account.username}`]));
+    } else {
+      ({ rows } = await pool.query(`UPDATE sheets SET form = $2::jsonb, revision = revision + 1, updated_at = now()
+        WHERE id = (SELECT id FROM sheets WHERE owner_uid = $1 AND system = 'mutantes' ORDER BY created_at LIMIT 1)
+          AND owner_uid = $1 AND revision = $3 RETURNING revision, updated_at`,
+      [req.account.uid, JSON.stringify(form), revision]));
+    }
     if (!rows.length) return res.status(409).json({ error: "SHEET_CONFLICT" });
     res.json({ revision: rows[0].revision, updatedAt: rows[0].updated_at });
   });

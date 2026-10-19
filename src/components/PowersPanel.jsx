@@ -7,6 +7,7 @@ function PowerInput({ name, label, form, onChange }) {
     <input
       data-field={name}
       aria-label={label}
+      inputMode="numeric"
       value={form[name] ?? ""}
       onChange={(event) => onChange(name, event.target.value)}
     />

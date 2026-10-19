@@ -1,5 +1,5 @@
 {
-  "name": "ficha-mutantes-malfeitores",
+  "name": "fichasrpg",
   "private": true,
   "version": "0.1.0",
   "type": "module",
@@ -8,7 +8,8 @@
     "build": "vite build",
     "preview": "vite preview",
     "start": "node server/index.js",
-    "test": "node --test server/api.test.js"
+    "test": "node --test src/sheetFiles.test.js server/api.test.js",
+    "test:files": "node --test src/sheetFiles.test.js"
   },
   "dependencies": {
     "express": "^5.3.0",
