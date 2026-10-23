@@ -1,0 +1,173 @@
+.toolbar {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 8px 10px;
+  background: #f0f0f1ee;
+  border-bottom: 1px solid var(--rule);
+}
+#status { min-width: 130px; color: var(--ink-soft); font-size: 12px; }
+.account-label { font-size: 12px; margin-right: 8px; }
+.sheet-fields { margin: 0; padding: 0; min-width: 0; border: 0; }
+/* Retire the header in tabs still running the previous editor markup. */
+.sheet-editor-status { display: none; }
+.sheet-notes-dialog {
+  width: min(760px, calc(100vw - 32px));
+  max-height: calc(100dvh - 32px);
+  padding: 0;
+  overflow: auto;
+  border: 1px solid var(--rule);
+  border-radius: 6px;
+  background: var(--paper);
+  color: var(--ink);
+  box-shadow: 0 24px 70px #0005;
+}
+.sheet-notes-dialog::backdrop { background: #0007; }
+.sheet-notes-dialog button { border-color: var(--rule); background: var(--paper); color: var(--ink); }
+.sheet-notes-header { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 16px; border-bottom: 1px solid var(--rule); }
+.sheet-notes-header h2 { margin: 0; font-size: 22px; }
+.sheet-notes-header button { width: 36px; height: 36px; padding: 0; font-size: 24px; }
+.sheet-notes-dialog .sheet-fields { padding: 16px; }
+.sheet-notes-dialog textarea {
+  display: block;
+  width: 100%;
+  min-height: min(50dvh, 440px);
+  padding: 12px;
+  border: 1px solid var(--rule);
+  background: var(--paper);
+  color: var(--ink);
+  font: 16px/1.5 Arial, sans-serif;
+  resize: vertical;
+}
+.sheet-notes-dialog :is(button, textarea):focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+
+/* Ações da ficha em painel lateral recolhível. */
+.toolbar-toggle {
+  position: fixed;
+  top: 12px;
+  left: 12px;
+  z-index: 31;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 42px;
+  padding: 8px 12px;
+  color: #fff;
+  background: var(--bar);
+  border-color: var(--bar);
+  box-shadow: 0 2px 8px #0003;
+}
+.toolbar-toggle:hover { background: #454751; }
+.toolbar-toggle svg,
+.toolbar button svg {
+  width: 19px;
+  height: 19px;
+  flex: 0 0 auto;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.toolbar {
+  position: fixed;
+  inset: 0 auto 0 0;
+  z-index: 33;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  align-items: stretch;
+  gap: 0;
+  width: min(300px, calc(100vw - 52px));
+  height: 100dvh;
+  min-height: 0;
+  padding: 0;
+  background: #f4f4f5;
+  border: 0;
+  border-right: 1px solid #a3a4aa;
+  box-shadow: 8px 0 28px #0003;
+  transform: translateX(-110%);
+  visibility: hidden;
+  transition: transform .22s ease, visibility .22s;
+}
+.toolbar.is-open { transform: translateX(0); visibility: visible; }
+.toolbar-header { display: flex; flex: 0 0 auto; align-items: center; justify-content: space-between; padding: 12px 16px; border-bottom: 1px solid #c9c9cd; }
+.toolbar-home { display: inline-flex; border-radius: 8px; }
+.toolbar-home img { display: block; }
+.toolbar-content { flex: 1; min-height: 0; overflow-y: auto; overscroll-behavior: contain; }
+.toolbar-actions { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; padding: 16px; }
+.toolbar-error { margin: 0; padding: 0 16px 16px; color: #b4232d; font-size: 12px; line-height: 1.5; }
+.toolbar-actions > .toolbar-delete { border-color: #b4232d; background: #b4232d; color: #fff; }
+.toolbar-actions > .toolbar-delete:hover { background-color: #941c25; }
+.toolbar-sheets { min-width: 0; border-top: 1px solid #c9c9cd; }
+.toolbar-sheets p { margin: 16px; font-size: 12px; line-height: 1.5; }
+.toolbar-sheets > button { margin: 0 16px 16px; }
+.toolbar-sheets ul { margin: 0; padding: 0; list-style: none; }
+.toolbar-sheets a { display: block; width: 100%; padding: 13px 16px; border: 0; border-bottom: 1px solid #c9c9cd; border-radius: 0; color: var(--ink); font-size: 13px; line-height: 1.4; text-decoration: none; overflow-wrap: anywhere; }
+.toolbar-sheets a:hover { background: #e3e3e5; }
+.toolbar-sheets a[aria-current="page"] { border-color: var(--bar); background: var(--bar); color: #fff; font-weight: 700; }
+.toolbar-sheets a[aria-disabled="true"] { opacity: .55; cursor: default; }
+.toolbar-actions > button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-width: 0;
+  min-height: 68px;
+  padding: 8px 5px;
+  text-align: center;
+}
+.toolbar-actions > button svg { width: 22px; height: 22px; }
+.toolbar .account-label {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex: 0 0 auto;
+  margin: 0;
+  padding: 14px 16px;
+  border-top: 1px solid #c9c9cd;
+  font-size: 12px;
+}
+.toolbar .account-label > span { min-width: 0; overflow-wrap: anywhere; }
+.toolbar .toolbar-logout { flex: 0 0 auto; padding: 0; border: 0; background: transparent; color: var(--ink); font-size: 12px; font-weight: 400; }
+.toolbar .toolbar-logout:hover { background: transparent; text-decoration: underline; }
+.toolbar-close {
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  font-size: 27px;
+  line-height: 1;
+}
+.toolbar-backdrop,
+.toolbar-backdrop:hover {
+  position: fixed;
+  inset: 0;
+  z-index: 32;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  border-radius: 0;
+  background: #17181d66;
+}
+
+@media (max-width: 620px) {
+  .toolbar-toggle { top: 8px; left: 8px; min-height: 42px; }
+}
+
+@media (max-width: 380px) {
+  .toolbar-toggle { left: 6px; }
+}
+
+@media print {
+  .toolbar, .toolbar-toggle, .toolbar-backdrop { display: none; }
+  .sheet-notes-dialog { display: none; }
+}

@@ -1,5 +1,6 @@
 import { readFile } from "node:fs/promises";
 import pg from "pg";
+import { loadVampireCatalog, seedVampireCatalog } from "./vampireCatalog.js";
 
 export async function createPool(env = process.env) {
   const password = env.DB_PASSWORD_FILE
@@ -24,6 +25,7 @@ export async function initializeSchema(pool) {
     await client.query("BEGIN");
     await client.query("SELECT pg_advisory_xact_lock(74932001)");
     await client.query(await readFile(new URL("./schema.sql", import.meta.url), "utf8"));
+    await seedVampireCatalog(client, await loadVampireCatalog());
     await client.query("COMMIT");
   } catch (error) {
     await client.query("ROLLBACK");

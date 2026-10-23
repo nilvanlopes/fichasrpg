@@ -8,8 +8,9 @@
     "build": "vite build",
     "preview": "vite preview",
     "start": "node server/index.js",
-    "test": "node --test src/sheetFiles.test.js server/api.test.js",
-    "test:files": "node --test src/sheetFiles.test.js"
+    "test": "node --test test/architecture.test.js src/shared/api/client.test.js src/features/sheets/sheetFiles.test.js src/features/sheets/sheetHistory.test.js src/systems/vampiro/data.test.js src/systems/vampiro/thinBloodAlchemy.test.js server/signup.test.js server/vampireCatalog.test.js server/api.test.js",
+    "test:unit": "node --test test/architecture.test.js src/shared/api/client.test.js src/features/sheets/sheetFiles.test.js src/features/sheets/sheetHistory.test.js src/systems/vampiro/data.test.js src/systems/vampiro/thinBloodAlchemy.test.js server/signup.test.js server/vampireCatalog.test.js",
+    "test:files": "node --test src/features/sheets/sheetFiles.test.js"
   },
   "dependencies": {
     "express": "^5.3.0",

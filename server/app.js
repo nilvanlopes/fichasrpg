@@ -63,64 +63,99 @@ export function createApp({ pool, authUrl, publicOrigin, fetchAuth = fetch }) {
     res.redirect(302, new URL("/outpost.goauthentik.io/sign_out", appUrl).href);
   });
 
-  app.use("/api", async (req, res, next) => {
+  app.use("/api", (req, res, next) => {
     if (!["GET", "HEAD"].includes(req.method) &&
         (!allowedOrigins.has(req.get("Origin")) || req.get("X-Ficha-Request") !== "1")) {
       return res.status(403).json({ error: "INVALID_ORIGIN" });
     }
-    const forwardedHost = req.get("X-Forwarded-Host");
-    const forwardedProto = (req.get("X-Forwarded-Proto") || new URL(origin).protocol.slice(0, -1)).replace(/:$/, "");
-    const forwardedOrigin = forwardedHost ? new URL(`${forwardedProto}://${forwardedHost}`).origin : origin;
-    const requestOrigin = allowedOrigins.has(forwardedOrigin) ? forwardedOrigin : origin;
-    if (process.env.DEV_AUTH_BYPASS === "1") {
-      const username = process.env.DEV_AUTH_USERNAME || "pyu";
-      const { rows } = await pool.query(
-        "SELECT uid, username, display_name FROM accounts WHERE username = $1 ORDER BY last_seen DESC LIMIT 1",
-        [username],
-      );
-      if (!rows.length) return res.status(503).json({ error: "DEV_ACCOUNT_NOT_FOUND" });
-      req.account = { uid: rows[0].uid, username: rows[0].username, name: rows[0].display_name || username };
-    } else {
-      if (!req.get("Cookie")) return res.status(401).json({ error: "LOGIN_REQUIRED" });
-      let auth;
-      try {
-        // Read identity only from a fresh session validation with the outpost.
-        auth = await fetchAuth(authUrl, {
-          redirect: "manual",
-          signal: AbortSignal.timeout(5000),
-          headers: {
-            Cookie: req.get("Cookie"),
-            "X-Forwarded-Host": new URL(requestOrigin).host,
-            "X-Forwarded-Proto": new URL(requestOrigin).protocol.slice(0, -1),
-            "X-Forwarded-Uri": req.originalUrl,
-            "X-Forwarded-Method": req.method,
-            "X-Original-URL": new URL(req.originalUrl, requestOrigin).href,
-          },
-        });
-      } catch {
-        return res.status(503).json({ error: "AUTH_UNAVAILABLE" });
-      }
-      await auth.body?.cancel();
-      if (!auth.ok) {
-        const denied = auth.status === 403;
-        return res.status(denied ? 403 : auth.status >= 500 ? 503 : 401)
-          .json({ error: denied ? "ACCESS_DENIED" : auth.status >= 500 ? "AUTH_UNAVAILABLE" : "LOGIN_REQUIRED" });
-      }
-      const uid = auth.headers.get("X-authentik-uid") || "";
-      const username = auth.headers.get("X-authentik-username") || "";
-      const groups = (auth.headers.get("X-authentik-groups") || "").split("|");
-      if (!/^[a-f0-9]{64}$/.test(uid) || !username || !groups.includes("fichasrpg-users")) {
-        return res.status(403).json({ error: "ACCESS_DENIED" });
-      }
-      req.account = { uid, username, name: auth.headers.get("X-authentik-name") || username };
-    }
-    await pool.query(`INSERT INTO accounts (uid, username, display_name) VALUES ($1, $2, $3)
-      ON CONFLICT (uid) DO UPDATE SET username = EXCLUDED.username,
-      display_name = EXCLUDED.display_name, last_seen = now()`, [req.account.uid, req.account.username, req.account.name]);
     next();
   });
 
+  const servePortal = (req, res) => {
+    // Nginx delivers its own index.html only after the application allows it.
+    res.set("X-Accel-Redirect", "/_portal.html").end();
+  };
+  app.get(/^\/cadastro(?:\/.*)?$/, servePortal);
+
+  function requireAccount(page = false) {
+    return async (req, res, next) => {
+      const reject = (status, error) => {
+        if (!page) return res.status(status).json({ error });
+        if (status === 401) {
+          const login = new URL("/outpost.goauthentik.io/start", origin);
+          login.searchParams.set("rd", `${origin}${req.originalUrl}`);
+          return res.redirect(302, login.href);
+        }
+        return res.status(status).type("text/plain").send(status === 403
+          ? "Esta conta não tem acesso ao FichasRPG."
+          : "Não foi possível verificar seu acesso. Tente novamente.");
+      };
+      const forwardedHost = req.get("X-Forwarded-Host");
+      const forwardedProto = (req.get("X-Forwarded-Proto") || new URL(origin).protocol.slice(0, -1)).replace(/:$/, "");
+      const forwardedOrigin = forwardedHost ? new URL(`${forwardedProto}://${forwardedHost}`).origin : origin;
+      const requestOrigin = allowedOrigins.has(forwardedOrigin) ? forwardedOrigin : origin;
+      if (process.env.DEV_AUTH_BYPASS === "1") {
+        const username = process.env.DEV_AUTH_USERNAME || "pyu";
+        const { rows } = await pool.query(
+          "SELECT uid, username, display_name FROM accounts WHERE username = $1 ORDER BY last_seen DESC LIMIT 1",
+          [username],
+        );
+        if (!rows.length) return reject(503, "DEV_ACCOUNT_NOT_FOUND");
+        req.account = { uid: rows[0].uid, username: rows[0].username, name: rows[0].display_name || username };
+      } else {
+        if (!req.get("Cookie")) return reject(401, "LOGIN_REQUIRED");
+        let auth;
+        try {
+          // Read identity only from a fresh session validation with the outpost.
+          auth = await fetchAuth(authUrl, {
+            redirect: "manual",
+            signal: AbortSignal.timeout(5000),
+            headers: {
+              Cookie: req.get("Cookie"),
+              "X-Forwarded-Host": new URL(requestOrigin).host,
+              "X-Forwarded-Proto": new URL(requestOrigin).protocol.slice(0, -1),
+              "X-Forwarded-Uri": req.originalUrl,
+              "X-Forwarded-Method": req.method,
+              "X-Original-URL": new URL(req.originalUrl, requestOrigin).href,
+            },
+          });
+        } catch {
+          return reject(503, "AUTH_UNAVAILABLE");
+        }
+        await auth.body?.cancel();
+        if (!auth.ok) {
+          const denied = auth.status === 403;
+          return reject(denied ? 403 : auth.status >= 500 ? 503 : 401,
+            denied ? "ACCESS_DENIED" : auth.status >= 500 ? "AUTH_UNAVAILABLE" : "LOGIN_REQUIRED");
+        }
+        const uid = auth.headers.get("X-authentik-uid") || "";
+        const username = auth.headers.get("X-authentik-username") || "";
+        const groups = (auth.headers.get("X-authentik-groups") || "").split("|");
+        if (!/^[a-f0-9]{64}$/.test(uid) || !username || !groups.includes("fichasrpg-users")) {
+          return reject(403, "ACCESS_DENIED");
+        }
+        req.account = { uid, username, name: auth.headers.get("X-authentik-name") || username };
+      }
+      await pool.query(`INSERT INTO accounts (uid, username, display_name) VALUES ($1, $2, $3)
+        ON CONFLICT (uid) DO UPDATE SET username = EXCLUDED.username,
+        display_name = EXCLUDED.display_name, last_seen = now()`, [req.account.uid, req.account.username, req.account.name]);
+      next();
+    };
+  }
+
+  app.use("/api", requireAccount());
+
   app.get("/api/session", (req, res) => res.json({ user: req.account }));
+
+  app.get("/api/systems/vampiro/disciplines", async (req, res) => {
+    const { rows } = await pool.query(`SELECT d.id, d.name, d.source_url,
+      COALESCE(jsonb_agg(jsonb_build_object('id', p.id, 'name', p.name, 'level', p.level,
+        'description', p.description, 'details', p.details) ORDER BY p.level, p.name)
+        FILTER (WHERE p.id IS NOT NULL), '[]'::jsonb) AS powers
+      FROM vampire_disciplines d LEFT JOIN vampire_discipline_powers p ON p.discipline_id = d.id
+      GROUP BY d.id ORDER BY d.name`);
+    res.json({ disciplines: rows });
+  });
 
   app.get("/api/sheets", async (req, res) => {
     const { rows } = await pool.query(`SELECT id, system, name, revision, created_at, updated_at
@@ -176,41 +211,8 @@ export function createApp({ pool, authUrl, publicOrigin, fetchAuth = fetch }) {
     res.status(204).end();
   });
 
-  // Backwards compatibility for a browser that still has the old Mutantes UI cached.
-  app.get("/api/sheet", async (req, res) => {
-    const { rows } = await pool.query(`SELECT id, form, revision, updated_at FROM sheets
-      WHERE owner_uid = $1 AND system = 'mutantes' ORDER BY created_at LIMIT 1`, [req.account.uid]);
-    const sheet = rows[0];
-    res.json({
-      user: req.account,
-      sheet: sheet ? { form: sheet.form, revision: sheet.revision, updatedAt: sheet.updated_at, exists: true }
-        : { form: {}, revision: 0, updatedAt: null, exists: false },
-    });
-  });
-
-  app.put("/api/sheet", async (req, res) => {
-    if (!requestAccountMatches(req, res)) return;
-    const { form, revision } = req.body || {};
-    if (!validForm(form) || !Number.isInteger(revision) || revision < 0 || revision >= 2147483647 ||
-        Object.keys(req.body || {}).some(key => !["form", "revision"].includes(key))) {
-      return res.status(400).json({ error: "INVALID_SHEET" });
-    }
-    let rows;
-    if (revision === 0) {
-      ({ rows } = await pool.query(`INSERT INTO sheets (owner_uid, system, name, form)
-        SELECT $1, 'mutantes', $3, $2::jsonb
-        WHERE NOT EXISTS (SELECT 1 FROM sheets WHERE owner_uid = $1 AND system = 'mutantes')
-        RETURNING revision, updated_at`, [req.account.uid, JSON.stringify(form), `Ficha de ${req.account.username}`]));
-    } else {
-      ({ rows } = await pool.query(`UPDATE sheets SET form = $2::jsonb, revision = revision + 1, updated_at = now()
-        WHERE id = (SELECT id FROM sheets WHERE owner_uid = $1 AND system = 'mutantes' ORDER BY created_at LIMIT 1)
-          AND owner_uid = $1 AND revision = $3 RETURNING revision, updated_at`,
-      [req.account.uid, JSON.stringify(form), revision]));
-    }
-    if (!rows.length) return res.status(409).json({ error: "SHEET_CONFLICT" });
-    res.json({ revision: rows[0].revision, updatedAt: rows[0].updated_at });
-  });
-
+  app.use("/api", (req, res) => res.status(404).json({ error: "NOT_FOUND" }));
+  app.get(/.*/, requireAccount(true), servePortal);
   app.use((req, res) => res.status(404).json({ error: "NOT_FOUND" }));
   app.use((error, req, res, next) => {
     if (error.type === "entity.too.large") return res.status(413).json({ error: "SHEET_TOO_LARGE" });

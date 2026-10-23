@@ -1,5 +1,333 @@
-.vampire-root{--bgcolor: white;--txtcolor: black;--border: black;--inputradiocheckedbg: black}.vampire-root.dark{--bgcolor: black;--txtcolor: white;--border: white;--inputradiocheckedbg: white}.vampire-root.dark img{filter:invert(100%)}.vampire-root *{margin:0;padding:0;list-style:none;text-decoration:none;outline:none;border:none;box-sizing:border-box;font-family:"Bacasime Antique",sans-serif}.vampire-root img{display:block;max-width:100%}.vampire-root{font-size:62.5%}.vampire-root button{background-color:rgba(0,0,0,0);cursor:pointer}.vampire-root input[type=radio]{-webkit-appearance:none;-moz-appearance:none;appearance:none;display:inline-block;width:16px;height:16px;padding:1px;border:1px solid var(--border);background-color:var(--bgcolor);border-radius:50%;flex-grow:0}.vampire-root input[type=radio]:checked{background-color:var(--inputradiocheckedbg)}.vampire-root .bg .borda{position:relative;width:100%;max-width:1200px;left:50%;margin-left:-600px;margin-top:50px;z-index:-1}@media(max-width: 1220px){.vampire-root .bg .borda{max-width:1000px;top:0;left:0;margin:0;margin-left:5px}}@media(max-width: 965px){.vampire-root .bg .borda{max-width:800px}}@media(max-width: 790px){.vampire-root .bg .borda{max-width:600px}}@media(max-width: 550px){.vampire-root .bg .borda{max-width:450px}}.vampire-root .bg .functions{display:flex;margin-top:40px;margin-bottom:40px;justify-content:center;align-items:center}.vampire-root .bg .functions .container{display:flex;justify-content:space-around}.vampire-root .bg .functions .trocarTema .checkbox{opacity:0;position:absolute;z-index:-2}.vampire-root .bg .functions .trocarTema .checkbox:checked+.label{background-color:#fff}.vampire-root .bg .functions .trocarTema .checkbox:checked+.label .ball{transform:translateX(24px);background-color:#111}.vampire-root .bg .functions .trocarTema .label{background-color:#111;border-radius:50px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;padding:5px;height:26px;width:50px;transform:scale(1.5)}.vampire-root .bg .functions .trocarTema .label .ball{background-color:#fff;border-radius:50%;position:absolute;top:2px;left:2px;height:22px;width:22px;transform:translateX(0px);transition:transform .2s linear}.vampire-root .bg .functions .trocarTema .fa-moon,.vampire-root .bg .functions .trocarTema .fa-sun{font-size:large}.vampire-root .bg .functions .trocarTema .fa-moon{color:#f1c40f}.vampire-root .bg .functions .trocarTema .fa-sun{color:#f39c12}@media(max-width: 550px){.vampire-root .bg .functions .trocarTema .label{transform:scale(1)}}.vampire-root .bg .functions .salvar{display:flex;flex-direction:column;align-items:center}.vampire-root .bg .functions .salvar button{background-color:var(--inputradiocheckedbg);color:var(--bgcolor)}.vampire-root .bg .functions .salvar button img{width:40px}.vampire-root .container{width:100%;max-width:120rem;padding:0 25px;margin:0 auto}@media(max-width: 1220px){.vampire-root .container{max-width:100rem}}@media(max-width: 965px){.vampire-root .container{max-width:80rem}}@media(max-width: 790px){.vampire-root .container{max-width:60rem;padding:0 15px}}@media(max-width: 550px){.vampire-root .container{max-width:45rem}}@media(max-width: 350px){.vampire-root .container{padding:0 10px;max-width:320px}}.vampire-root{background-color:var(--bgcolor);transition:all .2s linear}.vampire-root input[type=text]{background:var(--bgcolor)}.vampire-root input{border-color:var(--border);color:var(--txtcolor)}.vampire-root span,.vampire-root p,.vampire-root strong,.vampire-root label{color:var(--txtcolor)}@media(max-width: 1000px){.vampire-root input[type=radio]{width:12px;height:12px}}@media(max-width: 790px){.vampire-root input[type=radio]{width:10px;height:10px}}@media(max-width: 550px){.vampire-root input[type=radio]{width:7px;height:7px}}@media(max-width: 350px){.vampire-root input[type=radio]{width:6px;height:6px}}.vampire-root .content{overflow-y:hidden;position:absolute;width:100%;max-width:1200px;height:1571px;top:0;left:50%;margin-left:-600px;margin-top:18rem}.vampire-root .content:hover{overflow-y:auto}@media(max-width: 1220px){.vampire-root .content{height:130rem;top:0;left:0;margin:0;margin-top:110px;max-width:100rem}}@media(max-width: 965px){.vampire-root .content{max-width:800px;height:1010px}}@media(max-width: 790px){.vampire-root .content{max-width:600px;height:785px;margin-top:70px}}@media(max-width: 595px){.vampire-root .content{height:700px}}@media(max-width: 550px){.vampire-root .content{max-width:450px;height:600px;margin-top:50px}}@media(max-width: 450px){.vampire-root .content{height:580px}}@media(max-width: 435px){.vampire-root .content{height:540px}}@media(max-width: 415px){.vampire-root .content{height:520px}}@media(max-width: 395px){.vampire-root .content{height:480px;margin-top:35px}}@media(max-width: 350px){.vampire-root .content{height:400px;max-width:320px}}.vampire-root .info-personagem .container ul{display:flex;flex-wrap:wrap}.vampire-root .info-personagem .container ul li{display:flex;width:33%;border:1px solid var(--border);padding:10px}.vampire-root .info-personagem .container ul li label{font-size:1.5rem}.vampire-root .info-personagem .container ul li input{width:70%;margin-left:5px;flex-grow:1;background:none;border-bottom:1px solid var(--border);padding-left:5px;font-family:"Lexend Peta",sans-serif}@media(max-width: 1200px){.vampire-root .info-personagem .container ul li label,.vampire-root .info-personagem .container ul li input{font-size:1.3rem}}@media(max-width: 965px){.vampire-root .info-personagem .container ul li label,.vampire-root .info-personagem .container ul li input{font-size:1.2rem}}@media(max-width: 790px){.vampire-root .info-personagem .container ul li label,.vampire-root .info-personagem .container ul li input{font-size:1rem}}@media(max-width: 550px){.vampire-root .info-personagem .container ul li{padding:1px}.vampire-root .info-personagem .container ul li label,.vampire-root .info-personagem .container ul li input{font-size:.8rem}}.vampire-root .atributos .container p{margin:5px 0;width:99%;text-align:center;font-size:19px;padding-bottom:5px;border-bottom:2px solid var(--border)}.vampire-root .atributos .container .pontos{display:flex;justify-content:space-around}.vampire-root .atributos .container .pontos p{border:none}.vampire-root .atributos .container .pontos .valores{width:32%}.vampire-root .atributos .container .pontos .valores .desc{border-left:1px solid var(--border);display:flex;justify-content:space-between;padding:2.5px 45px}.vampire-root .atributos .container .pontos .valores .desc span{width:50%;font-size:1.6rem;text-align:center}.vampire-root .atributos .container .pontos .valores .sem-borda{border-left:none}.vampire-root .atributos .container .corpo-e-mente{display:flex;margin-top:15px;justify-content:center}.vampire-root .atributos .container .corpo-e-mente .vitalidade,.vampire-root .atributos .container .corpo-e-mente .vontade{display:flex;flex-direction:column;align-items:center}.vampire-root .atributos .container .corpo-e-mente .vitalidade strong,.vampire-root .atributos .container .corpo-e-mente .vontade strong{font-size:26px}.vampire-root .atributos .container .corpo-e-mente .pontos-de-vitalidade{display:flex}.vampire-root .atributos .container .corpo-e-mente .pontos-de-vontade{display:flex;margin-left:20px}.vampire-root .atributos .container .corpo-e-mente .ponto{cursor:pointer;max-width:30px}.vampire-root .atributos .container .corpo-e-mente .ponto:not(:first-child){margin-left:2px}@media(max-width: 965px){.vampire-root .atributos .container .pontos .valores .desc{padding:0}}@media(max-width: 600px){.vampire-root .atributos .container .pontos .valores .desc span{font-size:1rem}}@media(max-width: 550px){.vampire-root .atributos .container strong{font-size:1.2rem}.vampire-root .atributos .container i{font-size:1.1rem}.vampire-root .atributos .container .corpo-e-mente .vitalidade strong,.vampire-root .atributos .container .corpo-e-mente .vontade strong{font-size:1.2rem}}@media(max-width: 450px){.vampire-root .atributos .container i{font-size:1rem}}@media(max-width: 380px){.vampire-root .atributos .container .desc .qnt-pontos{display:flex}}@media(max-width: 350px){.vampire-root .atributos .container .pontos .valores .desc span{font-size:.8rem}}.vampire-root .habilidades .container p{margin:5px 0;width:99%;text-align:center;font-size:19px;padding-bottom:5px;border-bottom:2px solid var(--border)}.vampire-root .habilidades .container .pontos{display:flex;justify-content:space-around;margin-top:2rem}.vampire-root .habilidades .container .pontos p{border:none}.vampire-root .habilidades .container .pontos .section .desc{display:flex;justify-content:space-between;align-items:center;margin-bottom:2rem}.vampire-root .habilidades .container .pontos .section .desc input[type=text]{border-bottom:1px dotted var(--border);flex-grow:1;padding-left:5px;font-family:"Lexend Peta",sans-serif;font-size:1rem;overflow-x:hidden}.vampire-root .habilidades .container .pontos .section .desc span{font-size:1.6rem;white-space:nowrap}.vampire-root .habilidades .container .pontos .section .desc .qnt-pontos{display:flex;gap:2px}@media(max-width: 790px){.vampire-root .habilidades .container .pontos .section .desc span{font-size:1.2rem}.vampire-root .habilidades .container .pontos .section .desc input{font-size:.8rem}.vampire-root .habilidades .container .pontos .section .desc .qnt-pontos{display:flex;gap:1px}}@media(max-width: 550px){.vampire-root .habilidades .container strong{font-size:1.2rem}.vampire-root .habilidades .container .pontos .section .desc span{font-size:1rem}.vampire-root .habilidades .container .pontos .section .desc input{font-size:.7rem}.vampire-root .habilidades .container .pontos .section .desc .qnt-pontos{display:flex;gap:1px}}@media(max-width: 450px){.vampire-root .habilidades .container .pontos .section .desc{margin-bottom:1rem}.vampire-root .habilidades .container .pontos .section .desc span{font-size:.8rem}.vampire-root .habilidades .container .pontos .section .desc input{font-size:.6rem}.vampire-root .habilidades .container .pontos .section .desc .qnt-pontos{gap:0px}}@media(max-width: 350px){.vampire-root .habilidades .container .pontos .section .desc{margin-bottom:1rem}.vampire-root .habilidades .container .pontos .section .desc span{font-size:.7rem}.vampire-root .habilidades .container .pontos .section .desc input{font-size:.5rem}}.vampire-root .disciplinas p{margin:5px 0;width:99%;text-align:center;font-size:19px;padding-bottom:5px}.vampire-root .disciplinas .container{display:flex;justify-content:center;flex-wrap:wrap}.vampire-root .disciplinas .container .disciplina{width:33%;display:flex;flex-direction:column;border-top:1px solid var(--border);border-right:1px solid var(--border)}.vampire-root .disciplinas .container .disciplina input[type=text]{height:30px;padding:1rem;font-size:15px;font-family:"Lexend Peta",sans-serif;overflow-x:hidden;border-bottom:1px solid var(--border)}.vampire-root .disciplinas .container .disciplina:nth-child(2){border-left:1px solid var(--border)}.vampire-root .disciplinas .container .disciplina:nth-child(5){border-left:1px solid var(--border)}.vampire-root .disciplinas .container .disciplina:nth-child(8){border-left:1px solid var(--border)}.vampire-root .disciplinas .container .disciplina:nth-child(-n+10){border-top:none}.vampire-root .disciplinas .container .disciplina:nth-child(-n+4){border-top:1px solid var(--border)}.vampire-root .disciplinas .container .disciplina .nome{display:flex}.vampire-root .disciplinas .container .disciplina .nome input[type=text]{padding:1rem;font-weight:700;font-size:15px;font-family:"Lexend Peta",sans-serif;flex-grow:1}.vampire-root .disciplinas .container .disciplina .nome .qtd-pontos{display:flex;align-items:center;border-bottom:1px solid var(--border)}@media(max-width: 790px){.vampire-root .disciplinas .container .disciplina input[type=text]{font-size:1rem;padding:.5rem}.vampire-root .disciplinas .container .disciplina .nome input[type=text]{font-size:.8rem;padding:.5rem}}@media(max-width: 550px){.vampire-root .disciplinas .container strong{font-size:1.2rem}.vampire-root .disciplinas .container .disciplina input[type=text]{font-size:.6rem;padding:.3rem}.vampire-root .disciplinas .container .disciplina .nome input[type=text]{font-size:.6rem;padding:.3rem}}@media(max-width: 405px){.vampire-root .disciplinas .container .disciplina input[type=text]{font-size:.5rem;padding:.2rem}.vampire-root .disciplinas .container .disciplina .nome input[type=text]{font-size:.5rem;padding:.2rem}}@media(max-width: 405px)and (max-width: 350px){.vampire-root .disciplinas .container .disciplina input[type=text]{font-size:.5rem;padding:.2rem}.vampire-root .disciplinas .container .disciplina .nome input[type=text]{font-size:.45rem;padding:.1rem}}.vampire-root .stats .container{margin-top:2rem;display:flex;justify-content:space-around}.vampire-root .stats .container strong{font-size:1.6rem;font-weight:700}.vampire-root .stats .container .ressonancia{white-space:nowrap}.vampire-root .stats .container .ressonancia input{border-bottom:1px dotted var(--border);flex-grow:1;padding-left:5px;font-family:"Lexend Peta",sans-serif;font-size:1.2rem;font-weight:600;overflow-x:hidden}.vampire-root .stats .container .fome{justify-content:center}.vampire-root .stats .container .fome,.vampire-root .stats .container .humanidade{display:flex;width:30rem;gap:3px}.vampire-root .stats .container .fome .pontos,.vampire-root .stats .container .humanidade .pontos{display:flex;gap:3px}.vampire-root .stats .container .fome .pontos .ponto,.vampire-root .stats .container .humanidade .pontos .ponto{width:2rem}@media(max-width: 1000px){.vampire-root .stats .container{justify-content:center}}@media(max-width: 965px){.vampire-root .stats .container input{max-width:180px}.vampire-root .stats .container .humanidade .pontos .ponto,.vampire-root .stats .container .fome .pontos .ponto{width:1.5rem}}@media(max-width: 790px){.vampire-root .stats .container strong{font-size:1rem}.vampire-root .stats .container .humanidade .pontos .ponto,.vampire-root .stats .container .fome .pontos .ponto{width:1rem}}@media(max-width: 550px){.vampire-root .stats .container strong{font-size:.8rem}.vampire-root .stats .container .ressonancia input{max-width:8rem}.vampire-root .stats .container .humanidade .pontos .ponto,.vampire-root .stats .container .fome .pontos .ponto{width:1rem}}@media(max-width: 395px){.vampire-root .stats .container .ressonancia input{font-size:.8rem;max-width:7rem}.vampire-root .stats .container .humanidade .pontos,.vampire-root .stats .container .fome .pontos{gap:1px}.vampire-root .stats .container .humanidade .pontos .ponto,.vampire-root .stats .container .fome .pontos .ponto{width:1rem}}@media(max-width: 350px){.vampire-root .stats .container .ressonancia input{font-size:.5rem;max-width:5rem}.vampire-root .stats .container .humanidade .pontos,.vampire-root .stats .container .fome .pontos{gap:.5px}.vampire-root .stats .container .humanidade .pontos .ponto,.vampire-root .stats .container .fome .pontos .ponto{width:.8rem}}.vampire-root .vantagens-defeitos-potencia-xp .container{display:flex;justify-content:space-around;margin-top:2rem;gap:2px}.vampire-root .vantagens-defeitos-potencia-xp .container .vantagens,.vampire-root .vantagens-defeitos-potencia-xp .container .defeitos{width:33%}.vampire-root .vantagens-defeitos-potencia-xp .container .vantagens strong,.vampire-root .vantagens-defeitos-potencia-xp .container .defeitos strong{font-size:1.6rem;font-weight:700}.vampire-root .vantagens-defeitos-potencia-xp .container .vantagens .vantagem,.vampire-root .vantagens-defeitos-potencia-xp .container .defeitos .vantagem{border:1px solid var(--border);display:flex;justify-content:space-around;align-items:center}.vampire-root .vantagens-defeitos-potencia-xp .container .vantagens .vantagem:not(:nth-child(2)),.vampire-root .vantagens-defeitos-potencia-xp .container .defeitos .vantagem:not(:nth-child(2)){border-top:none}.vampire-root .vantagens-defeitos-potencia-xp .container .vantagens .vantagem input[type=text],.vampire-root .vantagens-defeitos-potencia-xp .container .defeitos .vantagem input[type=text]{flex-grow:1;height:30px;padding:1rem;font-size:15px;font-family:"Lexend Peta",sans-serif;overflow-x:hidden}.vampire-root .vantagens-defeitos-potencia-xp .container .vantagens .vantagem .qtd-pontos,.vampire-root .vantagens-defeitos-potencia-xp .container .defeitos .vantagem .qtd-pontos{margin-right:2px;white-space:nowrap;display:flex}.vampire-root .vantagens-defeitos-potencia-xp .container .potencia-xp{margin-left:2rem;display:flex;flex-direction:column;align-items:center;width:33%}.vampire-root .vantagens-defeitos-potencia-xp .container .potencia-xp .potencia{display:flex;gap:1rem}.vampire-root .vantagens-defeitos-potencia-xp .container .potencia-xp .potencia span{font-size:1.6rem;font-weight:700}.vampire-root .vantagens-defeitos-potencia-xp .container .potencia-xp .potencia .qtd-pontos{display:flex;gap:1px;margin-right:2px}.vampire-root .vantagens-defeitos-potencia-xp .container .potencia-xp table{margin-top:1rem;border-collapse:collapse}.vampire-root .vantagens-defeitos-potencia-xp .container .potencia-xp table td{width:18.5rem;height:5rem;border:1px solid var(--border)}.vampire-root .vantagens-defeitos-potencia-xp .container .potencia-xp table td span{display:block;font-size:1.3rem}.vampire-root .vantagens-defeitos-potencia-xp .container .potencia-xp table td input{height:30px;font-size:30px;font-family:"Lexend Peta",sans-serif;width:18rem}.vampire-root .vantagens-defeitos-potencia-xp .container .potencia-xp .xp{margin-top:2rem}.vampire-root .vantagens-defeitos-potencia-xp .container .potencia-xp .xp span{display:block;font-size:1.6rem;font-weight:700}.vampire-root .vantagens-defeitos-potencia-xp .container .potencia-xp .xp input{flex-grow:1;height:30px;padding:1rem;font-size:15px;font-family:"Lexend Peta",sans-serif;border-bottom:1px solid var(--border)}@media(max-width: 1220px){.vampire-root .vantagens-defeitos-potencia-xp .container .potencia-xp .potencia{width:100%;justify-content:flex-start}.vampire-root .vantagens-defeitos-potencia-xp .container .potencia-xp table td input{width:12rem}}@media(max-width: 965px){.vampire-root .vantagens-defeitos-potencia-xp .container .potencia-xp{margin-left:0}.vampire-root .vantagens-defeitos-potencia-xp .container .potencia-xp .xp input{width:18rem}.vampire-root .vantagens-defeitos-potencia-xp .container .potencia-xp table td input{width:12rem}}@media(max-width: 790px){.vampire-root .vantagens-defeitos-potencia-xp .container .vantagens,.vampire-root .vantagens-defeitos-potencia-xp .container .defeitos{width:30%}.vampire-root .vantagens-defeitos-potencia-xp .container .vantagens .vantagem input[type=text],.vampire-root .vantagens-defeitos-potencia-xp .container .defeitos .vantagem input[type=text]{font-size:.7rem;padding:.5rem}.vampire-root .vantagens-defeitos-potencia-xp .container .potencia-xp .xp input{width:10rem}.vampire-root .vantagens-defeitos-potencia-xp .container .potencia-xp table td input{width:8rem}}@media(max-width: 790px){.vampire-root .vantagens-defeitos-potencia-xp .container .vantagens,.vampire-root .vantagens-defeitos-potencia-xp .container .defeitos{width:33%}.vampire-root .vantagens-defeitos-potencia-xp .container .vantagens .vantagem input[type=text],.vampire-root .vantagens-defeitos-potencia-xp .container .defeitos .vantagem input[type=text]{font-size:.6rem;padding:.1rem}.vampire-root .vantagens-defeitos-potencia-xp .container .potencia-xp .xp input{width:10rem}.vampire-root .vantagens-defeitos-potencia-xp .container .potencia-xp table td input{width:5rem}}@media(max-width: 430px){.vampire-root .vantagens-defeitos-potencia-xp .container .vantagens strong,.vampire-root .vantagens-defeitos-potencia-xp .container .defeitos strong{font-size:1rem}.vampire-root .vantagens-defeitos-potencia-xp .container .vantagens .vantagem input[type=text],.vampire-root .vantagens-defeitos-potencia-xp .container .defeitos .vantagem input[type=text]{font-size:.6rem;padding:.1rem}.vampire-root .vantagens-defeitos-potencia-xp .container .potencia-xp .potencia span{font-size:1rem}.vampire-root .vantagens-defeitos-potencia-xp .container .potencia-xp .xp strong{font-size:1rem}.vampire-root .vantagens-defeitos-potencia-xp .container .potencia-xp .xp input{width:8rem}.vampire-root .vantagens-defeitos-potencia-xp .container .potencia-xp table td span{font-size:1rem}.vampire-root .vantagens-defeitos-potencia-xp .container .potencia-xp table td input{width:4rem}}@media(max-width: 350px){.vampire-root .vantagens-defeitos-potencia-xp .container .vantagens .vantagem input[type=text],.vampire-root .vantagens-defeitos-potencia-xp .container .defeitos .vantagem input[type=text]{font-size:.5rem;padding:.05rem}.vampire-root .vantagens-defeitos-potencia-xp .container .potencia-xp .potencia{flex-direction:column}.vampire-root .vantagens-defeitos-potencia-xp .container .potencia-xp .potencia span{white-space:nowrap;font-size:1rem}.vampire-root .vantagens-defeitos-potencia-xp .container .potencia-xp .xp strong{font-size:1rem}.vampire-root .vantagens-defeitos-potencia-xp .container .potencia-xp .xp input{width:8rem}.vampire-root .vantagens-defeitos-potencia-xp .container .potencia-xp table td span{font-size:.8rem}.vampire-root .vantagens-defeitos-potencia-xp .container .potencia-xp table td input{width:3rem}}.vampire-root .anotacoes .container{display:flex;flex-direction:column;align-items:center}.vampire-root .anotacoes .container p{font-size:19px}.vampire-root .anotacoes .container textarea{color:var(--txtcolor);-webkit-appearance:none;-moz-appearance:none;appearance:none;background-color:var(--bgcolor);border:1px solid var(--border);font-size:16px;padding:5px}
-.vampire-root{width:100%;min-height:100vh;padding:18px clamp(8px,2vw,28px) 36px;background:var(--bgcolor);color:var(--txtcolor)}
-.vampire-root .vampire-top{width:min(100%,1200px);margin:0 auto 10px}.vampire-root .content{position:relative;top:auto;left:auto;width:100%;max-width:1200px;height:auto;min-height:0;margin:0 auto;overflow:visible}.vampire-root .content:hover{overflow:visible}
-.vampire-root input[type=text],.vampire-root textarea{font-size:1.4rem}.vampire-root textarea{display:block;width:100%;resize:vertical;background:var(--bgcolor);color:var(--txtcolor);border:1px solid var(--border);padding:10px}
+@font-face {
+  font-family: "Bacasime Antique";
+  src: url("/assets/systems/vampiro/fonts/bacasime-antique.ttf") format("truetype");
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
 
+@font-face {
+  font-family: "Lexend Peta";
+  src: url("/assets/systems/vampiro/fonts/lexend-peta-light.ttf") format("truetype");
+  font-style: normal;
+  font-weight: 200;
+  font-display: swap;
+}
+
+.vampire-root,
+.vampire-notes-dialog {
+  --paper: #f8f5ed;
+  --ink: #000;
+  --rule: #000;
+  --focus: #1b5fae;
+}
+
+.vampire-root {
+  container-type: inline-size;
+  width: min(1200px, calc(100% - 24px));
+  margin: 24px auto 40px;
+  color: var(--ink);
+  font-family: "Bacasime Antique", Georgia, serif;
+  line-height: 1.15;
+}
+
+.vampire-root.dark,
+.vampire-notes-dialog.dark {
+  --paper: #161513;
+  --ink: #f8f5ed;
+  --rule: #f8f5ed;
+  --focus: #9ecbff;
+}
+
+.vampire-paper {
+  position: relative;
+  isolation: isolate;
+  background: var(--paper);
+  font-size: clamp(10px, 1.33333cqw, 16px);
+}
+
+/* Slice the original frame so its logo and corners keep their proportions. */
+.vampire-paper-frame {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  border-style: solid;
+  border-width: 11.1cqw 1.71cqw 4.27cqw;
+  border-image: url("/assets/systems/vampiro/images/frame.png") 260 40 100 40 / 1 / 0 stretch;
+  mix-blend-mode: multiply;
+  pointer-events: none;
+}
+.vampire-root.dark .vampire-paper-frame { filter: invert(1); mix-blend-mode: screen; }
+.vampire-paper-content { position: relative; padding: 11cqw 2.5cqw 4.5cqw; background: var(--paper); }
+.vampire-sr-only,
+.vampire-identity > h2,
+.vampire-blood > h2,
+.vampire-skills h3 {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+.vampire-panel { min-width: 0; margin: 0 0 .4em; }
+.vampire-panel h2 {
+  margin: 0 0 .4em;
+  padding: .25em 0;
+  border-bottom: 2px solid var(--rule);
+  color: var(--ink);
+  font: bold 1.1875em/1.15 "Bacasime Antique", Georgia, serif;
+  text-align: center;
+  text-transform: uppercase;
+}
+.vampire-panel-body { min-width: 0; }
+.vampire-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.vampire-grid > * { min-width: 0; }
+.vampire-grid--two { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.vampire-root h3 { margin: 0 0 .35em; color: var(--ink); font-size: 1.125em; text-align: center; }
+.vampire-field { display: flex; align-items: baseline; min-width: 0; gap: .3em; }
+.vampire-field > span { flex: 0 0 auto; }
+.vampire-root .line-input {
+  min-width: 0;
+  width: 100%;
+  border: 0;
+  border-bottom: 1px solid var(--rule);
+  border-radius: 0;
+  padding: .15em .3em;
+  background: transparent;
+  color: var(--ink);
+  font: 200 .875em/1.3 "Lexend Peta", Arial, sans-serif;
+}
+.vampire-root :is(input, textarea, button):focus-visible { outline: 2px solid var(--focus); outline-offset: 1px; }
+.vampire-identity .vampire-grid { border-top: 1px solid var(--rule); border-left: 1px solid var(--rule); }
+.vampire-identity .vampire-field { min-height: 3.25cqw; padding: .45em .6em; border-right: 1px solid var(--rule); border-bottom: 1px solid var(--rule); font-size: .9375em; }
+.vampire-identity .line-input { padding-block: 0; }
+.vampire-attributes .vampire-grid > section > h3 { font-weight: 400; font-style: italic; }
+.vampire-attributes .vampire-trait { padding-inline: 3.5cqw; }
+.vampire-attributes .vampire-grid > section + section .vampire-trait { border-left: 1px solid var(--rule); }
+.vampire-trait { display: flex; align-items: center; justify-content: space-between; min-width: 0; min-height: 2.08333cqw; }
+.vampire-attributes .vampire-trait > span { flex: 1; text-align: center; }
+.vampire-root .vampire-dots { display: flex; flex: 0 0 auto; align-items: center; margin: 0; border: 0; border-radius: 0; padding: 0; background: transparent; color: var(--ink); cursor: pointer; }
+.vampire-dot { display: grid; width: 1.41667cqw; height: 2.08333cqw; place-items: center; cursor: pointer; }
+.vampire-root .vampire-dot .check {
+  appearance: none;
+  width: 1.33333cqw;
+  height: 1.33333cqw;
+  margin: 0;
+  border: 1px solid var(--ink);
+  border-radius: 50%;
+  background: var(--paper);
+  color: var(--ink);
+  cursor: pointer;
+}
+.vampire-root .vampire-dot .check[data-checked="true"] { background: var(--ink); box-shadow: none; }
+.vampire-root .check:disabled { cursor: default; }
+.vampire-damage { width: 58%; margin: 1.25cqw auto 0; gap: 1.5cqw; }
+.vampire-damage h3 { margin: 0; font-size: 1.625em; }
+.vampire-track { display: grid; grid-template-columns: repeat(var(--track-length), minmax(0, 1fr)); gap: 2px; }
+.vampire-track button { display: grid; min-width: 0; min-height: 0; place-items: center; border: 0; border-radius: 0; padding: 0; background: transparent; }
+.vampire-track button:hover { outline: 1px solid var(--focus); }
+.vampire-track-mark { display: block; width: 100%; height: auto; aspect-ratio: 1; color: var(--ink); stroke: currentColor; stroke-width: 1; }
+.vampire-skills .vampire-grid { gap: 2cqw; padding: .8cqw 1.2cqw 0; }
+.vampire-skill { min-height: 3.16667cqw; }
+.vampire-skill > span { flex: 0 0 auto; white-space: nowrap; }
+.vampire-skill .line-input { flex: 1 1 0; padding-inline: .1em; border-bottom-style: dotted; font-size: .625em; }
+.vampire-disciplines h2 { border: 0; margin: .3em 0; }
+.vampire-disciplines .vampire-grid { border-top: 1px solid var(--rule); border-left: 1px solid var(--rule); }
+.vampire-discipline { min-width: 0; border-right: 1px solid var(--rule); border-bottom: 1px solid var(--rule); }
+.vampire-discipline-name { display: flex; align-items: center; border-bottom: 1px solid var(--rule); }
+.vampire-discipline-name .line-input { flex: 1 1 0; font-weight: 200; border: 0; }
+.vampire-discipline > .line-input,
+.vampire-discipline-name { height: 2.5cqw; }
+.vampire-discipline .line-input { display: block; padding-inline: .65em; }
+.vampire-discipline > .line-input:last-child { border: 0; }
+.vampire-root .vampire-discipline-line,
+.vampire-root .vampire-discipline-empty-target {
+  display: block;
+  width: 100%;
+  min-width: 0;
+  margin: 0;
+  border: 0;
+  border-radius: 0;
+  padding: 0;
+  background: transparent;
+  color: var(--ink);
+  text-align: left;
+  cursor: pointer;
+}
+.vampire-root .vampire-discipline-line {
+  height: 2.5cqw;
+  padding: .15em .65em;
+  overflow: hidden;
+  border-bottom: 1px solid var(--rule);
+  font: 200 .875em/1.3 "Lexend Peta", Arial, sans-serif;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.vampire-discipline-line:last-child { border-bottom: 0; }
+.vampire-discipline-name .vampire-discipline-title { flex: 1 1 0; min-width: 0; border: 0; font-weight: 700; }
+.vampire-discipline-empty-target .vampire-discipline-name { display: flex; }
+.vampire-discipline-empty-target:hover,
+.vampire-discipline-line:hover { box-shadow: inset 0 0 0 1px var(--focus); }
+.vampire-discipline-dialog {
+  width: min(600px, calc(100vw - 32px));
+  max-height: 85dvh;
+  box-sizing: border-box;
+  border: 1px solid var(--rule);
+  border-radius: 8px;
+  padding: 20px;
+  background: var(--paper);
+  color: var(--ink);
+  font: 16px/1.5 Georgia, serif;
+}
+.vampire-discipline-dialog::backdrop { background: rgb(0 0 0 / .65); }
+.vampire-discipline-dialog header { display: flex; align-items: start; justify-content: space-between; gap: 16px; }
+.vampire-discipline-dialog header h2 { flex: 1; min-width: 0; margin: 0; border: 0; padding: 0; text-align: left; text-transform: none; font-size: 24px; }
+.vampire-discipline-dialog button { min-height: 40px; border: 1px solid var(--rule); border-radius: 4px; padding: 6px 12px; background: var(--paper); color: var(--ink); font: inherit; cursor: pointer; }
+.vampire-discipline-dialog .vampire-dialog-icon { display: inline-flex; flex: 0 0 40px; align-items: center; justify-content: center; width: 40px; height: 40px; padding: 0; }
+.vampire-dialog-icon svg { width: 20px; height: 20px; }
+.vampire-discipline-dialog button:disabled { opacity: .55; cursor: default; }
+.vampire-discipline-search { display: grid; gap: 4px; margin-block: 16px; }
+.vampire-discipline-search input { width: 100%; box-sizing: border-box; min-height: 42px; border: 1px solid var(--rule); border-radius: 4px; padding: 8px; background: var(--paper); color: var(--ink); font: inherit; }
+.vampire-discipline-options { display: grid; gap: 8px; list-style: none; margin: 16px 0; padding: 0; }
+.vampire-discipline-options button { display: grid; width: 100%; gap: 4px; text-align: left; }
+.vampire-discipline-options button:hover:not(:disabled) { border-color: var(--focus); outline: 1px solid var(--focus); }
+.vampire-discipline-options small { opacity: .75; }
+.vampire-power-description { font-size: 14px; white-space: pre-line; }
+.vampire-discipline-dialog footer { display: flex; flex-wrap: wrap; justify-content: end; gap: 8px; }
+.vampire-formula-methods { margin: 16px 0; border: 0; padding: 0; }
+.vampire-formula-methods legend { padding: 0; font-weight: bold; }
+.vampire-formula-methods label { display: flex; align-items: center; gap: 12px; margin-top: 8px; border: 1px solid var(--rule); border-radius: 4px; padding: 12px; cursor: pointer; }
+.vampire-formula-methods input { flex: 0 0 auto; width: 18px; height: 18px; margin: 0; accent-color: var(--focus); }
+.vampire-formula-methods label:has(input:disabled) { opacity: .55; cursor: default; }
+.vampire-formula-info { margin-block: 16px; border-bottom: 1px solid var(--rule); padding-bottom: 12px; font-size: 14px; }
+.vampire-formula-info p { margin: 8px 0; }
+.vampire-formula-badge { width: fit-content; border: 1px solid var(--rule); border-radius: 4px; padding: 4px 8px; font-weight: bold; }
+.vampire-power-card {
+  position: fixed;
+  inset: auto;
+  margin: 0;
+  width: min(460px, calc(100vw - 16px));
+  max-width: none;
+  max-height: min(620px, calc(100dvh - 16px));
+  box-sizing: border-box;
+  overflow: hidden;
+  border: 1px solid var(--rule);
+  border-radius: 8px;
+  padding: 0;
+  background: var(--paper);
+  color: var(--ink);
+  box-shadow: 0 8px 32px rgb(0 0 0 / .3);
+  font: 16px/1.5 Georgia, serif;
+}
+.vampire-power-card:popover-open { display: flex; flex-direction: column; }
+.vampire-power-card header { display: flex; flex: 0 0 auto; align-items: start; justify-content: space-between; gap: 16px; padding: 16px; border-bottom: 1px solid var(--rule); }
+.vampire-power-card header > div { min-width: 0; }
+.vampire-power-card h3 { margin: 0; text-align: left; font: bold 22px/1.2 Georgia, serif; }
+.vampire-power-card header p { margin: 4px 0 0; font-size: 14px; }
+.vampire-power-card button { flex: 0 0 auto; min-height: 40px; border: 1px solid var(--rule); border-radius: 4px; padding: 6px 12px; background: var(--paper); color: var(--ink); font: inherit; cursor: pointer; }
+.vampire-power-card-content { min-height: 0; overflow-y: auto; overscroll-behavior: contain; padding: 0 16px; }
+.vampire-power-card-content dl { margin-block: 16px; }
+.vampire-power-card-content dl > div + div { margin-top: 16px; }
+.vampire-power-card dt { font-weight: bold; }
+.vampire-power-card dd { margin: 4px 0 0; }
+.vampire-power-text { white-space: pre-wrap; overflow-wrap: anywhere; }
+.vampire-power-card footer { display: flex; flex: 0 0 auto; flex-wrap: wrap; justify-content: end; gap: 8px; padding: 12px 16px; border-top: 1px solid var(--rule); }
+.vampire-blood { margin: 1.667cqw 0; }
+.vampire-blood .vampire-grid { gap: 1cqw; align-items: center; }
+.vampire-blood .vampire-field { font-weight: bold; }
+.vampire-blood .line-input { border-bottom-style: dotted; font-size: .75em; }
+.vampire-blood .vampire-track-panel { display: flex; align-items: center; justify-content: center; gap: .3em; }
+.vampire-blood h3 { margin: 0; font-size: 1em; }
+.vampire-blood .vampire-track { width: calc(var(--track-length) * 1.75cqw); gap: 2px; }
+.vampire-backgrounds { align-items: start; }
+.vampire-background-list h2 { margin: 0; padding: 0 0 .2em; border: 0; font-size: 1em; text-align: left; text-transform: none; }
+.vampire-background { display: flex; align-items: center; height: 2.5cqw; border: 1px solid var(--rule); }
+.vampire-background + .vampire-background { border-top: 0; }
+.vampire-background > .line-input { flex: 1 1 0; border: 0; }
+.vampire-potency { padding-left: 1.667cqw; }
+.vampire-blood-potency { display: flex; align-items: center; justify-content: space-between; gap: .3em; min-height: 1.4em; }
+.vampire-blood-potency h2 { flex: 0 0 auto; margin: 0; font-size: 1em; }
+.vampire-blood-effects { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); border-top: 1px solid var(--rule); border-left: 1px solid var(--rule); }
+.vampire-blood-effects .vampire-field { display: flex; flex-direction: column; justify-content: space-between; gap: 0; min-height: 4.167cqw; padding: .1em .2em; border-right: 1px solid var(--rule); border-bottom: 1px solid var(--rule); font-size: .8125em; }
+.vampire-blood-effects .vampire-field > span { flex: initial; }
+.vampire-blood-effects .line-input { height: 2.5cqw; border: 0; font-size: 1.2em; }
+.vampire-experience { display: grid; justify-content: center; gap: .4em; margin-top: 1.2em; }
+.vampire-experience .vampire-field { display: grid; gap: .2em; font-weight: bold; }
+.vampire-experience .line-input { height: 2.5cqw; }
+/* Hide the retired inline notes panel in tabs awaiting a reload. */
+.vampire-root > .vampire-notes { display: none; }
+
+@media screen {
+  body:has(.vampire-root),
+  .sheet-fields:has(.vampire-root) { background: #f8f5ed; }
+  body:has(.vampire-root.dark),
+  .sheet-fields:has(.vampire-root.dark) { background: #161513; }
+}
+
+@media screen and (max-width: 620px) {
+  .vampire-root { width: calc(100% - 16px); margin-top: 12px; }
+  .vampire-paper { font-size: 16px; }
+  .vampire-paper-content { padding: 13cqw 5cqw 10cqw; }
+  .vampire-panel { margin-bottom: 16px; }
+  .vampire-grid { grid-template-columns: minmax(0, 1fr); gap: 12px; }
+  .vampire-identity .vampire-grid { gap: 0; }
+  .vampire-identity .vampire-field { min-height: 44px; }
+  .vampire-root .line-input { min-height: 36px; font-size: 16px; }
+  .vampire-attributes .vampire-trait { min-height: 36px; padding: 0; }
+  .vampire-attributes .vampire-grid > section + section .vampire-trait { border: 0; }
+  .vampire-dot { width: 26px; height: 36px; }
+  .vampire-root .vampire-dot .check { width: 17px; height: 17px; }
+  .vampire-damage { width: 100%; margin-top: 16px; gap: 14px; }
+  .vampire-damage h3 { font-size: 22px; }
+  .vampire-track button { min-height: 36px; }
+  .vampire-track-mark { max-width: 26px; }
+  .vampire-skills .vampire-grid { padding: 0; gap: 16px; }
+  .vampire-skills h3 { position: static; width: auto; height: auto; overflow: visible; clip-path: none; white-space: normal; }
+  .vampire-skill { flex-wrap: wrap; min-height: 72px; }
+  .vampire-skill > span { order: 0; flex: 1 1 auto; }
+  .vampire-skill .vampire-dots { order: 1; }
+  .vampire-skill .line-input { order: 2; flex: 1 1 100%; }
+  .vampire-disciplines .vampire-grid { gap: 0; }
+  .vampire-discipline > .line-input, .vampire-discipline-name { height: 36px; }
+  .vampire-root .vampire-discipline-line { height: 36px; font-size: 14px; }
+  .vampire-blood { margin: 18px 0; }
+  .vampire-blood .vampire-grid { gap: 12px; }
+  .vampire-blood .vampire-field { align-items: center; }
+  .vampire-blood .vampire-track-panel { justify-content: space-between; }
+  .vampire-blood .vampire-track { width: min(70%, calc(var(--track-length) * 26px)); }
+  .vampire-backgrounds { gap: 20px; }
+  .vampire-background { height: 40px; }
+  .vampire-potency { padding: 0; }
+  .vampire-blood-potency { flex-wrap: wrap; margin-bottom: 4px; }
+  .vampire-blood-effects .vampire-field { min-height: 70px; font-size: 14px; }
+  .vampire-blood-effects .line-input { height: 36px; }
+  .vampire-experience { justify-content: stretch; }
+}
+
+@media print {
+  @page vampire-sheet { size: A4 portrait; margin: 6mm; }
+  body:has(.vampire-root) { background: white; }
+  .vampire-root, .vampire-root.dark {
+    --paper: white;
+    --ink: black;
+    --rule: black;
+    page: vampire-sheet;
+    width: 198mm;
+    margin: 0;
+  }
+  .vampire-paper { box-shadow: none; font-size: 1.25cqw; }
+  .vampire-root.dark .vampire-paper-frame { filter: none; mix-blend-mode: multiply; }
+  .vampire-paper-content { padding: 11cqw 2.5cqw 4.5cqw; }
+  .vampire-panel, .vampire-discipline, .vampire-backgrounds { break-inside: avoid; }
+  .vampire-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0; }
+  .vampire-grid--two { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .vampire-damage { gap: 1.5cqw; }
+  .vampire-identity .vampire-field { min-height: 3cqw; }
+  .vampire-skill { min-height: 2.5cqw; }
+  .vampire-discipline > .line-input, .vampire-discipline-name { height: 2cqw; }
+  .vampire-root .vampire-discipline-line { height: 2cqw; }
+  .vampire-discipline-dialog, .vampire-power-card:popover-open { display: none; }
+  .vampire-background { height: 2.4cqw; }
+}

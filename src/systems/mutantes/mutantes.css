@@ -1,0 +1,985 @@
+
+:where(.mutantes-root).sheets {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+  padding: 24px 12px 42px;
+}
+
+:where(.mutantes-root) .sheet-page {
+  position: relative;
+  width: min(95vw, 920px);
+  aspect-ratio: 603 / 783;
+  overflow: hidden;
+  padding: 2.25% 2.7% 2.85%;
+  background: var(--paper);
+  border: 1px solid #9a9ba0;
+  box-shadow: 0 12px 38px #0003;
+  font-size: clamp(7px, .92vw, 12px);
+}
+
+:where(.mutantes-root) .sheet-page,
+:where(.mutantes-root) .sheet-page input,
+:where(.mutantes-root) .sheet-page textarea {
+  color: var(--ink);
+}
+
+:where(.mutantes-root) .sheet-page {
+  font-family: "Arial Narrow", Arial, Helvetica, sans-serif;
+}
+
+:where(.mutantes-root) .sheet-page input,
+:where(.mutantes-root) .sheet-page textarea {
+  min-width: 0;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+:where(.mutantes-root) .sheet-page input:focus,
+:where(.mutantes-root) .sheet-page textarea:focus {
+  outline: 1px solid var(--focus);
+  outline-offset: 1px;
+  color: var(--focus);
+}
+
+:where(.mutantes-root) .sheet-page textarea { resize: none; }
+
+:where(.mutantes-root) .section-title {
+  display: flex;
+  align-items: center;
+  min-height: 0;
+  margin: 0;
+  padding: .2em .32em;
+  overflow: hidden;
+  background: var(--bar);
+  color: var(--ink-dark);
+  font-family: Impact, "Arial Narrow", Arial, sans-serif;
+  font-size: clamp(13px, 2.35vw, 27px);
+  line-height: .94;
+  text-transform: uppercase;
+  letter-spacing: -.02em;
+}
+
+:where(.mutantes-root) .panel {
+  min-height: 0;
+  overflow: hidden;
+  border: 1px solid var(--rule);
+  background: var(--paper);
+}
+
+:where(.mutantes-root) .line-entry {
+  width: 100%;
+  border: 0;
+  border-bottom: 1px solid var(--rule);
+  border-radius: 0;
+  padding: 0 .25em;
+  background: transparent;
+  color: var(--ink);
+}
+
+:where(.mutantes-root) .box-input {
+  width: 100%;
+  height: 100%;
+  border: 1px solid var(--rule);
+  border-radius: 0;
+  padding: .1em;
+  background: var(--paper);
+  text-align: center;
+  color: var(--ink);
+}
+
+:where(.mutantes-root) .readonly {
+  color: var(--focus);
+  font-weight: 700;
+}
+
+:where(.mutantes-root) .operator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--bar);
+  font-weight: 700;
+}
+
+:where(.mutantes-root) .page-footer {
+  position: absolute;
+  right: 4%;
+  bottom: .7%;
+  left: 4%;
+  color: var(--ink-soft);
+  font-family: "Arial Narrow", Arial, sans-serif;
+  font-size: clamp(5px, .62vw, 8px);
+  text-align: center;
+  text-transform: uppercase;
+}
+
+:where(.mutantes-root) .game-logo {
+  position: absolute;
+  top: 2.05%;
+  left: 2.34%;
+  z-index: 2;
+  display: block;
+  width: 30.55%;
+  height: auto;
+}
+
+/* Página 1: identidade, habilidades, poderes, combate e feitos. */
+:where(.mutantes-root) .page-one-content {
+  display: grid;
+  grid-template-rows: 11.7% minmax(0, 1fr) 18%;
+  gap: .75%;
+  height: 100%;
+}
+
+:where(.mutantes-root) .identity {
+  display: grid;
+  grid-template-rows: repeat(5, 1fr);
+  gap: .25em;
+  width: 63.3%;
+  margin-left: 34%;
+  padding: .05em .2em 0;
+}
+
+:where(.mutantes-root) .identity-row {
+  display: grid;
+  align-items: end;
+  gap: 1.15em;
+  min-width: 0;
+}
+
+:where(.mutantes-root) .identity-row.two { grid-template-columns: 1fr 1fr; }
+:where(.mutantes-root) .identity-row.five { grid-template-columns: 1.05fr 1.5fr .9fr .65fr .65fr; }
+:where(.mutantes-root) .identity-row.appearance-row { grid-template-columns: 1fr 1fr 1fr 1.35fr; }
+:where(.mutantes-root) .identity-label {
+  display: flex;
+  align-items: end;
+  min-width: 0;
+  white-space: nowrap;
+  color: var(--ink);
+  font-size: 1.02em;
+}
+:where(.mutantes-root) .identity-label > .line-input { flex: 1; }
+:where(.mutantes-root) .identity-checks {
+  display: flex;
+  align-items: center;
+  gap: .7em;
+  white-space: nowrap;
+}
+:where(.mutantes-root) .check-label {
+  display: inline-flex;
+  align-items: center;
+  gap: .25em;
+}
+
+:where(.mutantes-root) .page-one-middle {
+  display: grid;
+  grid-template-columns: 40% minmax(0, 60%);
+  gap: .7%;
+  min-height: 0;
+}
+
+:where(.mutantes-root) .page-one-left {
+  display: grid;
+  grid-template-rows: 2.2fr 1.62fr 1.35fr .9fr 1.15fr .8fr;
+  gap: .55%;
+  min-height: 0;
+}
+
+:where(.mutantes-root) .ability-panel,
+:where(.mutantes-root) .save-panel,
+:where(.mutantes-root) .combat-panel,
+:where(.mutantes-root) .attack-panel,
+:where(.mutantes-root) .condition-panel,
+:where(.mutantes-root) .fatigue-panel,
+:where(.mutantes-root) .powers-panel,
+:where(.mutantes-root) .feats-panel {
+  display: grid;
+  min-height: 0;
+}
+
+:where(.mutantes-root) .ability-panel { grid-template-rows: 17% 11% 72%; }
+:where(.mutantes-root) .save-panel { grid-template-rows: 30% 12% 58%; }
+:where(.mutantes-root) .combat-panel { grid-template-rows: 24% 76%; }
+:where(.mutantes-root) .attack-panel {
+  grid-template-rows: min-content minmax(0, 1fr);
+}
+:where(.mutantes-root) .condition-panel {
+  grid-template-rows: min-content minmax(0, 1fr);
+}
+:where(.mutantes-root) .fatigue-panel {
+  grid-template-rows: min-content minmax(0, 1fr);
+}
+
+:where(.mutantes-root) .table-head {
+  display: grid;
+  align-items: end;
+  padding: 0 .4em .18em;
+  color: var(--ink-soft);
+  font-size: .62em;
+  line-height: .9;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+:where(.mutantes-root) .ability-head,
+:where(.mutantes-root) .ability-row {
+  display: grid;
+  grid-template-columns: minmax(7em, 1.75fr) .52fr .52fr .18fr .52fr .18fr .52fr;
+  gap: .3em;
+  align-items: center;
+  padding: 0 .42em;
+}
+:where(.mutantes-root) .ability-head span:nth-child(4),
+:where(.mutantes-root) .ability-head span:nth-child(6) { visibility: hidden; }
+:where(.mutantes-root) .ability-row .ability-name {
+  font-family: Impact, "Arial Narrow", Arial, sans-serif;
+  font-size: 1.55em;
+  line-height: .9;
+  color: var(--bar);
+  text-transform: uppercase;
+}
+
+:where(.mutantes-root) .ability-rows,
+:where(.mutantes-root) .save-rows,
+:where(.mutantes-root) .combat-rows {
+  display: grid;
+  min-height: 0;
+}
+:where(.mutantes-root) .ability-rows { grid-template-rows: repeat(6, 1fr); }
+:where(.mutantes-root) .ability-row { min-height: 0; }
+
+:where(.mutantes-root) .save-head,
+:where(.mutantes-root) .save-row {
+  display: grid;
+  grid-template-columns: minmax(7em, 1.7fr) .55fr .55fr .7fr .55fr;
+  gap: .35em;
+  align-items: center;
+  padding: 0 .42em;
+}
+:where(.mutantes-root) .save-head {
+  align-items: end;
+  padding-bottom: .2em;
+  color: var(--ink-soft);
+  font-size: .61em;
+  line-height: .9;
+  text-align: center;
+  text-transform: uppercase;
+}
+:where(.mutantes-root) .save-row .save-name,
+:where(.mutantes-root) .combat-row .combat-name,
+:where(.mutantes-root) .hero-row .combat-name {
+  font-family: Impact, "Arial Narrow", Arial, sans-serif;
+  font-size: 1.35em;
+  line-height: .9;
+  color: var(--bar);
+  white-space: nowrap;
+  text-transform: uppercase;
+}
+
+:where(.mutantes-root) .save-rows { grid-template-rows: repeat(4, 1fr); }
+
+:where(.mutantes-root) .combat-rows { grid-template-rows: 1fr 1fr .85fr; row-gap: .35em; }
+:where(.mutantes-root) .combat-head,
+:where(.mutantes-root) .combat-row,
+:where(.mutantes-root) .hero-row {
+  display: grid;
+  grid-template-columns: minmax(7em, 1.7fr) .55fr .8fr .7fr .7fr .7fr;
+  gap: .35em;
+  align-items: center;
+  padding: 0 .42em;
+}
+:where(.mutantes-root) .combat-head {
+  align-items: end;
+  padding-bottom: .2em;
+  color: var(--ink-soft);
+  font-size: .61em;
+  line-height: .9;
+  text-align: center;
+  text-transform: uppercase;
+}
+:where(.mutantes-root) .hero-row .box-input { grid-column: 2 / -1; }
+:where(.mutantes-root) .hero-row { grid-template-columns: minmax(0, 1fr) minmax(3em, .55fr); }
+
+:where(.mutantes-root) .attack-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: .8em;
+  padding: .25em .55em;
+}
+:where(.mutantes-root) .attack-pair {
+  display: flex;
+  align-items: center;
+  gap: .28em;
+  min-width: 0;
+}
+:where(.mutantes-root) .attack-pair .box-input { flex: 0 0 3.1em; width: 3.1em; height: 1.65em; }
+:where(.mutantes-root) .attack-label {
+  font-family: Impact, "Arial Narrow", Arial, sans-serif;
+  font-size: 1.22em;
+  line-height: .9;
+  color: var(--bar);
+  white-space: nowrap;
+  text-transform: uppercase;
+}
+
+:where(.mutantes-root) .condition-grid,
+:where(.mutantes-root) .fatigue-grid {
+  display: grid;
+  align-items: center;
+  min-height: 0;
+  padding: .15em .55em .3em;
+}
+:where(.mutantes-root) .condition-grid { grid-template-columns: repeat(3, 1fr); }
+:where(.mutantes-root) .fatigue-grid { grid-template-columns: repeat(3, 1fr); }
+:where(.mutantes-root) .condition-item,
+:where(.mutantes-root) .fatigue-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: .2em;
+  min-height: 0;
+  text-align: center;
+}
+:where(.mutantes-root) .condition-name,
+:where(.mutantes-root) .fatigue-name {
+  color: var(--bar);
+  font-size: .86em;
+  text-transform: uppercase;
+}
+:where(.mutantes-root) .condition-checks {
+  display: flex;
+  gap: .7em;
+}
+
+:where(.mutantes-root) .powers-panel { grid-template-rows: 8% 5% minmax(0, 1fr); }
+:where(.mutantes-root) .power-head,
+:where(.mutantes-root) .power-fields {
+  display: grid;
+  grid-template-columns: minmax(8em, 2.2fr) .55fr .55fr .65fr .78fr;
+  gap: .25em;
+  align-items: center;
+  padding: 0 .32em;
+}
+:where(.mutantes-root) .power-head {
+  color: var(--ink-soft);
+  font-size: .6em;
+  line-height: .9;
+  text-align: left;
+  text-transform: uppercase;
+}
+:where(.mutantes-root) .power-head span:not(:first-child) { text-align: center; }
+:where(.mutantes-root) .power-list {
+  display: grid;
+  grid-template-rows: repeat(7, minmax(0, 1fr));
+  min-height: 0;
+}
+:where(.mutantes-root) .power-card {
+  display: grid;
+  grid-template-rows: 25% 75%;
+  min-height: 0;
+  margin: 0 .32em .22em;
+  border: 1px solid var(--rule);
+}
+:where(.mutantes-root) .power-fields {
+  border-bottom: 1px solid var(--rule);
+  font-size: .76em;
+}
+:where(.mutantes-root) .power-fields label {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+  height: 100%;
+  color: var(--ink-soft);
+  font-size: .72em;
+  text-transform: uppercase;
+}
+:where(.mutantes-root) .power-fields input {
+  min-width: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  border-left: 1px solid var(--rule);
+  border-radius: 0;
+  padding: 0 .2em;
+  background: transparent;
+  color: var(--ink);
+}
+:where(.mutantes-root) .power-fields label:first-child input { font-weight: 700; }
+:where(.mutantes-root) .power-fields label:first-child input { border-left: 0; }
+:where(.mutantes-root) .power-description {
+  width: 100%;
+  height: 100%;
+  border: 0;
+  padding: .3em .65em;
+  background: transparent;
+  color: var(--ink);
+  font: inherit;
+  line-height: 1.35;
+}
+:where(.mutantes-root) .power-notes {
+  position: relative;
+  min-height: 0;
+  overflow: hidden;
+}
+:where(.mutantes-root) .power-guides {
+  position: absolute;
+  inset: .3em .65em auto;
+  z-index: 0;
+  display: grid;
+  grid-template-rows: repeat(3, 1.35em);
+  pointer-events: none;
+}
+:where(.mutantes-root) .power-guides span { border-bottom: 1px solid var(--rule); }
+:where(.mutantes-root) .power-notes .power-description {
+  position: relative;
+  z-index: 1;
+  background: transparent;
+}
+
+:where(.mutantes-root) .feats-panel { grid-template-rows: 22% 10% minmax(0, 1fr); }
+:where(.mutantes-root) .feat-head,
+:where(.mutantes-root) .feat-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.8fr);
+  gap: .5em;
+  align-items: center;
+  padding: 0 .55em;
+}
+:where(.mutantes-root) .feat-head {
+  color: var(--ink-soft);
+  font-size: .62em;
+  text-transform: uppercase;
+}
+:where(.mutantes-root) .feat-row { min-height: 0; }
+:where(.mutantes-root) .feat-row input {
+  width: 100%;
+  min-width: 0;
+  height: 100%;
+  overflow: hidden;
+  border: 0;
+  border-bottom: 1px solid var(--rule);
+  border-radius: 0;
+  background: transparent;
+  font-size: .78em;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+:where(.mutantes-root) .feat-rows {
+  display: grid;
+  grid-auto-rows: calc(100% / 7);
+  align-content: start;
+  min-height: 0;
+  overflow-y: auto;
+}
+:where(.mutantes-root) .feat-picker-trigger {
+  width: 100%;
+  min-width: 0;
+  height: 100%;
+  overflow: hidden;
+  border: 0;
+  border-bottom: 1px solid var(--rule);
+  border-radius: 0;
+  padding: 0 .25em;
+  background: transparent;
+  color: var(--ink);
+  font: inherit;
+  text-align: left;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+:where(.mutantes-root) .feat-picker-trigger:hover { background: #e9e9eb; }
+:where(.mutantes-root) .feat-picker-trigger.has-feat { font-weight: 700; }
+:where(.mutantes-root) .feat-picker-trigger:focus-visible { outline: 2px solid var(--focus); outline-offset: -2px; }
+:where(.mutantes-root) .feat-placeholder { color: #707177; font-style: italic; }
+
+:where(.mutantes-root) .feat-catalog-dialog {
+  display: flex;
+  flex-direction: column;
+  width: min(900px, calc(100vw - 32px));
+  max-width: none;
+  height: min(88vh, 1000px);
+  max-height: min(88vh, 1000px);
+  overflow: hidden;
+  border: 1px solid #76777b;
+  border-radius: 6px;
+  padding: 0;
+  background: #f4f4f2;
+  color: #24252a;
+  box-shadow: 0 20px 70px #0007;
+  font-family: Arial, Helvetica, sans-serif;
+}
+:where(.mutantes-root) .feat-catalog-dialog:not([open]) { display: none; }
+:where(.mutantes-root) .feat-catalog-dialog::backdrop { background: #111318b8; }
+:where(.mutantes-root) .feat-catalog-header {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 18px 22px 14px;
+  border-bottom: 1px solid #c5c5c3;
+  background: #fff;
+}
+:where(.mutantes-root) .feat-catalog-title-group {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  min-width: 0;
+}
+:where(.mutantes-root) .feat-catalog-eyebrow {
+  margin: 0 0 4px;
+  color: #696a6d;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+}
+:where(.mutantes-root) .feat-catalog-header h2 {
+  margin: 0;
+  font-family: "Arial Narrow", Arial, sans-serif;
+  font-size: 22px;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+:where(.mutantes-root) .feat-catalog-close {
+  flex: 0 0 auto;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border: 1px solid #b5b5b6;
+  border-radius: 50%;
+  background: #fff;
+  font-size: 25px;
+  line-height: 1;
+}
+:where(.mutantes-root) .feat-catalog-add {
+  flex: 0 0 auto;
+  width: 34px;
+  height: 34px;
+  padding: 0;
+  border: 1px solid #777980;
+  border-radius: 50%;
+  background: #2d2f37;
+  color: #fff;
+  font-size: 28px;
+  font-weight: 400;
+  line-height: 1;
+}
+:where(.mutantes-root) .feat-catalog-add:hover { background: #454852; }
+:where(.mutantes-root) .feat-catalog-tools {
+  flex: 0 0 auto;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 7px 12px;
+  padding: 14px 22px;
+  border-bottom: 1px solid #d1d1cf;
+  background: #ededeb;
+}
+:where(.mutantes-root) .feat-catalog-tools label {
+  grid-column: 1 / -1;
+  color: #505157;
+  font-size: 12px;
+  font-weight: 700;
+}
+:where(.mutantes-root) .feat-catalog-tools input {
+  width: 100%;
+  min-height: 38px;
+  border: 1px solid #96979a;
+  border-radius: 3px;
+  padding: 8px 10px;
+  background: #fff;
+  color: #222;
+  font: inherit;
+}
+:where(.mutantes-root) .feat-catalog-tools input:focus { outline: 2px solid #345d89; outline-offset: 1px; }
+:where(.mutantes-root) .feat-catalog-tools > span { color: #5a5b60; font-size: 12px; white-space: nowrap; }
+:where(.mutantes-root) .feat-catalog-list {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-auto-rows: max-content;
+  align-content: start;
+  gap: 14px;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 18px 22px 22px;
+  overscroll-behavior: contain;
+}
+:where(.mutantes-root) .feat-book-entry {
+  display: block;
+  min-width: 0;
+  height: max-content;
+  border: 1px solid #b7b7b5;
+  background: #fff;
+  box-shadow: 0 1px 2px #00000010;
+}
+:where(.mutantes-root) .feat-book-entry--selectable { cursor: pointer; }
+:where(.mutantes-root) .feat-book-entry--selectable:hover { border-color: #85868a; }
+:where(.mutantes-root) .feat-book-entry.is-selected { border-color: #555861; box-shadow: 0 2px 7px #00000020; }
+:where(.mutantes-root) .feat-book-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  width: 100%;
+  min-height: 38px;
+  border: 0;
+  border-radius: 0;
+  padding: 7px 11px;
+  background: #d2d2d0;
+  color: #26272b;
+  font-family: "Arial Narrow", Arial, Helvetica, sans-serif;
+  text-align: left;
+}
+:where(.mutantes-root) .feat-book-title > span:first-child {
+  font-size: 16px;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+:where(.mutantes-root) .feat-book-title:hover { background: #c3c3c1; }
+:where(.mutantes-root) .feat-book-meta {
+  flex: 0 0 auto;
+  color: #424348;
+  font-size: 11px;
+  font-weight: 700;
+  text-align: right;
+  text-transform: uppercase;
+}
+:where(.mutantes-root) .feat-book-entry > p {
+  margin: 0;
+  padding: 12px 13px 8px;
+  overflow: visible;
+  color: #292a2e;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 15px;
+  line-height: 1.48;
+}
+:where(.mutantes-root) .feat-add-tray {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  padding: 10px 13px;
+  border-top: 1px solid #c5c5c3;
+  background: #ededeb;
+  color: #424348;
+  font-size: 13px;
+  animation: feat-tray-slide-in .22s ease-out both;
+}
+:where(.mutantes-root) .feat-page-label {
+  position: absolute;
+  right: 13px;
+  top: 50%;
+  margin: 0;
+  transform: translateY(-50%);
+  color: #424348;
+  font-family: "Arial Narrow", Arial, Helvetica, sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  opacity: .72;
+  text-align: right;
+  text-transform: uppercase;
+}
+:where(.mutantes-root) .feat-add-confirm {
+  flex: 0 0 auto;
+  border-color: #2d2f37;
+  background: #2d2f37;
+  color: #fff;
+  font-size: 12px;
+}
+:where(.mutantes-root) .feat-add-confirm:hover { background: #454852; }
+@keyframes feat-tray-slide-in {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+:where(.mutantes-root) .feat-catalog-empty { margin: 0; padding: 22px 12px; color: #55565c; text-align: center; }
+
+/* Página 2: campanha, perícias, origem, equipamento e desenho. */
+:where(.mutantes-root) .page-two { padding-bottom: 1.5%; }
+:where(.mutantes-root) .campaign-layout {
+  display: grid;
+  grid-template-columns: 60% minmax(0, 40%);
+  gap: .7%;
+  height: 100%;
+}
+:where(.mutantes-root) .campaign-left {
+  display: grid;
+  grid-template-rows: minmax(0, 13fr) minmax(0, 35fr) minmax(0, 29fr) minmax(0, 23fr);
+  gap: .6%;
+  min-height: 0;
+}
+:where(.mutantes-root) .campaign-info {
+  display: grid;
+  grid-template-rows: 33% minmax(0, 1fr);
+}
+:where(.mutantes-root) .campaign-info-body {
+  display: grid;
+  grid-template-rows: 1fr 1fr 1fr;
+  min-height: 0;
+  padding: .2em .6em;
+}
+:where(.mutantes-root) .campaign-info-row {
+  display: grid;
+  grid-template-columns: 1.25fr .65fr .55fr;
+  gap: .7em;
+  align-items: end;
+  min-width: 0;
+}
+:where(.mutantes-root) .campaign-info-row:nth-child(2) { grid-template-columns: 1fr; }
+:where(.mutantes-root) .campaign-info-row:nth-child(3) { grid-template-columns: 2.1fr .55fr; }
+:where(.mutantes-root) .campaign-info-label {
+  display: flex;
+  align-items: end;
+  min-width: 0;
+  white-space: nowrap;
+  color: var(--ink-soft);
+  font-size: .75em;
+  text-transform: uppercase;
+}
+:where(.mutantes-root) .campaign-info-label input { flex: 1; }
+
+:where(.mutantes-root) .writing-panel,
+:where(.mutantes-root) .drawing-panel {
+  display: grid;
+  grid-template-rows: 17% minmax(0, 1fr);
+}
+:where(.mutantes-root) .line-list {
+  display: grid;
+  min-height: 0;
+  padding: .3em .6em .45em;
+}
+:where(.mutantes-root) .line-entry {
+  height: 100%;
+  padding: 0 .1em;
+}
+:where(.mutantes-root) .equipment-lines { grid-template-rows: repeat(15, 1fr) 1.5fr; }
+:where(.mutantes-root) .origin-lines { grid-template-rows: repeat(13, 1fr); }
+:where(.mutantes-root) .disadvantage-lines { grid-template-rows: repeat(8, 1fr); }
+:where(.mutantes-root) .drawing-space {
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  border: 0;
+  padding: .5em;
+  background: transparent;
+}
+
+:where(.mutantes-root) .campaign-right {
+  display: grid;
+  grid-template-rows: minmax(0, 69fr) minmax(0, 31fr);
+  gap: .6%;
+  min-height: 0;
+}
+:where(.mutantes-root) .skills-panel {
+  display: grid;
+  grid-template-rows: max-content max-content minmax(0, 1fr);
+  min-height: 0;
+}
+:where(.mutantes-root) .skills-title {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 4.5em;
+  gap: .7em;
+  align-items: stretch;
+}
+:where(.mutantes-root) .max-ranks {
+  display: grid;
+  grid-template-columns: 1fr 2.1em;
+  align-items: center;
+  gap: .25em;
+  color: var(--ink-soft);
+  font-size: .58em;
+  line-height: .88;
+  text-align: right;
+  text-transform: uppercase;
+}
+:where(.mutantes-root) .max-ranks input {
+  width: 100%;
+  height: 2em;
+  border: 1px solid var(--rule);
+  border-radius: 0;
+  background: var(--paper-soft);
+  text-align: center;
+}
+:where(.mutantes-root) .skills-head,
+:where(.mutantes-root) .skill-row {
+  display: grid;
+  grid-template-columns: minmax(9em, 1.65fr) .45fr .2fr .45fr .2fr .5fr .2fr .45fr;
+  gap: .2em;
+  align-items: center;
+  padding: 0 .55em;
+}
+:where(.mutantes-root) .skills-head {
+  align-items: end;
+  padding-top: .5em;
+  padding-bottom: .2em;
+  color: var(--ink-soft);
+  font-size: .57em;
+  line-height: .85;
+  text-align: center;
+  text-transform: uppercase;
+}
+:where(.mutantes-root) .skills-head span:first-child { text-align: left; }
+:where(.mutantes-root) .skills-list {
+  display: grid;
+  grid-template-rows: repeat(36, 1fr);
+  min-height: 0;
+}
+:where(.mutantes-root) .skill-row {
+  min-height: 0;
+  font-size: .72em;
+}
+:where(.mutantes-root) .skill-name {
+  overflow: hidden;
+  color: var(--bar);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  text-transform: uppercase;
+}
+:where(.mutantes-root) .skill-ability {
+  color: var(--ink-soft);
+  text-align: center;
+}
+:where(.mutantes-root) .skill-row .mini-input {
+  width: 100%;
+  height: 100%;
+  border: 0;
+  border-bottom: 1px solid var(--rule);
+  border-radius: 0;
+  padding: 0 .15em;
+  background: transparent;
+  text-align: center;
+}
+:where(.mutantes-root) .skill-row .operator { font-size: .85em; }
+:where(.mutantes-root) .drawing-panel { grid-template-rows: max-content minmax(0, 1fr); }
+
+@media (max-width: 620px) {
+  :where(.mutantes-root).sheets { padding: 12px 10px 24px; gap: 16px; }
+  :where(.mutantes-root) .sheet-page {
+    width: 100%;
+    height: auto;
+    min-height: 0;
+    aspect-ratio: auto;
+    overflow: visible;
+    padding: 14px 12px 32px;
+    border-radius: 8px;
+    box-shadow: 0 4px 18px #0002;
+    font-size: 12px;
+  }
+  :where(.mutantes-root) .page-footer { bottom: 8px; font-size: 8px; }
+
+  /* A ficha deixa de imitar a folha impressa e passa a fluir como formulário. */
+  :where(.mutantes-root) .page-one-content { display: flex; flex-direction: column; gap: 12px; height: auto; }
+  :where(.mutantes-root) .game-logo { top: 12px; left: 50%; width: min(68%, 280px); transform: translateX(-50%); }
+  :where(.mutantes-root) .identity {
+    order: -1;
+    width: 100%;
+    margin: 104px 0 0;
+    padding: 0;
+    grid-template-rows: auto;
+    gap: 8px;
+  }
+  :where(.mutantes-root) .identity-row { min-height: 34px; gap: 8px; }
+  :where(.mutantes-root) .identity-row.two { grid-template-columns: 1fr; }
+  :where(.mutantes-root) .identity-row.five { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  :where(.mutantes-root) .identity-label.power-points-field { grid-column: 1 / -1; }
+  :where(.mutantes-root) .identity-row.appearance-row { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  :where(.mutantes-root) .identity-label { min-height: 34px; font-size: 12px; }
+  :where(.mutantes-root) .identity-checks { min-height: 34px; flex-wrap: wrap; gap: 10px; }
+  :where(.mutantes-root) .page-one-middle { display: flex; flex-direction: column; gap: 12px; }
+  :where(.mutantes-root) .page-one-left { display: flex; flex-direction: column; gap: 12px; }
+  :where(.mutantes-root) .ability-panel { min-height: 290px; }
+  :where(.mutantes-root) .save-panel { min-height: 190px; }
+  :where(.mutantes-root) .combat-panel { min-height: 150px; }
+  :where(.mutantes-root) .attack-panel { min-height: 74px; grid-template-rows: 42px minmax(0, 1fr); }
+  :where(.mutantes-root) .condition-panel, :where(.mutantes-root) .fatigue-panel { min-height: 110px; }
+  :where(.mutantes-root) .powers-panel { min-height: 560px; }
+  :where(.mutantes-root) .feats-panel { min-height: 240px; }
+  :where(.mutantes-root) .panel { border-radius: 5px; }
+  :where(.mutantes-root) .section-title { min-height: 30px; padding: 5px 8px; font-size: 18px; line-height: 1; }
+  :where(.mutantes-root) .ability-panel { grid-template-rows: 42px 30px minmax(0, 1fr); }
+  :where(.mutantes-root) .save-panel { grid-template-rows: 42px 34px minmax(0, 1fr); }
+  :where(.mutantes-root) .combat-panel { grid-template-rows: 42px minmax(0, 1fr); }
+  :where(.mutantes-root) .condition-panel, :where(.mutantes-root) .fatigue-panel { grid-template-rows: 42px minmax(0, 1fr); }
+  :where(.mutantes-root) .table-head, :where(.mutantes-root) .save-head, :where(.mutantes-root) .combat-head { font-size: 9px; line-height: 1.05; }
+  :where(.mutantes-root) .ability-head, :where(.mutantes-root) .ability-row { grid-template-columns: minmax(0, 1.75fr) .52fr .52fr .18fr .52fr .18fr .52fr; gap: 5px; padding-inline: 8px; }
+  :where(.mutantes-root) .save-head, :where(.mutantes-root) .save-row { grid-template-columns: minmax(0, 1.7fr) .55fr .55fr .7fr .55fr; gap: 5px; padding-inline: 8px; }
+  :where(.mutantes-root) .combat-head, :where(.mutantes-root) .combat-row { grid-template-columns: minmax(0, 1.7fr) .55fr .8fr .7fr .7fr .7fr; gap: 4px; padding-inline: 7px; }
+  :where(.mutantes-root) .hero-row { grid-template-columns: minmax(0, 1fr) minmax(3em, .55fr); gap: 4px; padding-inline: 7px; }
+  :where(.mutantes-root) .ability-row, :where(.mutantes-root) .save-row, :where(.mutantes-root) .combat-row, :where(.mutantes-root) .hero-row { min-height: 38px; }
+  :where(.mutantes-root) .ability-row .ability-name { font-size: 17px; }
+  :where(.mutantes-root) .save-row .save-name, :where(.mutantes-root) .combat-row .combat-name, :where(.mutantes-root) .hero-row .combat-name { font-size: 15px; }
+  :where(.mutantes-root) .condition-grid, :where(.mutantes-root) .fatigue-grid { min-height: 66px; }
+  :where(.mutantes-root) .condition-name, :where(.mutantes-root) .fatigue-name { font-size: 11px; }
+  :where(.mutantes-root) .condition-checks { gap: 8px; }
+  :where(.mutantes-root) .powers-panel { grid-template-rows: 42px 34px minmax(0, 1fr); }
+  :where(.mutantes-root) .power-head, :where(.mutantes-root) .power-fields { grid-template-columns: minmax(0, 2fr) .55fr .55fr .65fr .78fr; gap: 4px; padding-inline: 7px; }
+  :where(.mutantes-root) .power-head { font-size: 9px; }
+  :where(.mutantes-root) .power-list { grid-template-rows: repeat(7, minmax(92px, auto)); }
+  :where(.mutantes-root) .power-card { grid-template-rows: 28px minmax(60px, 1fr); margin-bottom: 5px; }
+  :where(.mutantes-root) .power-fields { font-size: 10px; }
+  :where(.mutantes-root) .power-description { min-height: 60px; }
+  :where(.mutantes-root) .feats-panel { grid-template-rows: 42px 32px minmax(0, 1fr); }
+  :where(.mutantes-root) .feat-head, :where(.mutantes-root) .feat-row { grid-template-columns: minmax(0, 1fr) minmax(0, 1.8fr); gap: 5px; padding-inline: 6px; }
+  :where(.mutantes-root) .feat-head { font-size: 8px; }
+  :where(.mutantes-root) .feat-row { min-height: 36px; }
+  :where(.mutantes-root) .feat-rows { grid-auto-rows: 36px; }
+
+  :where(.mutantes-root) .campaign-layout { display: flex; flex-direction: column; gap: 12px; height: auto; }
+  :where(.mutantes-root) .campaign-left, :where(.mutantes-root) .campaign-right { display: flex; flex-direction: column; gap: 12px; }
+  :where(.mutantes-root) .campaign-info { min-height: 220px; grid-template-rows: 42px minmax(0, 1fr); }
+  :where(.mutantes-root) .campaign-info-body { gap: 6px; padding: 8px; }
+  :where(.mutantes-root) .campaign-info-row, :where(.mutantes-root) .campaign-info-row:nth-child(3) { grid-template-columns: 1fr; gap: 6px; }
+  :where(.mutantes-root) .campaign-info-label { min-height: 34px; font-size: 11px; }
+  :where(.mutantes-root) .writing-panel { min-height: 300px; grid-template-rows: 42px minmax(0, 1fr); }
+  :where(.mutantes-root) .equipment-lines { grid-template-rows: repeat(16, minmax(24px, 1fr)); }
+  :where(.mutantes-root) .origin-lines { grid-template-rows: repeat(13, minmax(24px, 1fr)); }
+  :where(.mutantes-root) .disadvantage-lines { grid-template-rows: repeat(8, minmax(24px, 1fr)); }
+  :where(.mutantes-root) .line-list { padding: 6px 10px 10px; }
+  :where(.mutantes-root) .line-entry { min-height: 24px; }
+  :where(.mutantes-root) .skills-panel { min-height: 850px; grid-template-rows: 42px max-content minmax(0, 1fr); }
+  :where(.mutantes-root) .skills-title { grid-template-columns: minmax(0, 1fr) 120px; gap: 6px; padding-right: 8px; }
+  :where(.mutantes-root) .max-ranks { font-size: 9px; }
+  :where(.mutantes-root) .max-ranks input { min-height: 28px; }
+  :where(.mutantes-root) .skills-head, :where(.mutantes-root) .skill-row { grid-template-columns: minmax(0, 1.65fr) .45fr .2fr .45fr .2fr .5fr .2fr .45fr; gap: 3px; padding-inline: 7px; }
+  :where(.mutantes-root) .skills-head { font-size: 8px; }
+  :where(.mutantes-root) .skill-row { min-height: 22px; font-size: 9px; }
+  :where(.mutantes-root) .drawing-panel { min-height: 360px; grid-template-rows: 42px minmax(0, 1fr); }
+  :where(.mutantes-root) .drawing-space { min-height: 300px; }
+
+  :where(.mutantes-root) .feat-catalog-dialog { width: calc(100vw - 20px); height: 92vh; max-height: 92vh; }
+  :where(.mutantes-root) .feat-catalog-header { padding: 14px 15px 12px; }
+  :where(.mutantes-root) .feat-catalog-tools { padding: 12px 15px; }
+  :where(.mutantes-root) .feat-catalog-list { padding: 12px 15px 16px; }
+  :where(.mutantes-root) .feat-book-title { align-items: flex-start; gap: 8px; }
+  :where(.mutantes-root) .feat-book-title > span:first-child { font-size: 14px; }
+  :where(.mutantes-root) .feat-book-meta { font-size: 9px; }
+  :where(.mutantes-root) .feat-book-entry > p { font-size: 14px; }
+}
+
+@media (max-width: 380px) {
+  :where(.mutantes-root).sheets { padding-inline: 6px; }
+  :where(.mutantes-root) .sheet-page { padding-inline: 8px; }
+  :where(.mutantes-root) .ability-head, :where(.mutantes-root) .ability-row { gap: 3px; padding-inline: 5px; }
+  :where(.mutantes-root) .save-head, :where(.mutantes-root) .save-row, :where(.mutantes-root) .combat-head, :where(.mutantes-root) .combat-row, :where(.mutantes-root) .hero-row { gap: 3px; padding-inline: 5px; }
+  :where(.mutantes-root) .power-head, :where(.mutantes-root) .power-fields { gap: 2px; padding-inline: 4px; }
+  :where(.mutantes-root) .skills-head, :where(.mutantes-root) .skill-row { gap: 2px; padding-inline: 4px; }
+}
+
+@media print {
+  @page mutantes-sheet { size: A4 portrait; margin: 0; }
+  body:has(.mutantes-root) { background: #000; }
+  :where(.mutantes-root) .feat-catalog-dialog { display: none; }
+  :where(.mutantes-root).sheets { gap: 0; padding: 0; }
+  :where(.mutantes-root) .sheet-page {
+    width: 210mm;
+    height: 272.4mm;
+    box-shadow: none;
+    page-break-after: always;
+  }
+  :where(.mutantes-root) .sheet-page:last-child { page-break-after: auto; }
+}
+
+@media print { :where(.mutantes-root) { page: mutantes-sheet; } }

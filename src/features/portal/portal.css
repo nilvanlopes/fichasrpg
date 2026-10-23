@@ -1,0 +1,228 @@
+.visually-hidden {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+.portal-page,
+.signup-page {
+  --portal-ink: #f2eee8;
+  --portal-muted: #a9a2ab;
+  --portal-line: #393640;
+  --portal-surface: #18171d;
+  min-height: 100vh;
+  padding: 0 clamp(20px, 5vw, 72px);
+  background: #100f14;
+  color: var(--portal-ink);
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+.portal-page { display: flex; flex-direction: column; }
+
+.portal-header {
+  display: flex;
+  min-height: 78px;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--portal-line);
+}
+
+.portal-brand,
+.portal-user {
+  display: inline-flex;
+  align-items: center;
+}
+
+.portal-brand {
+  color: var(--portal-ink);
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: .02em;
+  text-decoration: none;
+}
+
+.portal-brand-name { display: grid; font-size: 22px; line-height: 1; }
+.portal-brand-word { grid-area: 1 / 1; white-space: nowrap; }
+.portal-brand-word--vampiro {
+  font-family: Georgia, "Times New Roman", serif;
+  animation: brand-vampiro 5s ease-in-out infinite;
+}
+.portal-brand-word--mutantes {
+  font-family: Impact, "Arial Narrow", sans-serif;
+  letter-spacing: .02em;
+  opacity: 0;
+  animation: brand-mutantes 5s ease-in-out infinite;
+}
+
+@keyframes brand-vampiro {
+  0%, 39% { opacity: 1; filter: blur(0); transform: translateY(0); }
+  48%, 91% { opacity: 0; filter: blur(5px); transform: translateY(-4px); }
+  100% { opacity: 1; filter: blur(0); transform: translateY(0); }
+}
+
+@keyframes brand-mutantes {
+  0%, 39% { opacity: 0; filter: blur(5px); transform: translateY(4px); }
+  48%, 91% { opacity: 1; filter: blur(0); transform: translateY(0); }
+  100% { opacity: 0; filter: blur(5px); transform: translateY(-4px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .portal-brand-word { animation: none; }
+  .portal-brand-word--vampiro { display: block; }
+  .portal-brand-word--mutantes { display: none; }
+}
+
+.portal-brand-mark,
+.signup-mark {
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border: 1px solid #b79464;
+  border-radius: 50%;
+  color: #d8b783;
+}
+
+.portal-user { gap: 18px; color: var(--portal-muted); font-size: 13px; }
+.portal-user strong { color: var(--portal-ink); }
+.portal-quiet-button { border: 0; background: transparent; color: var(--portal-muted); }
+.portal-quiet-button:hover { color: var(--portal-ink); background: transparent; }
+
+.portal-eyebrow {
+  margin: 0 0 12px;
+  color: #d4b17e;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+}
+
+.signup-card h1 {
+  margin: 0;
+  color: var(--portal-ink);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(36px, 5.4vw, 62px);
+  font-weight: 500;
+  letter-spacing: -.04em;
+  line-height: 1.04;
+}
+
+.system-grid {
+  display: grid;
+  max-width: 1080px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  margin: 24px auto 42px;
+}
+
+.system-card {
+  position: relative;
+  display: flex;
+  width: 100%;
+  min-height: 260px;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: flex-end;
+  padding: 0;
+  border: 1px solid var(--portal-line);
+  border-radius: 8px;
+  background-color: var(--portal-surface);
+  background-position: center 16%;
+  background-size: cover;
+  color: var(--portal-ink);
+  cursor: pointer;
+  font: inherit;
+  text-align: left;
+  text-decoration: none;
+  transition: transform 220ms ease, filter 220ms ease, box-shadow 220ms ease;
+  overflow: hidden;
+}
+
+.system-card::before { position: absolute; inset: 0; background: linear-gradient(0deg, #100f14f2 0%, #100f14b8 32%, #100f141a 75%); content: ""; }
+.system-card--mutantes { background-position: center top; }
+.system-card-title {
+  position: relative;
+  display: block;
+  width: 100%;
+  padding: 18px clamp(20px, 3vw, 34px) 22px;
+  background: linear-gradient(0deg, #100f14ed, #100f14b8);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(21px, 2.2vw, 27px);
+  font-weight: 500;
+  line-height: 1.12;
+  text-shadow: 0 2px 8px #000;
+}
+.system-card--mutantes .system-card-title { font-family: Impact, "Arial Narrow", sans-serif; letter-spacing: .01em; }
+.system-card:hover { background-color: var(--portal-surface); transform: translateY(-3px); filter: brightness(1.1); box-shadow: 0 12px 32px #0007; }
+.system-card:focus-visible { outline: 3px solid #d4b17e; outline-offset: 3px; }
+.system-card:disabled { cursor: wait; opacity: .72; }
+.system-card:disabled:hover { transform: none; filter: none; box-shadow: none; }
+.signup-submit {
+  border: 1px solid #b79464;
+  background: #b79464;
+  color: #17130f;
+  font-weight: 700;
+}
+.signup-submit:hover { background: #e0c18f; }
+
+.saved-sheets { width: 100%; max-width: 1080px; margin: 0 auto; padding-bottom: 40px; }
+.saved-sheets-heading { display: flex; align-items: end; justify-content: space-between; margin-bottom: 16px; }
+.saved-sheets-heading h2 { margin: 0; font-family: Georgia, "Times New Roman", serif; font-size: 27px; font-weight: 500; }
+.sheet-list { display: grid; gap: 8px; }
+.sheet-card { display: flex; align-items: stretch; border: 1px solid var(--portal-line); border-radius: 6px; background: var(--portal-surface); }
+.sheet-card-link { display: flex; min-width: 0; flex: 1; align-items: center; gap: 15px; padding: 15px 18px; color: var(--portal-ink); text-decoration: none; }
+.sheet-card-link:hover { background: #ffffff08; }
+.sheet-system-icon { display: grid; width: 104px; height: 48px; flex: 0 0 auto; place-items: center; }
+.sheet-system-icon img,
+.sheet-system-icon svg { display: block; width: 100%; height: 100%; object-fit: contain; filter: invert(1); mix-blend-mode: screen; }
+.sheet-card-copy { display: grid; min-width: 0; gap: 4px; }
+.sheet-card-copy strong { overflow: hidden; font-size: 14px; text-overflow: ellipsis; white-space: nowrap; }
+.sheet-card-arrow { margin-left: auto; color: var(--portal-muted); }
+.empty-sheets { display: grid; min-height: 130px; place-content: center; gap: 8px; border: 1px dashed #413d46; border-radius: 6px; color: var(--portal-muted); text-align: center; }
+.empty-sheets span { color: #b79464; font-size: 22px; }
+.empty-sheets p { margin: 0; font-size: 13px; }
+.portal-muted { color: var(--portal-muted); font-size: 13px; }
+.portal-error { max-width: 1080px; margin: -18px auto 24px; color: #e8a4a4; font-size: 13px; }
+.portal-footer { width: 100vw; max-width: none; margin: auto calc(50% - 50vw) 0; padding: 8px 20px; border-top: 1px solid var(--portal-line); color: #716b75; font-size: 11px; line-height: 20px; text-align: center; }
+
+.signup-page { display: grid; min-height: 100vh; place-items: center; padding: 32px 20px; }
+.signup-home { position: absolute; top: 28px; left: clamp(20px, 5vw, 72px); color: var(--portal-muted); font-size: 13px; text-decoration: none; }
+.signup-home:hover { color: var(--portal-ink); }
+.signup-card { width: min(100%, 440px); padding: 34px; border: 1px solid var(--portal-line); border-radius: 8px; background: var(--portal-surface); box-shadow: 0 24px 70px #0006; }
+.signup-mark { width: 42px; height: 42px; margin-bottom: 20px; font-size: 19px; }
+.signup-card h1 { font-size: 37px; }
+.signup-lede { margin: 12px 0 25px; color: var(--portal-muted); font-size: 13px; line-height: 1.5; }
+.signup-form { display: grid; gap: 15px; }
+.signup-form label { display: grid; gap: 7px; color: var(--portal-ink); font-size: 12px; }
+.signup-form label small { color: var(--portal-muted); font-size: 10px; }
+.signup-form input { width: 100%; min-height: 42px; padding: 0 11px; border: 1px solid #45414b; border-radius: 4px; background: #111015; color: var(--portal-ink); font: inherit; }
+.signup-form input:focus { border-color: #b79464; outline: 2px solid #b7946433; }
+.signup-message { min-height: 18px; margin: 0; color: var(--portal-muted); font-size: 12px; line-height: 1.5; }
+.signup-message--error { color: #e8a4a4; }
+.signup-message--success { color: #c3d8b8; }
+.signup-message a { color: #d4b17e; }
+.signup-submit { min-height: 44px; margin-top: 2px; }
+.signup-divider { display: flex; align-items: center; gap: 12px; margin: 18px 0; color: #8e8792; font-size: 11px; }
+.signup-divider::before,
+.signup-divider::after { height: 1px; flex: 1; background: var(--portal-line); content: ""; }
+.signup-google { width: 100%; min-height: 42px; border-color: #4b4651; background: transparent; color: var(--portal-ink); }
+.signup-google:hover { background: #ffffff0d; }
+.signup-login-link { margin: 22px 0 0; color: var(--portal-muted); font-size: 12px; text-align: center; }
+.signup-login-link a { color: #d4b17e; }
+.signup-invite-note { position: absolute; bottom: 15px; color: #716b75; font-size: 10px; }
+
+@media (max-width: 700px) {
+  .system-grid { grid-template-columns: 1fr; margin-bottom: 54px; }
+  .portal-user > span { display: none; }
+  .signup-card { padding: 26px 22px; }
+}
+
+@media print {
+  .toolbar,
+  .toolbar-toggle { display: none !important; }
+}

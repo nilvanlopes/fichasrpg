@@ -46,16 +46,10 @@ services:
       DB_PASSWORD_FILE: /run/secrets/fichasrpg_db_password
       PUBLIC_ORIGIN: https://fichasrpg.nilvanlopes.com
       AUTHENTIK_AUTH_URL: http://authentik-outpost-fichasrpg_proxy:9000/outpost.goauthentik.io/auth/traefik
-      AUTHENTIK_BASE_URL: ${AUTHENTIK_BASE_URL:-https://authentik.nilvanlopes.com}
+      AUTHENTIK_BASE_URL: ${AUTHENTIK_BASE_URL:-https://login-fichasrpg.nilvanlopes.com}
       AUTHENTIK_API_TOKEN: ${AUTHENTIK_API_TOKEN:?execute o deploy carregando as variáveis de autenticação}
-      AUTHENTIK_INVITE_FLOW_SLUG: ${AUTHENTIK_INVITE_FLOW_SLUG:-foundry-enrollment}
-      AUTHENTIK_FICHASRPG_GROUP_NAME: fichasrpg-users
-      AUTHENTIK_FICHASRPG_USER_PATH: users/fichasrpg
-      AUTHENTIK_FOUNDRY_GROUP_NAME: ${AUTHENTIK_FOUNDRY_GROUP_NAME:-foundry-users}
-      AUTHENTIK_GOOGLE_SOURCE_SLUG: ${AUTHENTIK_GOOGLE_SOURCE_SLUG:-google}
+      AUTHENTIK_FICHASRPG_ENROLLMENT_FLOW_SLUG: fichasrpg-enrollment
       AUTHENTIK_FICHASRPG_APP_URL: https://fichasrpg.nilvanlopes.com
-      GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID:-}
-      GOOGLE_CLIENT_SECRET: ${GOOGLE_CLIENT_SECRET:-}
     secrets:
       - source: fichasrpg_db_password
         target: fichasrpg_db_password
