@@ -17,15 +17,12 @@ function PowerInput({ name, label, form, onChange }) {
 function PowerNotes({ number, form, onChange }) {
   return (
     <div className="power-notes">
-      <div className="power-guides" aria-hidden="true">
-        <span /><span /><span />
-      </div>
       <TextField
         name={"poder-" + number + "-descricao"}
         label={"Poder " + number + " descrição"}
         value={form["poder-" + number + "-descricao"]}
         onChange={onChange}
-        className="power-description"
+        className="power-description ruled-textarea"
       />
     </div>
   );

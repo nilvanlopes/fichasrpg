@@ -416,28 +416,25 @@
   background: transparent;
   color: var(--ink);
   font: inherit;
-  line-height: 1.35;
+  line-height: 1.35em;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+:where(.mutantes-root) .ruled-textarea {
+  background-image: repeating-linear-gradient(
+    to bottom,
+    transparent 0,
+    transparent calc(1.35em - 1px),
+    var(--rule) calc(1.35em - 1px),
+    var(--rule) 1.35em
+  );
+  background-position: 0 .3em;
+  background-size: 100% 1.35em;
 }
 :where(.mutantes-root) .power-notes {
-  position: relative;
   min-height: 0;
   overflow: hidden;
 }
-:where(.mutantes-root) .power-guides {
-  position: absolute;
-  inset: .3em .65em auto;
-  z-index: 0;
-  display: grid;
-  grid-template-rows: repeat(3, 1.35em);
-  pointer-events: none;
-}
-:where(.mutantes-root) .power-guides span { border-bottom: 1px solid var(--rule); }
-:where(.mutantes-root) .power-notes .power-description {
-  position: relative;
-  z-index: 1;
-  background: transparent;
-}
-
 :where(.mutantes-root) .feats-panel { grid-template-rows: 22% 10% minmax(0, 1fr); }
 :where(.mutantes-root) .feat-head,
 :where(.mutantes-root) .feat-row {
@@ -707,57 +704,102 @@
 }
 :where(.mutantes-root) .campaign-left {
   display: grid;
-  grid-template-rows: minmax(0, 13fr) minmax(0, 35fr) minmax(0, 29fr) minmax(0, 23fr);
+  grid-template-rows: minmax(0, 10fr) minmax(0, 35fr) minmax(0, 32fr) minmax(0, 23fr);
   gap: .6%;
   min-height: 0;
 }
 :where(.mutantes-root) .campaign-info {
   display: grid;
-  grid-template-rows: 33% minmax(0, 1fr);
+  grid-template-rows: max-content minmax(0, 1fr);
 }
 :where(.mutantes-root) .campaign-info-body {
   display: grid;
-  grid-template-rows: 1fr 1fr 1fr;
+  grid-template-rows: max-content max-content;
+  align-content: start;
+  gap: 2px;
   min-height: 0;
   padding: .2em .6em;
 }
 :where(.mutantes-root) .campaign-info-row {
   display: grid;
-  grid-template-columns: 1.25fr .65fr .55fr;
+  grid-template-columns: 1fr 1fr;
   gap: .7em;
-  align-items: end;
+  align-items: stretch;
   min-width: 0;
 }
-:where(.mutantes-root) .campaign-info-row:nth-child(2) { grid-template-columns: 1fr; }
-:where(.mutantes-root) .campaign-info-row:nth-child(3) { grid-template-columns: 2.1fr .55fr; }
+:where(.mutantes-root) .campaign-info-row:first-child { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) max-content; }
+:where(.mutantes-root) .campaign-info-row:nth-child(2) {
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  row-gap: 2px;
+}
+:where(.mutantes-root) .campaign-info-row:nth-child(2) > label { grid-column: 1 / -1; }
 :where(.mutantes-root) .campaign-info-label {
   display: flex;
   align-items: end;
+  align-self: stretch;
+  min-height: 0;
   min-width: 0;
   white-space: nowrap;
   color: var(--ink-soft);
   font-size: .75em;
   text-transform: uppercase;
 }
-:where(.mutantes-root) .campaign-info-label input { flex: 1; }
+:where(.mutantes-root) .campaign-info-label input {
+  flex: 1;
+  align-self: flex-end;
+  height: 18px;
+  min-height: 0;
+  line-height: 1;
+  box-sizing: border-box;
+}
+:where(.mutantes-root) .campaign-note-label {
+  width: 100%;
+  height: 18px;
+  min-height: 18px;
+  align-self: end;
+  font-family: inherit;
+  font-weight: inherit;
+  line-height: normal;
+  border: 0;
+  padding: 0;
+  background: transparent;
+  text-align: left;
+  cursor: pointer;
+}
+:where(.mutantes-root) .campaign-note-preview {
+  flex: 1;
+  min-width: 0;
+  height: 18px;
+  overflow: hidden;
+  border-bottom: 1px solid var(--rule);
+  padding: 0 .25em;
+  color: var(--ink);
+  font: 400 13.333px Arial, Helvetica, sans-serif;
+  line-height: 18px;
+  text-transform: none;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
 
 :where(.mutantes-root) .writing-panel,
 :where(.mutantes-root) .drawing-panel {
   display: grid;
   grid-template-rows: 17% minmax(0, 1fr);
 }
-:where(.mutantes-root) .line-list {
-  display: grid;
-  min-height: 0;
-  padding: .3em .6em .45em;
-}
-:where(.mutantes-root) .line-entry {
+:where(.mutantes-root) .writing-textarea {
+  display: block;
+  width: 100%;
   height: 100%;
-  padding: 0 .1em;
+  min-height: 0;
+  border: 0;
+  padding: .3em .65em;
+  background-color: transparent;
+  border-bottom: 0;
+  line-height: 1.35em;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  word-break: break-word;
 }
-:where(.mutantes-root) .equipment-lines { grid-template-rows: repeat(15, 1fr) 1.5fr; }
-:where(.mutantes-root) .origin-lines { grid-template-rows: repeat(13, 1fr); }
-:where(.mutantes-root) .disadvantage-lines { grid-template-rows: repeat(8, 1fr); }
 :where(.mutantes-root) .drawing-space {
   width: 100%;
   height: 100%;
@@ -929,16 +971,11 @@
 
   :where(.mutantes-root) .campaign-layout { display: flex; flex-direction: column; gap: 12px; height: auto; }
   :where(.mutantes-root) .campaign-left, :where(.mutantes-root) .campaign-right { display: flex; flex-direction: column; gap: 12px; }
-  :where(.mutantes-root) .campaign-info { min-height: 220px; grid-template-rows: 42px minmax(0, 1fr); }
-  :where(.mutantes-root) .campaign-info-body { gap: 6px; padding: 8px; }
-  :where(.mutantes-root) .campaign-info-row, :where(.mutantes-root) .campaign-info-row:nth-child(3) { grid-template-columns: 1fr; gap: 6px; }
+  :where(.mutantes-root) .campaign-info { min-height: 300px; grid-template-rows: 42px minmax(0, 1fr); }
+  :where(.mutantes-root) .campaign-info-body { gap: 2px; padding: 8px; }
+  :where(.mutantes-root) .campaign-info-row, :where(.mutantes-root) .campaign-info-row:nth-child(2) { grid-template-columns: 1fr; gap: 6px; }
   :where(.mutantes-root) .campaign-info-label { min-height: 34px; font-size: 11px; }
   :where(.mutantes-root) .writing-panel { min-height: 300px; grid-template-rows: 42px minmax(0, 1fr); }
-  :where(.mutantes-root) .equipment-lines { grid-template-rows: repeat(16, minmax(24px, 1fr)); }
-  :where(.mutantes-root) .origin-lines { grid-template-rows: repeat(13, minmax(24px, 1fr)); }
-  :where(.mutantes-root) .disadvantage-lines { grid-template-rows: repeat(8, minmax(24px, 1fr)); }
-  :where(.mutantes-root) .line-list { padding: 6px 10px 10px; }
-  :where(.mutantes-root) .line-entry { min-height: 24px; }
   :where(.mutantes-root) .skills-panel { min-height: 850px; grid-template-rows: 42px max-content minmax(0, 1fr); }
   :where(.mutantes-root) .skills-title { grid-template-columns: minmax(0, 1fr) 120px; gap: 6px; padding-right: 8px; }
   :where(.mutantes-root) .max-ranks { font-size: 9px; }

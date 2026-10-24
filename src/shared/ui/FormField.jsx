@@ -20,6 +20,7 @@ export function TextField({ name, label, value, onChange, className = "" }) {
       className={className}
       data-field={name}
       aria-label={label}
+      wrap="soft"
       value={value ?? ""}
       onChange={(event) => onChange(name, event.target.value, { typing: true, inputType: event.nativeEvent.inputType })}
     />

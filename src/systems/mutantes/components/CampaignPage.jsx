@@ -1,68 +1,79 @@
-import React from "react";
+import React, { useRef } from "react";
 import { skills } from "../data";
 import { LineField, TextField } from "../../../shared/ui/FormField";
+import { SheetNotesDialog } from "../../../shared/sheets/SheetNotesDialog";
 import { BoxField, MiniField } from "./NumericFields";
 
 function CampaignInfo({ form, onChange }) {
+  const heroesNoteRef = useRef(null);
+  const partnersNoteRef = useRef(null);
   return (
-    <section className="panel campaign-info" aria-labelledby="campaign-title">
-      <h1 className="section-title" id="campaign-title">Informações sobre a campanha</h1>
-      <div className="campaign-info-body">
-        <div className="campaign-info-row">
-          <label className="campaign-info-label">
-            Campanha{" "}
-            <LineField name="campanha" label="Campanha" value={form.campanha} onChange={onChange} />
-          </label>
-          <label className="campaign-info-label">
-            Mestre{" "}
-            <LineField name="mestre" label="Mestre" value={form.mestre} onChange={onChange} />
-          </label>
-          <label className="campaign-info-label">
-            Pontos de poder{" "}
-            <LineField name="pontos-poder" label="Pontos de poder" value={form["pontos-poder"]} onChange={onChange} numeric />
-          </label>
+    <>
+      <section className="panel campaign-info" aria-labelledby="campaign-title">
+        <h1 className="section-title" id="campaign-title">Informações sobre a campanha</h1>
+        <div className="campaign-info-body">
+          <div className="campaign-info-row">
+            <label className="campaign-info-label">
+              Campanha{" "}
+              <LineField name="campanha" label="Campanha" value={form.campanha} onChange={onChange} />
+            </label>
+            <label className="campaign-info-label">
+              Mestre{" "}
+              <LineField name="mestre" label="Mestre" value={form.mestre} onChange={onChange} />
+            </label>
+            <label className="campaign-info-label">
+              Pontos de poder{" "}
+              <LineField name="pontos-poder" label="Pontos de poder" value={form["pontos-poder"]} onChange={onChange} numeric />
+            </label>
+          </div>
+          <div className="campaign-info-row">
+            <button className="campaign-info-label campaign-note-label" type="button" onClick={() => heroesNoteRef.current?.showModal()}>
+              <span>Heróis amigos</span>
+              <span className="campaign-note-preview">{form["herois-amigos"] || ""}</span>
+            </button>
+            <button className="campaign-info-label campaign-note-label" type="button" onClick={() => partnersNoteRef.current?.showModal()}>
+              <span>Parceiros ou capangas</span>
+              <span className="campaign-note-preview">{form.parceiros || ""}</span>
+            </button>
+            <label className="campaign-info-label">
+              Arqui-inimigo{" "}
+              <LineField name="arqui-inimigo" label="Arqui-inimigo" value={form["arqui-inimigo"]} onChange={onChange} />
+            </label>
+          </div>
         </div>
-        <div className="campaign-info-row">
-          <label className="campaign-info-label">
-            Heróis amigos{" "}
-            <LineField name="herois-amigos" label="Heróis amigos" value={form["herois-amigos"]} onChange={onChange} />
-          </label>
-        </div>
-        <div className="campaign-info-row">
-          <label className="campaign-info-label">
-            Parceiros ou capangas{" "}
-            <LineField name="parceiros" label="Parceiros ou capangas" value={form.parceiros} onChange={onChange} />
-          </label>
-          <label className="campaign-info-label">
-            Arqui-inimigo{" "}
-            <LineField name="arqui-inimigo" label="Arqui-inimigo" value={form["arqui-inimigo"]} onChange={onChange} />
-          </label>
-        </div>
-      </div>
-    </section>
+      </section>
+      <SheetNotesDialog
+        dialogRef={heroesNoteRef}
+        name="herois-amigos"
+        title="Heróis amigos"
+        value={form["herois-amigos"]}
+        onChange={onChange}
+      />
+      <SheetNotesDialog
+        dialogRef={partnersNoteRef}
+        name="parceiros"
+        title="Parceiros ou capangas"
+        value={form.parceiros}
+        onChange={onChange}
+      />
+    </>
   );
 }
 
 function WritingPanel({ title, prefix, amount, form, onChange, className = "" }) {
+  const legacyLines = Array.from({ length: amount }, (_, index) => form[`${prefix}-${index + 1}`] ?? "");
+  while (legacyLines.length && !String(legacyLines.at(-1)).trim()) legacyLines.pop();
+
   return (
     <section className={"panel writing-panel " + className} aria-label={title}>
       <h2 className="section-title">{title}</h2>
-      <div className={"line-list " + prefix + "-lines"}>
-        {Array.from({ length: amount }, (_, index) => {
-          const number = index + 1;
-          const name = prefix + "-" + number;
-          return (
-            <LineField
-              key={name}
-              name={name}
-              label={title + " linha " + number}
-              value={form[name]}
-              onChange={onChange}
-              className="line-entry"
-            />
-          );
-        })}
-      </div>
+      <TextField
+        name={prefix}
+        label={title}
+        value={form[prefix] ?? legacyLines.join("\n")}
+        onChange={onChange}
+        className="writing-textarea ruled-textarea"
+      />
     </section>
   );
 }
