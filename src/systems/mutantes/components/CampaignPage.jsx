@@ -170,8 +170,9 @@ function SkillsPanel({ form, derived, onChange }) {
           <BoxField
             name="graduacoes-maximas"
             label="Graduações máximas"
-            value={form["graduacoes-maximas"]}
+            value={derived.maxSkillRanks}
             onChange={onChange}
+            readOnly
           />
         </label>
       </div>

@@ -217,6 +217,15 @@
 :where(.mutantes-root) .attack-panel {
   grid-template-rows: min-content minmax(0, 1fr);
 }
+:where(.mutantes-root) .save-panel,
+:where(.mutantes-root) .combat-panel,
+:where(.mutantes-root) .attack-panel { overflow: visible; }
+:where(.mutantes-root) .save-panel:has(.limit-field:hover),
+:where(.mutantes-root) .save-panel:has(.limit-field:focus-within),
+:where(.mutantes-root) .combat-panel:has(.limit-field:hover),
+:where(.mutantes-root) .combat-panel:has(.limit-field:focus-within),
+:where(.mutantes-root) .attack-panel:has(.limit-field:hover),
+:where(.mutantes-root) .attack-panel:has(.limit-field:focus-within) { position: relative; z-index: 25; }
 :where(.mutantes-root) .condition-panel {
   grid-template-rows: min-content minmax(0, 1fr);
 }
@@ -336,6 +345,45 @@
   white-space: nowrap;
   text-transform: uppercase;
 }
+
+:where(.mutantes-root) .limit-field {
+  position: relative;
+  display: inline-flex;
+  min-width: 0;
+  width: 100%;
+  z-index: 1;
+}
+:where(.mutantes-root) .limit-field--invalid .box-input {
+  border: 2px solid #c62828 !important;
+  background: #fff0f0;
+  color: #a20f0f;
+}
+:where(.mutantes-root) .limit-field:hover,
+:where(.mutantes-root) .limit-field:focus-within,
+:where(.mutantes-root) .limit-field--open { z-index: 20; }
+:where(.mutantes-root) .limit-tooltip {
+  position: absolute;
+  left: calc(100% + .55em);
+  top: 50%;
+  display: none;
+  width: max-content;
+  max-width: min(24em, 60vw);
+  padding: .55em .7em;
+  transform: translateY(-50%);
+  border: 1px solid #a20f0f;
+  border-radius: .35em;
+  background: #fff;
+  color: #851111;
+  box-shadow: 0 .2em .7em #0003;
+  font: 500 12px/1.35 Arial, sans-serif;
+  text-transform: none;
+  white-space: normal;
+  z-index: 30;
+  pointer-events: none;
+}
+:where(.mutantes-root) .limit-field:hover .limit-tooltip,
+:where(.mutantes-root) .limit-field:focus-within .limit-tooltip,
+:where(.mutantes-root) .limit-field--open .limit-tooltip { display: block; }
 
 :where(.mutantes-root) .condition-grid,
 :where(.mutantes-root) .fatigue-grid {

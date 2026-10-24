@@ -120,6 +120,22 @@ export function useCalculatedValues(form) {
     const powerPointsUsed = abilityPoints + savePoints + defensePoints + attackPoints + featPoints + skillPoints + powersPoints;
     const powerPointsTotal = Number(form["pontos-poder"] || form["pontos-poder-p2"] || 0);
     const powerLevel = powerPointsTotal > 0 ? Math.floor(powerPointsTotal / 15) : "";
+    const limit = Number(powerLevel || 0) * 2;
+    const makeLimitCheck = (key, label, left, right, leftName, rightName) => {
+      const sum = Number(left || 0) + Number(right || 0);
+      const exceeded = limit > 0 && sum > limit && left !== "" && right !== "";
+      return {
+        key,
+        exceeded,
+        message: `${leftName} (${left}) + ${rightName} (${right}) = ${sum}. O limite para NP ${powerLevel} é ${limit}.`,
+      };
+    };
+    const limitChecks = {
+      defenseResistance: makeLimitCheck("defenseResistance", "Defesa + Resistência", String(defenseHasValue ? numeric(form, "defesa-base") + numeric(form, "defesa-outros") - numeric(form, "defesa-desprevenido") : ""), String(saves.resistencia ?? ""), "Bônus de Defesa", "Resistência"),
+      fortitudeWill: makeLimitCheck("fortitudeWill", "Fortitude + Vontade", String(saves.fortitude ?? ""), String(saves.vontade ?? ""), "Fortitude", "Vontade"),
+      meleeAttackDamage: makeLimitCheck("meleeAttackDamage", "Ataque + Dano corpo a corpo", String(form["ataque-corpo-corpo"] ?? ""), String(form["dano-corpo-corpo"] ?? ""), "Ataque corpo a corpo", "Dano corpo a corpo"),
+      rangedAttackDamage: makeLimitCheck("rangedAttackDamage", "Ataque + Dano à distância", String(form["ataque-distancia"] ?? ""), String(form["dano-distancia"] ?? ""), "Ataque à distância", "Dano à distância"),
+    };
 
     return {
       abilities: calculatedAbilities,
@@ -140,6 +156,8 @@ export function useCalculatedValues(form) {
       powerPointsUsed,
       powerPointsTotal,
       powerLevel,
+      maxSkillRanks: powerLevel === "" ? "" : Number(powerLevel) + 5,
+      limitChecks,
       powerPointBreakdown,
     };
   }, [form]);

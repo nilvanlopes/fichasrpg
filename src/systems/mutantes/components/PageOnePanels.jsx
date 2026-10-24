@@ -1,7 +1,7 @@
 import React from "react";
 import { conditionGroups, fatigueGroups, saveRows } from "../data";
 import { CheckField } from "../../../shared/ui/FormField";
-import { BoxField } from "./NumericFields";
+import { BoxField, LimitBoxField } from "./NumericFields";
 
 export function AbilitiesPanel({ form, derived, onChange }) {
   return (
@@ -70,13 +70,18 @@ export function SavesPanel({ form, derived, onChange }) {
         {saveRows.map(({ key, label, ability }) => (
           <div className="save-row" key={key}>
             <strong className="save-name">{label}</strong>
-            <BoxField
+            {key === "resistencia" || key === "fortitude" || key === "vontade" ? <LimitBoxField
+              name={key + "-total"}
+              label={label + " total"}
+              value={derived.saves[key]}
+              limitInfo={key === "resistencia" ? derived.limitChecks.defenseResistance : derived.limitChecks.fortitudeWill}
+            /> : <BoxField
               name={key + "-total"}
               label={label + " total"}
               value={derived.saves[key]}
               onChange={onChange}
               readOnly
-            />
+            />}
             <BoxField
               name={key + "-base"}
               label={label + " bônus base"}
@@ -113,12 +118,11 @@ export function CombatPanel({ form, derived, onChange }) {
         <div className="combat-rows">
           <div className="combat-row">
             <strong className="combat-name">Defesa</strong>
-            <BoxField
+            <LimitBoxField
               name="defesa-total"
               label="Defesa total"
               value={derived.defense}
-              onChange={onChange}
-              readOnly
+              limitInfo={derived.limitChecks.defenseResistance}
             />
             <span className="operator">= 10 +</span>
             <BoxField name="defesa-base" label="Defesa bônus base" value={form["defesa-base"]} onChange={onChange} />
