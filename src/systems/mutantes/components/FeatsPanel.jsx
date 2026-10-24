@@ -1,6 +1,5 @@
-import React, { useMemo, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { featCatalog } from "../featsCatalog";
-import { LineField } from "../../../shared/ui/FormField";
 
 const featRows = Array.from({ length: 16 }, (_, index) => {
   const number = index + 1;
@@ -34,7 +33,18 @@ export function FeatsPanel({ form, onChange }) {
   const [query, setQuery] = useState("");
   const [catalogView, setCatalogView] = useState("owned");
   const [selectedFeat, setSelectedFeat] = useState(null);
+  const [selectedRanks, setSelectedRanks] = useState(1);
   const [selectedOwnedSlot, setSelectedOwnedSlot] = useState(null);
+
+  useEffect(() => {
+    if (catalogView !== "owned" || !selectedOwnedSlot || !dialogRef.current?.open) return undefined;
+    const frame = requestAnimationFrame(() => {
+      const entry = dialogRef.current?.querySelector(`[data-owned-slot="${selectedOwnedSlot}"]`);
+      entry?.scrollIntoView({ block: "center" });
+      entry?.querySelector(".feat-book-title")?.focus({ preventScroll: true });
+    });
+    return () => cancelAnimationFrame(frame);
+  }, [catalogView, selectedOwnedSlot]);
 
   const normalizeName = (name) => String(name || "")
     .normalize("NFD")
@@ -42,10 +52,41 @@ export function FeatsPanel({ form, onChange }) {
     .trim()
     .toLocaleLowerCase("pt-BR");
 
+  const featSlots = useMemo(() => {
+    const standardSlots = featRows.flatMap(({ slots }) => slots);
+    const extraNumbers = Object.keys(form)
+      .map((name) => name.match(/^feito-extra-(\d+)-nome$/))
+      .filter(Boolean)
+      .map((match) => Number(match[1]));
+    const lastExtra = extraNumbers.length ? Math.max(...extraNumbers) : 0;
+    const extraSlots = Array.from({ length: lastExtra }, (_, index) => {
+      const number = index + 1;
+      return {
+        id: `extra${number}`,
+        nameField: `feito-extra-${number}-nome`,
+        benefitField: `feito-extra-${number}-beneficio`,
+        rankField: `feito-extra-${number}-graduacao`,
+        label: `Feito adicional ${number}`,
+      };
+    });
+    const hasOpenSlot = [...standardSlots, ...extraSlots].some((slot) => !form[slot.nameField]?.trim());
+    if (!hasOpenSlot) {
+      const number = lastExtra + 1;
+      extraSlots.push({
+        id: `extra${number}`,
+        nameField: `feito-extra-${number}-nome`,
+        benefitField: `feito-extra-${number}-beneficio`,
+        rankField: `feito-extra-${number}-graduacao`,
+        label: `Feito adicional ${number}`,
+      });
+    }
+    return [...standardSlots, ...extraSlots];
+  }, [form]);
+
   const ownedFeats = useMemo(
     () => {
       const seen = new Set();
-      return featRows.flatMap(({ slots }) => slots
+      return featSlots
         .filter((slot) => {
           const key = normalizeName(form[slot.nameField]);
           if (!key || seen.has(key)) return false;
@@ -57,14 +98,14 @@ export function FeatsPanel({ form, onChange }) {
           name: form[slot.nameField].trim(),
           feat: featCatalog.find((feat) => normalizeName(feat.name) === normalizeName(form[slot.nameField])),
           ranks: form[slot.rankField] || "1",
-        })))
+        }))
         .sort((left, right) => compareFeatNames(left.name, right.name));
     },
-    [form],
+    [featSlots, form],
   );
 
   const sheetFeatSlots = useMemo(() => {
-    const sortedSlots = featRows.flatMap(({ slots }) => slots)
+    const sortedSlots = [...featSlots]
       .sort((left, right) => {
         const leftName = String(form[left.nameField] || "").trim();
         const rightName = String(form[right.nameField] || "").trim();
@@ -74,7 +115,7 @@ export function FeatsPanel({ form, onChange }) {
       });
 
     return sortedSlots;
-  }, [form]);
+  }, [featSlots, form]);
 
   const filteredFeats = useMemo(() => {
     const normalizedQuery = query.trim().toLocaleLowerCase("pt-BR");
@@ -86,12 +127,12 @@ export function FeatsPanel({ form, onChange }) {
     ).sort((left, right) => compareFeatNames(left.name, right.name));
   }, [query, ownedFeats]);
 
-  const openCatalog = (slot) => {
-    setActiveSlot(slot);
+  const openOwnedFeat = (slot) => {
+    setActiveSlot(null);
     setQuery("");
     setSelectedFeat(null);
-    setSelectedOwnedSlot(null);
-    setCatalogView("catalog");
+    setSelectedOwnedSlot(form[slot.nameField]?.trim() ? slot.id : null);
+    setCatalogView("owned");
     dialogRef.current?.showModal();
   };
 
@@ -119,13 +160,23 @@ export function FeatsPanel({ form, onChange }) {
   };
 
   const chooseFeat = (feat) => {
-    const slot = activeSlot || featRows.flatMap(({ slots }) => slots)
+    const slot = activeSlot || featSlots
       .find(({ nameField }) => !form[nameField]?.trim() || normalizeName(form[nameField]) === normalizeName(feat.name));
     if (!slot) return;
     onChange(slot.nameField, feat.name);
     onChange(slot.benefitField, feat.benefit);
-    onChange(slot.rankField, "1");
+    onChange(slot.rankField, String(selectedRanks));
     closeCatalog();
+  };
+
+  const toggleCatalogFeat = (feat) => {
+    if (selectedFeat === feat.name) {
+      setSelectedFeat(null);
+      setSelectedRanks(1);
+    } else {
+      setSelectedFeat(feat.name);
+      setSelectedRanks(1);
+    }
   };
 
   return (
@@ -149,16 +200,13 @@ export function FeatsPanel({ form, onChange }) {
                 data-field={slot.nameField}
                 aria-label={`${slot.label}: ${form[slot.nameField] || "abrir catálogo de feitos"}`}
                 aria-haspopup="dialog"
-                onClick={() => openCatalog(slot)}
+                onClick={() => openOwnedFeat(slot)}
               >
                 {form[slot.nameField] || <span className="feat-placeholder">Escolher feito</span>}
               </button>
-              <LineField
-                name={slot.benefitField}
-                label={`${slot.label} benefício`}
-                value={form[slot.benefitField]}
-                onChange={onChange}
-              />
+              <div className="feat-benefit" aria-label={`${slot.label} benefício`}>
+                {form[slot.benefitField] || ""}
+              </div>
             </div>
           ))}
         </div>
@@ -175,6 +223,21 @@ export function FeatsPanel({ form, onChange }) {
       >
         <div className="feat-catalog-header">
           <div className="feat-catalog-title-group">
+            {catalogView === "catalog" && (
+              <button
+                className="feat-catalog-back"
+                type="button"
+                aria-label="Voltar para feitos do personagem"
+                title="Voltar"
+                onClick={() => {
+                  setCatalogView("owned");
+                  setActiveSlot(null);
+                  setSelectedFeat(null);
+                  setSelectedRanks(1);
+                  setQuery("");
+                }}
+              >←</button>
+            )}
             <div>
               <p className="feat-catalog-eyebrow">Mutantes &amp; Malfeitores</p>
               <h2 id="feat-catalog-title">{catalogView === "owned" ? "Feitos" : "Adicionar feito"}</h2>
@@ -225,6 +288,7 @@ export function FeatsPanel({ form, onChange }) {
               <article
                 className={`feat-book-entry feat-book-entry--selectable${selectedOwnedSlot === slot.id ? " is-selected" : ""}`}
                 key={slot.id}
+                data-owned-slot={slot.id}
                 onClick={() => setSelectedOwnedSlot(selectedOwnedSlot === slot.id ? null : slot.id)}
               >
                 <button
@@ -253,14 +317,14 @@ export function FeatsPanel({ form, onChange }) {
               <article
                 className={`feat-book-entry feat-book-entry--selectable${selectedFeat === feat.name ? " is-selected" : ""}`}
                 key={feat.name}
-                onClick={() => setSelectedFeat(selectedFeat === feat.name ? null : feat.name)}
+                onClick={() => toggleCatalogFeat(feat)}
               >
                 <button
                   className="feat-book-title"
                   type="button"
                   onClick={(event) => {
                     event.stopPropagation();
-                    setSelectedFeat(selectedFeat === feat.name ? null : feat.name);
+                    toggleCatalogFeat(feat);
                   }}
                   aria-expanded={selectedFeat === feat.name}
                   aria-label={`Ver opções para ${feat.name}`}
@@ -273,6 +337,16 @@ export function FeatsPanel({ form, onChange }) {
                 <p>{feat.description}</p>
                 {selectedFeat === feat.name && (
                   <div className="feat-add-tray">
+                    {feat.ranks > 1 && (
+                      <div className="feat-rank-picker" onClick={(event) => event.stopPropagation()}>
+                        <span>Graduações</span>
+                        <button type="button" aria-label="Diminuir graduações" disabled={selectedRanks <= 1}
+                          onClick={() => setSelectedRanks((ranks) => Math.max(1, ranks - 1))}>−</button>
+                        <output aria-live="polite">{selectedRanks}</output>
+                        <button type="button" aria-label="Aumentar graduações" disabled={selectedRanks >= feat.ranks}
+                          onClick={() => setSelectedRanks((ranks) => Math.min(feat.ranks, ranks + 1))}>+</button>
+                      </div>
+                    )}
                     <span className="feat-page-label">Livro básico · p. {feat.page}</span>
                     <button
                       className="feat-add-confirm"

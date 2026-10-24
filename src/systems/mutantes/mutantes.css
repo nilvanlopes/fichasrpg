@@ -450,18 +450,18 @@
   text-transform: uppercase;
 }
 :where(.mutantes-root) .feat-row { min-height: 0; }
-:where(.mutantes-root) .feat-row input {
+:where(.mutantes-root) .feat-benefit {
+  display: flex;
+  align-items: center;
   width: 100%;
   min-width: 0;
   height: 100%;
   overflow: hidden;
-  border: 0;
   border-bottom: 1px solid var(--rule);
-  border-radius: 0;
-  background: transparent;
   font-size: .78em;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  line-height: 1.35em;
+  white-space: normal;
+  overflow-wrap: anywhere;
 }
 :where(.mutantes-root) .feat-rows {
   display: grid;
@@ -524,6 +524,17 @@
   align-items: center;
   gap: 18px;
   min-width: 0;
+}
+:where(.mutantes-root) .feat-catalog-back {
+  flex: 0 0 auto;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border: 1px solid #b5b5b6;
+  border-radius: 50%;
+  background: #fff;
+  color: #292a2e;
+  font: 24px/1 Arial, sans-serif;
 }
 :where(.mutantes-root) .feat-catalog-eyebrow {
   margin: 0 0 4px;
@@ -680,6 +691,28 @@
   text-align: right;
   text-transform: uppercase;
 }
+:where(.mutantes-root) .feat-rank-picker {
+  position: absolute;
+  left: 13px;
+  top: 50%;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transform: translateY(-50%);
+  font: 700 12px Arial, sans-serif;
+}
+:where(.mutantes-root) .feat-rank-picker button {
+  width: 25px;
+  height: 25px;
+  padding: 0;
+  border: 1px solid #8a8b8e;
+  background: #fff;
+  color: #292a2e;
+  font-size: 18px;
+  line-height: 1;
+}
+:where(.mutantes-root) .feat-rank-picker button:disabled { opacity: .45; }
+:where(.mutantes-root) .feat-rank-picker output { min-width: 1.5em; text-align: center; }
 :where(.mutantes-root) .feat-add-confirm {
   flex: 0 0 auto;
   border-color: #2d2f37;
