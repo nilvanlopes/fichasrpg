@@ -104,11 +104,24 @@ function SkillsPanel({ form, derived, onChange }) {
         <span>Outros</span>
       </div>
       <div className="skills-list">
-        {skills.map(([label, ability], index) => {
+        {skills.map(([label, ability, specialization], index) => {
           const number = index + 1;
+          const specialtyField = `skill-${number}-specialty`;
           return (
             <div className="skill-row" key={number}>
-              <span className="skill-name">{label}</span>
+              {specialization ? (
+                <input
+                  className="skill-name skill-specialty"
+                  name={specialtyField}
+                  data-field={specialtyField}
+                  aria-label={`${specialization} ${index + 1} especialização`}
+                  title={`Especifique ${specialization.toLocaleLowerCase("pt-BR")}`}
+                  placeholder={specialization}
+                  spellCheck={false}
+                  value={form[specialtyField] ?? ""}
+                  onChange={(event) => onChange(specialtyField, event.target.value, { typing: true, inputType: event.nativeEvent.inputType })}
+                />
+              ) : <span className="skill-name">{label}</span>}
               <MiniField name={"skill-" + number + "-bonus"} label={"Bônus " + label} value={derived.skillBonuses[index]} onChange={onChange} readOnly />
               <span className="operator">=</span>
               <MiniField name={"skill-" + number + "-rank"} label={"Graduação " + label} value={form["skill-" + number + "-rank"]} onChange={onChange} />

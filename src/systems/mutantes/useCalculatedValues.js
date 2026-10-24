@@ -57,8 +57,6 @@ export function useCalculatedValues(form) {
       const number = index + 1;
       const rankName = "skill-" + number + "-rank";
       const otherName = "skill-" + number + "-other";
-      const hasValue = filled(form, rankName) || filled(form, otherName);
-      if (!hasValue) return "";
       const abilityKey = { FOR: "for", DES: "des", CON: "con", INT: "int", SAB: "sab", CAR: "car" }[ability];
       const abilityModifier = abilityKey ? Number(calculatedAbilities[abilityKey].mod || 0) : 0;
       return numeric(form, rankName) + numeric(form, otherName) + abilityModifier;

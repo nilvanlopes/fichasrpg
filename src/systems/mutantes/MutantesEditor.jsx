@@ -9,7 +9,7 @@ export function MutantesEditor({ sheet }) {
   const derived = useCalculatedValues(sheet.form);
   return (
     <SheetEditorLayout sheet={sheet} system="mutantes">
-      <main className="mutantes-root sheets">
+      <main className="mutantes-root sheets" spellCheck={false}>
         <CharacterPage form={sheet.form} derived={derived} onChange={sheet.onChange} />
         <CampaignPage form={sheet.form} derived={derived} onChange={sheet.onChange} />
       </main>
