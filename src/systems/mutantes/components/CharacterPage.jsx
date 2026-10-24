@@ -12,12 +12,12 @@ import {
 import { FeatsPanel } from "./FeatsPanel";
 import { PowersPanel } from "./PowersPanel";
 
-export function CharacterPage({ form, derived, onChange }) {
+export function CharacterPage({ form, derived, onChange, onOpenPointsBreakdown }) {
   return (
     <section className="sheet-page page-one" aria-labelledby="abilities-title">
       <GameLogo />
       <div className="page-one-content">
-        <IdentitySection form={form} onChange={onChange} />
+        <IdentitySection form={form} derived={derived} onChange={onChange} onOpenPointsBreakdown={onOpenPointsBreakdown} />
 
         <div className="page-one-middle">
           <div className="page-one-left">

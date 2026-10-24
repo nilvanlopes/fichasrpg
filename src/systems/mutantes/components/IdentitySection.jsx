@@ -1,22 +1,56 @@
 import React from "react";
 import { CheckField, LineField } from "../../../shared/ui/FormField";
 
-function IdentityLabel({ children, name, label, form, onChange, numeric = false, className = "" }) {
+function formatPoints(points) {
+  return String(Number(points.toFixed(2)))
+    .replace(/\.5$/, ",5")
+    .replace(/\.25$/, ",25")
+    .replace(/\.75$/, ",75");
+}
+
+function IdentityLabel({ children, name, label, form, onChange, numeric = false, calculated = false, value, className = "", onClick }) {
+  const compactField = ["power-level-field", "power-points-field"].includes(className);
+  const valueWidth = String(value ?? "").length + (className === "power-points-field" ? 0.7 : 2);
+  const Wrapper = onClick ? "div" : "label";
   return (
-    <label className={"identity-label " + className}>
-      {children}
-      <LineField
-        name={name}
-        label={label}
-        value={form[name]}
-        onChange={onChange}
-        numeric={numeric}
-      />
-    </label>
+    <Wrapper
+      className={"identity-label " + className}
+      onClick={onClick}
+      onKeyDown={onClick ? (event) => {
+        if (event.key === "Enter" || event.key === " ") {
+          event.preventDefault();
+          onClick();
+        }
+      } : undefined}
+      role={onClick ? "button" : undefined}
+      tabIndex={onClick ? 0 : undefined}
+      aria-haspopup={onClick ? "dialog" : undefined}
+    >
+      {compactField ? <span className="identity-label-caption">{children}</span> : children}
+      {calculated ? (
+        <input
+          className="line-input"
+          aria-label={label}
+          value={value ?? ""}
+          style={compactField
+            ? { width: `${valueWidth}ch`, flex: "0 0 auto" }
+            : undefined}
+          readOnly
+        />
+      ) : (
+        <LineField
+          name={name}
+          label={label}
+          value={form[name]}
+          onChange={onChange}
+          numeric={numeric}
+        />
+      )}
+    </Wrapper>
   );
 }
 
-export function IdentitySection({ form, onChange }) {
+export function IdentitySection({ form, derived, onChange, onOpenPointsBreakdown }) {
   return (
     <section className="identity" aria-label="Identidade do personagem">
       <div className="identity-row two">
@@ -89,20 +123,22 @@ export function IdentitySection({ form, onChange }) {
           name="nivel-poder"
           label="Nível de poder"
           form={form}
-          onChange={onChange}
-          numeric
+          calculated
+          value={derived.powerLevel}
+          className="power-level-field"
         >
           Nível de Poder{" "}
         </IdentityLabel>
         <IdentityLabel
           name="pontos-poder-p2"
-          label="Pontos de poder"
+          label="Pontos de poder gastos e total"
           form={form}
-          onChange={onChange}
-          numeric
+          calculated
+          value={`${formatPoints(derived.powerPointsUsed)}/${formatPoints(derived.powerPointsTotal)}`}
           className="power-points-field"
+          onClick={onOpenPointsBreakdown}
         >
-          Pontos de Poder{" "}
+          Pontos de poder{" "}
         </IdentityLabel>
         <IdentityLabel name="tamanho" label="Tamanho" form={form} onChange={onChange} numeric>
           Tamanho{" "}
@@ -128,7 +164,6 @@ export function IdentitySection({ form, onChange }) {
         <IdentityLabel name="cabelo" label="Cabelo" form={form} onChange={onChange}>
           Cabelo{" "}
         </IdentityLabel>
-        <span aria-hidden="true" />
       </div>
     </section>
   );

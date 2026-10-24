@@ -148,7 +148,19 @@
 }
 
 :where(.mutantes-root) .identity-row.two { grid-template-columns: 1fr 1fr; }
-:where(.mutantes-root) .identity-row.five { grid-template-columns: 1.05fr 1.5fr .9fr .65fr .65fr; }
+:where(.mutantes-root) .identity-row.five {
+  grid-template-columns: max-content max-content minmax(0, 1.35fr) minmax(0, .85fr) minmax(0, .7fr);
+  gap: .35em;
+}
+:where(.mutantes-root) .identity-row.five > .identity-label { min-width: 0; }
+:where(.mutantes-root) .identity-row.five > .identity-label.power-points-field { width: max-content; }
+:where(.mutantes-root) .identity-label-caption { flex: 0 0 auto; }
+:where(.mutantes-root) .identity-label.power-level-field .identity-label-caption {
+  width: auto;
+  font-size: .72em;
+  white-space: nowrap;
+  line-height: .95;
+}
 :where(.mutantes-root) .identity-row.appearance-row { grid-template-columns: 1fr 1fr 1fr 1.35fr; }
 :where(.mutantes-root) .identity-label {
   display: flex;
@@ -159,6 +171,8 @@
   font-size: 1.02em;
 }
 :where(.mutantes-root) .identity-label > .line-input { flex: 1; }
+:where(.mutantes-root) .identity-label.power-points-field[role="button"] { cursor: pointer; }
+:where(.mutantes-root) .identity-label.power-points-field[role="button"]:focus-visible { outline: 1px solid var(--focus); outline-offset: 1px; }
 :where(.mutantes-root) .identity-checks {
   display: flex;
   align-items: center;
@@ -357,7 +371,7 @@
 :where(.mutantes-root) .power-head,
 :where(.mutantes-root) .power-fields {
   display: grid;
-  grid-template-columns: minmax(8em, 2.2fr) .55fr .55fr .65fr .78fr;
+  grid-template-columns: minmax(8em, 2.2fr) .55fr .55fr .55fr .65fr .78fr;
   gap: .25em;
   align-items: center;
   padding: 0 .32em;
@@ -785,6 +799,91 @@
   line-height: 1;
   box-sizing: border-box;
 }
+:where(.mutantes-root) .campaign-info-label.power-points-total-label {
+  position: relative;
+  width: max-content;
+  max-width: 100%;
+  justify-self: start;
+  gap: .15em;
+}
+:where(.mutantes-root) .campaign-info-label.power-points-total-label > .power-points-used { padding-left: .3em; }
+:where(.mutantes-root) .campaign-info-label.power-points-total-label > .power-points-used {
+  min-width: 0;
+  text-align: right;
+  font-weight: 400;
+}
+:where(.mutantes-root) .campaign-info-label.power-points-total-label > input {
+  min-width: 0;
+  font: 400 13.333px/1 Arial, Helvetica, sans-serif;
+}
+:where(.mutantes-root) .mutantes-points-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.mutantes-points-adder {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto auto;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 16px;
+  border-bottom: 1px solid var(--rule);
+  background: var(--paper);
+  color: var(--ink);
+  font: 12px/1.2 Arial, Helvetica, sans-serif;
+  text-transform: none;
+}
+.mutantes-points-stepper { display: grid; grid-template-columns: 28px 58px 28px; gap: 3px; }
+.mutantes-points-stepper button,
+.mutantes-points-add-confirm {
+  min-height: 28px;
+  border: 1px solid var(--rule);
+  padding: 3px 8px;
+  background: var(--paper);
+  color: var(--ink);
+  cursor: pointer;
+}
+.mutantes-points-stepper input {
+  width: 58px;
+  height: 28px;
+  flex: 0 0 58px;
+  min-width: 0;
+  border: 1px solid var(--rule);
+  padding: 3px;
+  background: var(--paper);
+  text-align: center;
+}
+.mutantes-points-add-confirm { justify-self: end; }
+:where(.mutantes-root) .power-points-used {
+  padding-left: .35em;
+  font-weight: 700;
+  color: var(--ink);
+}
+:where(.mutantes-root) .points-breakdown-trigger {
+  display: inline-flex;
+  align-items: center;
+  width: auto;
+  flex: 0 0 auto;
+  height: 1.35em;
+  position: relative;
+  top: 1px;
+  box-sizing: border-box;
+  border-top: 0;
+  border-right: 0;
+  border-left: 0;
+  padding: 0 .1em;
+  background: transparent;
+  color: var(--ink);
+  font: 400 13.333px/1 Arial, Helvetica, sans-serif;
+  text-transform: none;
+  text-align: right;
+  cursor: pointer;
+}
+:where(.mutantes-root) .campaign-info-label.power-points-total-label { cursor: pointer; }
+:where(.mutantes-root) .campaign-info-label.power-points-total-label:focus-visible {
+  outline: 1px solid var(--focus);
+  outline-offset: 1px;
+}
 :where(.mutantes-root) .campaign-note-label {
   width: 100%;
   height: 18px;
@@ -813,6 +912,61 @@
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+.mutantes-points-dialog {
+  width: min(620px, calc(100vw - 32px));
+  max-height: min(80dvh, 760px);
+  padding: 0;
+  overflow: auto;
+  border: 1px solid var(--rule);
+  background: var(--paper);
+  color: var(--ink);
+  box-shadow: 0 24px 70px #0005;
+}
+.mutantes-points-dialog::backdrop { background: #0007; }
+.mutantes-points-dialog > header {
+  position: sticky;
+  top: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--rule);
+  background: var(--paper);
+}
+.mutantes-points-header-title,
+.mutantes-points-header-actions { display: flex; align-items: center; gap: 8px; }
+.mutantes-points-header-title { margin-right: auto; }
+.mutantes-points-dialog h2 { margin: 0; font-size: 20px; }
+.mutantes-points-dialog > header :is(.mutantes-points-header-title button, .mutantes-points-header-actions button) {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border: 1px solid var(--rule);
+  background: var(--paper);
+  color: var(--ink);
+  font-size: 24px;
+  line-height: 1;
+  padding: 0;
+}
+.mutantes-points-breakdown { padding: 8px 16px 16px; }
+.mutantes-points-breakdown details { padding: 8px 0; border-bottom: 1px solid var(--rule); }
+.mutantes-points-breakdown summary { display: flex; align-items: center; gap: 8px; cursor: pointer; list-style: none; }
+.mutantes-points-breakdown summary::-webkit-details-marker { display: none; }
+.mutantes-points-breakdown summary::after { content: "+"; color: var(--ink-soft); font-size: 18px; }
+.mutantes-points-breakdown details[open] summary::after { content: "−"; }
+.mutantes-points-breakdown summary h3 { flex: 1; }
+.mutantes-points-breakdown h3,
+.mutantes-points-breakdown li,
+.mutantes-points-total { display: flex; justify-content: space-between; gap: 16px; margin: 0; }
+.mutantes-points-breakdown h3 { font-size: 15px; }
+.mutantes-points-breakdown ul { display: grid; gap: 4px; margin: 6px 0 0; padding: 0; list-style: none; }
+.mutantes-points-breakdown li,
+.mutantes-points-breakdown details > p { font-size: 13px; }
+.mutantes-points-breakdown details > p { margin: 6px 0 0; color: var(--ink-soft); }
+.mutantes-points-breakdown :is(h3, li, .mutantes-points-total) strong { flex: 0 0 auto; }
+.mutantes-points-total { padding-top: 12px; font-size: 17px; }
 
 :where(.mutantes-root) .writing-panel,
 :where(.mutantes-root) .drawing-panel {
@@ -1004,7 +1158,7 @@
   :where(.mutantes-root) .condition-name, :where(.mutantes-root) .fatigue-name { font-size: 11px; }
   :where(.mutantes-root) .condition-checks { gap: 8px; }
   :where(.mutantes-root) .powers-panel { grid-template-rows: 42px 34px minmax(0, 1fr); }
-  :where(.mutantes-root) .power-head, :where(.mutantes-root) .power-fields { grid-template-columns: minmax(0, 2fr) .55fr .55fr .65fr .78fr; gap: 4px; padding-inline: 7px; }
+  :where(.mutantes-root) .power-head, :where(.mutantes-root) .power-fields { grid-template-columns: minmax(0, 2fr) .55fr .55fr .55fr .65fr .78fr; gap: 4px; padding-inline: 7px; }
   :where(.mutantes-root) .power-head { font-size: 9px; }
   :where(.mutantes-root) .power-list { grid-template-rows: repeat(7, minmax(92px, auto)); }
   :where(.mutantes-root) .power-card { grid-template-rows: 28px minmax(60px, 1fr); margin-bottom: 5px; }

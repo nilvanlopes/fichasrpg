@@ -1,13 +1,14 @@
 import React from "react";
 import "./form-fields.css";
 
-export function LineField({ name, label, value, onChange, className = "", numeric = false }) {
+export function LineField({ name, label, value, onChange, className = "", numeric = false, style }) {
   return (
     <input
       className={("line-input " + className).trim()}
       data-field={name}
       aria-label={label}
       inputMode={numeric ? "numeric" : undefined}
+      style={style}
       value={value ?? ""}
       onChange={(event) => onChange(name, event.target.value, { typing: true, inputType: event.nativeEvent.inputType })}
     />

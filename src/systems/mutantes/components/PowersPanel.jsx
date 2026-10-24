@@ -35,6 +35,7 @@ export function PowersPanel({ form, onChange }) {
       <div className="power-head">
         <span>Nome</span>
         <span>Graduação</span>
+        <span>Custo</span>
         <span>Ação</span>
         <span>Alcance</span>
         <span>Duração</span>
@@ -52,6 +53,7 @@ export function PowersPanel({ form, onChange }) {
                 />
               </label>
               <PowerInput name={"poder-" + number + "-graduacao"} label={"Poder " + number + " graduação"} form={form} onChange={onChange} />
+              <PowerInput name={"poder-" + number + "-custo"} label={"Poder " + number + " custo"} form={form} onChange={onChange} />
               <PowerInput name={"poder-" + number + "-acao"} label={"Poder " + number + " ação"} form={form} onChange={onChange} />
               <PowerInput name={"poder-" + number + "-alcance"} label={"Poder " + number + " alcance"} form={form} onChange={onChange} />
               <PowerInput name={"poder-" + number + "-duracao"} label={"Poder " + number + " duração"} form={form} onChange={onChange} />

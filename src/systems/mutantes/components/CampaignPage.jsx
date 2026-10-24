@@ -1,12 +1,18 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import { skills } from "../data";
 import { LineField, TextField } from "../../../shared/ui/FormField";
 import { SheetNotesDialog } from "../../../shared/sheets/SheetNotesDialog";
 import { BoxField, MiniField } from "./NumericFields";
 
-function CampaignInfo({ form, onChange }) {
+function CampaignInfo({ form, derived, onChange, pointsBreakdownRef }) {
   const heroesNoteRef = useRef(null);
   const partnersNoteRef = useRef(null);
+  const [showPointAdder, setShowPointAdder] = useState(false);
+  const [pointsToAdd, setPointsToAdd] = useState("1");
+  const used = Number(derived.powerPointsUsed.toFixed(2));
+  const formatPoints = (points) => String(points).replace(/\.5$/, ",5").replace(/\.25$/, ",25").replace(/\.75$/, ",75");
+  const usedText = formatPoints(used);
+  const totalPoints = form["pontos-poder"] || form["pontos-poder-p2"] || "";
   return (
     <>
       <section className="panel campaign-info" aria-labelledby="campaign-title">
@@ -21,10 +27,32 @@ function CampaignInfo({ form, onChange }) {
               Mestre{" "}
               <LineField name="mestre" label="Mestre" value={form.mestre} onChange={onChange} />
             </label>
-            <label className="campaign-info-label">
-              Pontos de poder{" "}
-              <LineField name="pontos-poder" label="Pontos de poder" value={form["pontos-poder"]} onChange={onChange} numeric />
-            </label>
+            <div
+              className="campaign-info-label power-points-total-label"
+              role="group"
+              tabIndex={0}
+              aria-label={`Pontos de poder: ${usedText} usados de ${totalPoints || "total não definido"}. Abrir detalhamento por campo`}
+              aria-haspopup="dialog"
+              onClick={() => pointsBreakdownRef.current?.showModal()}
+              onKeyDown={(event) => {
+                if (event.target === event.currentTarget && (event.key === "Enter" || event.key === " ")) {
+                  event.preventDefault();
+                  pointsBreakdownRef.current?.showModal();
+                }
+              }}
+            >
+              <span>Pontos de poder</span>
+              <span className="line-input power-points-used points-breakdown-trigger">{usedText}</span>
+              <span aria-hidden="true">/</span>
+              <LineField
+                name="pontos-poder"
+                label="Pontos de poder totais"
+                value={totalPoints}
+                onChange={onChange}
+                numeric
+                style={{ width: `${String(totalPoints).length + 1}ch`, flex: "0 0 auto" }}
+              />
+            </div>
           </div>
           <div className="campaign-info-row">
             <button className="campaign-info-label campaign-note-label" type="button" onClick={() => heroesNoteRef.current?.showModal()}>
@@ -56,6 +84,60 @@ function CampaignInfo({ form, onChange }) {
         value={form.parceiros}
         onChange={onChange}
       />
+      <dialog ref={pointsBreakdownRef} className="mutantes-points-dialog" aria-labelledby="mutantes-points-title">
+        <header>
+          <div className="mutantes-points-header-title">
+            <h2 id="mutantes-points-title">Pontos de poder</h2>
+            <button
+              type="button"
+              aria-label="Adicionar ou remover pontos de poder"
+              aria-expanded={showPointAdder}
+              aria-controls="mutantes-points-adder"
+              onClick={() => setShowPointAdder((open) => !open)}
+            >+</button>
+          </div>
+          <div className="mutantes-points-header-actions">
+            <button type="button" onClick={() => pointsBreakdownRef.current?.close()} aria-label="Fechar detalhamento">×</button>
+          </div>
+        </header>
+        {showPointAdder && <div className="mutantes-points-adder" id="mutantes-points-adder">
+          <label htmlFor="mutantes-points-to-add">Quantidade</label>
+          <div className="mutantes-points-stepper">
+            <button type="button" aria-label="Diminuir quantidade" onClick={() => setPointsToAdd(String((Number(pointsToAdd) || 0) - 1))}>−</button>
+            <input
+              id="mutantes-points-to-add"
+              type="number"
+              step="1"
+              value={pointsToAdd}
+              onChange={(event) => setPointsToAdd(event.target.value)}
+            />
+            <button type="button" aria-label="Aumentar quantidade" onClick={() => setPointsToAdd(String((Number(pointsToAdd) || 0) + 1))}>+</button>
+          </div>
+          <button
+            className="mutantes-points-add-confirm"
+            type="button"
+            onClick={() => {
+              const amount = Math.trunc(Number(pointsToAdd) || 0);
+              onChange("pontos-poder", String((Number(totalPoints) || 0) + amount));
+              setPointsToAdd("1");
+              setShowPointAdder(false);
+            }}
+          >Adicionar</button>
+        </div>}
+        <div className="mutantes-points-breakdown">
+          {derived.powerPointBreakdown.map((group) => (
+            <details key={group.label}>
+              <summary><h3><span>{group.label}</span><strong>{formatPoints(group.points)} PP</strong></h3></summary>
+              {group.entries.length ? (
+                <ul>{group.entries.map((entry, index) => (
+                  <li key={`${entry.label}-${index}`}><span>{entry.label}</span><strong>{formatPoints(entry.points)} PP</strong></li>
+                ))}</ul>
+              ) : <p>Sem pontos gastos nesta categoria.</p>}
+            </details>
+          ))}
+          <p className="mutantes-points-total"><span>Total usado</span><strong>{usedText} PP</strong></p>
+        </div>
+      </dialog>
     </>
   );
 }
@@ -137,12 +219,12 @@ function SkillsPanel({ form, derived, onChange }) {
   );
 }
 
-export function CampaignPage({ form, derived, onChange }) {
+export function CampaignPage({ form, derived, onChange, pointsBreakdownRef }) {
   return (
     <section className="sheet-page page-two" aria-labelledby="campaign-title">
       <div className="campaign-layout">
         <div className="campaign-left">
-          <CampaignInfo form={form} onChange={onChange} />
+          <CampaignInfo form={form} derived={derived} onChange={onChange} pointsBreakdownRef={pointsBreakdownRef} />
           <WritingPanel title="Equipamento" prefix="equipment" amount={16} form={form} onChange={onChange} />
           <WritingPanel title="Origem" prefix="origin" amount={13} form={form} onChange={onChange} />
           <WritingPanel title="Desvantagens & Complicações" prefix="disadvantage" amount={8} form={form} onChange={onChange} />
