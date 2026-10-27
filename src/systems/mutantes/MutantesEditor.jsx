@@ -13,7 +13,8 @@ export function MutantesEditor({ sheet }) {
     <SheetEditorLayout sheet={sheet} system="mutantes">
       <main className="mutantes-root sheets" spellCheck={false}>
         <CharacterPage form={sheet.form} derived={derived} onChange={sheet.onChange} onOpenPointsBreakdown={openPointsBreakdown} />
-        <CampaignPage form={sheet.form} derived={derived} onChange={sheet.onChange} pointsBreakdownRef={pointsBreakdownRef} />
+        <CampaignPage form={sheet.form} derived={derived} sheetId={sheet.sheet?.id} user={sheet.user}
+          saving={sheet.saving} saveSheet={sheet.save} onChange={sheet.onChange} pointsBreakdownRef={pointsBreakdownRef} />
       </main>
     </SheetEditorLayout>
   );

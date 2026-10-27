@@ -54,6 +54,18 @@ serviço de API carrega desse arquivo as configurações de cadastro e OAuth; a
 interface Vite encaminha `/api` para essa API. A URL local é
 `http://fichasrpg.localnetwork`.
 
+O campo “Desenho do personagem” usa o Floci em uma rede Swarm privada. Prepare
+o bucket antes de publicar uma versão que inclua upload de desenhos:
+
+```bash
+make deploy-floci
+make setup-floci-drawings
+make deploy-fichasrpg
+```
+
+O bucket de desenhos não tem leitura pública. A API autentica cada leitura,
+upload e remoção e verifica se a ficha pertence à conta da sessão.
+
 ## Cadastro e sessão
 
 O cadastro aberto fica em `/cadastro`, também acessível pelo link Cadastre-se

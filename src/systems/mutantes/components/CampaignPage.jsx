@@ -3,6 +3,7 @@ import { skills } from "../data";
 import { LineField, TextField } from "../../../shared/ui/FormField";
 import { SheetNotesDialog } from "../../../shared/sheets/SheetNotesDialog";
 import { BoxField, MiniField } from "./NumericFields";
+import { DrawingField } from "./DrawingField.jsx";
 
 function CampaignInfo({ form, derived, onChange, pointsBreakdownRef }) {
   const heroesNoteRef = useRef(null);
@@ -220,7 +221,7 @@ function SkillsPanel({ form, derived, onChange }) {
   );
 }
 
-export function CampaignPage({ form, derived, onChange, pointsBreakdownRef }) {
+export function CampaignPage({ form, derived, sheetId, user, saving, saveSheet, onChange, pointsBreakdownRef }) {
   return (
     <section className="sheet-page page-two" aria-labelledby="campaign-title">
       <div className="campaign-layout">
@@ -234,13 +235,8 @@ export function CampaignPage({ form, derived, onChange, pointsBreakdownRef }) {
           <SkillsPanel form={form} derived={derived} onChange={onChange} />
           <section className="panel drawing-panel" aria-labelledby="drawing-title">
             <h2 className="section-title" id="drawing-title">Desenho do personagem</h2>
-            <TextField
-              name="desenho"
-              label="Desenho do personagem"
-              value={form.desenho}
-              onChange={onChange}
-              className="drawing-space"
-            />
+            <DrawingField sheetId={sheetId} user={user} saving={saving} saveSheet={saveSheet}
+              value={form.desenho} onChange={onChange} />
           </section>
         </div>
       </div>

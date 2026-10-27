@@ -77,6 +77,7 @@ export function useRpgSheet(sheetId, system) {
       const dirty = history.current.dirty;
       patch({ sheet: { ...snapshot.sheet, ...sheet }, revision: sheet.revision, saving: false,
         dirty, legacy: null, status: "" });
+      return sheet;
     } catch (error) {
       if (!mounted.current || version !== generation.current) return;
       if (["LOGIN_REQUIRED", "ACCESS_DENIED"].includes(error.code)) {
@@ -84,6 +85,7 @@ export function useRpgSheet(sheetId, system) {
         patch({ ready: false, user: null, form: {}, dirty: false, legacy: null, canUndo: false, canRedo: false });
       }
       patch({ saving: false, failure: error.code, status: error.message });
+      return null;
     }
   }, [patch]);
 
