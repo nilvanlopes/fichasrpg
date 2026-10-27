@@ -99,6 +99,6 @@ test("Google starts native Authentik OAuth without invitation, accepting no user
   const redirect = new URL((await response.json()).redirectTo);
   assert.equal(redirect.origin, "https://authentik.example.com");
   assert.equal(redirect.pathname, "/if/flow/fichasrpg-google-start/");
-  assert.equal(redirect.searchParams.get("next"), origin);
+  assert.equal(redirect.searchParams.get("next"), `${origin}/fichas`);
   assert.equal(authentikCalls.length, 0);
 });

@@ -197,20 +197,24 @@ com título, descrição e imagem JPEG de 1200 × 630. A imagem publicada fica e
 `docs/branding/social-preview.svg`. Ao trocar a imagem, use um novo nome e
 atualize os metadados e a rota para evitar o cache dos arquivos estáticos.
 
-A aplicação valida a sessão antes de entregar o HTML do portal ou de uma ficha.
-Sem sessão, responde HTTP 302 para `/outpost.goauthentik.io/start`, preservando
-o caminho e a consulta como destino após o login. O navegador segue direto ao
-Authentik, sem carregar o frontend nem mostrar uma tela intermediária.
+A raiz `/` e `/index.html` mostram uma landing page pública, inclusive para
+quem já está autenticado. Ela apresenta os sistemas e oferece **Entrar**, que
+leva a `/fichas`, e **Criar conta**, que leva a `/cadastro`. Os metadados de
+compartilhamento estão no HTML estático da landing, sem depender de JavaScript
+ou do User-Agent do leitor do link.
 
-O cadastro em `/cadastro` e os arquivos de `/assets/` permanecem públicos.
-Leitores de links também recebem o redirecionamento nas páginas protegidas;
-para ler os metadados sem autenticação, podem acessar a página de cadastro.
+A aplicação valida a sessão antes de entregar o portal em `/fichas` ou uma
+ficha em `/sistemas/…`. Sem sessão, responde HTTP 302 para
+`/outpost.goauthentik.io/start`, preservando o caminho e a consulta como destino
+após o login. O cadastro em `/cadastro` e os arquivos de `/assets/` permanecem
+públicos. O login Google do cadastro retorna ao portal em `/fichas`.
 
 O Traefik mantém três rotas: portal, sessão e login. Ele apenas encaminha as
 requisições, com CrowdSec. O Nginx encaminha as páginas e APIs ao backend.
-Após autorizar uma página, o backend responde com `X-Accel-Redirect` para
-`/_portal.html`, um caminho interno que entrega o `index.html` do próprio Nginx.
-Esse caminho não aceita acesso direto. Não há cópia do frontend dentro da API.
+O backend responde com `X-Accel-Redirect` para `/_landing.html` na entrada
+pública e para `/_portal.html` depois de autorizar o portal ou uma ficha.
+Esses caminhos internos entregam os HTMLs do Nginx e não aceitam acesso direto.
+Não há cópia do frontend dentro da API.
 O HTML usa `Cache-Control: no-store`, com variação por cookie; arquivos com
 nome versionado continuam com cache público.
 
@@ -225,10 +229,13 @@ Depois do deploy, valide sem cookies:
 
 ```bash
 curl -I https://fichasrpg.nilvanlopes.com/
+curl -I https://fichasrpg.nilvanlopes.com/fichas
 curl -I https://fichasrpg.nilvanlopes.com/cadastro
 curl -I https://fichasrpg.nilvanlopes.com/assets/portal/social-preview-v2.jpg
 curl -i https://fichasrpg.nilvanlopes.com/api/session
 ```
 
-Os resultados esperados são 302 para a home, 200 para cadastro e imagem e
-401 em JSON para a API. Valide também login, acesso à página original e logout.
+Os resultados esperados são 200 para a landing, cadastro e imagem, 302 para
+`/fichas` sem sessão e 401 em JSON para a API. Valide também login, acesso à
+página original e logout. A recuperação de callback expirado no Traefik aponta
+para `/fichas`, para iniciar uma autenticação nova em vez de abrir a landing.

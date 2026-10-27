@@ -9,6 +9,8 @@ export default function App() {
   if (segments[0] === "sistemas" && segments.length === 3) {
     return <SheetRoute system={segments[1]} sheetId={segments[2]} />;
   }
-  if (segments.length > 0) return <main className="account-notice"><h1>Página não encontrada</h1><a href="/">Voltar às fichas</a></main>;
+  if (segments.length > 0 && !(segments.length === 1 && segments[0] === "fichas")) {
+    return <main className="account-notice"><h1>Página não encontrada</h1><a href="/fichas">Voltar às fichas</a></main>;
+  }
   return <SheetsDashboard />;
 }

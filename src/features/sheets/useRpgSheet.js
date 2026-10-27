@@ -248,7 +248,7 @@ export function useRpgSheet(sheetId, system) {
       if (!mounted.current || version !== generation.current) return;
       generation.current += 1;
       patch({ ready: false, dirty: false, deleting: false });
-      window.location.assign("/");
+      window.location.assign("/fichas");
     } catch (error) {
       if (!mounted.current || version !== generation.current) return;
       patch({ deleting: false });

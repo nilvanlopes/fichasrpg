@@ -325,8 +325,33 @@ test("Vampiro: métodos e origem das fórmulas alquímicas persistem por linha e
   assert.equal((await get("B", path)).status, 404);
 });
 
+test("landing is public for every visitor and does not serve the authenticated frontend", async () => {
+  for (const path of ["/", "/index.html", "/?compartilhar=1"]) {
+    for (const headers of [{}, { Cookie: "session=A" }, { Cookie: "session=invalid" },
+      { "User-Agent": "WhatsApp/2.24" }, { "User-Agent": "facebookexternalhit/1.1" },
+      { "User-Agent": "UnknownPreviewBot" }, { Cookie: "session=broken" }]) {
+      const response = await page(path, headers);
+      assert.equal(response.status, 200);
+      assert.equal(response.headers.get("X-Accel-Redirect"), "/_landing.html");
+      assert.equal(response.headers.get("Location"), null);
+      assert.equal(response.headers.get("Cache-Control"), "no-store");
+    }
+  }
+});
+
+test("link readers cannot bypass authentication for private APIs", async () => {
+  for (const agent of ["WhatsApp/2.24", "facebookexternalhit/1.1", "UnknownPreviewBot"]) {
+    for (const path of ["/api/session", "/api/sheets", "/api/sheets/00000000-0000-4000-8000-000000000001/drawing/source"]) {
+      const response = await page(path, { "User-Agent": agent });
+      assert.equal(response.status, 401);
+      assert.equal(response.headers.get("X-Accel-Redirect"), null);
+      assert.deepEqual(await response.json(), { error: "LOGIN_REQUIRED" });
+    }
+  }
+});
+
 test("protected pages redirect before HTML is delivered and preserve the requested destination", async () => {
-  for (const path of ["/", "/index.html", "/sistemas/vampiro/nova?tema=claro&next=https://example.org"]) {
+  for (const path of ["/fichas", "/sistemas/vampiro/nova?tema=claro&next=https://example.org"]) {
     for (const headers of [{}, { Cookie: "session=invalid" }, {
       "X-authentik-uid": uidA, "X-authentik-username": "pyu", "X-authentik-groups": "fichasrpg-users",
       "X-Forwarded-Host": "example.org",
@@ -344,7 +369,7 @@ test("protected pages redirect before HTML is delivered and preserve the request
 });
 
 test("authenticated pages authorize Nginx to serve its HTML without copying frontend files into the API", async () => {
-  for (const path of ["/", "/index.html", "/sistemas/mutantes/nova"]) {
+  for (const path of ["/fichas", "/sistemas/mutantes/nova"]) {
     const response = await page(path, { Cookie: "session=A" });
     assert.equal(response.status, 200);
     assert.equal(response.headers.get("X-Accel-Redirect"), "/_portal.html");
@@ -371,7 +396,7 @@ test("registration HTML stays public while unknown API routes keep their JSON re
 
 test("page access denied and authentication outages do not serve HTML or create login loops", async () => {
   for (const [cookie, status] of [["session=outsider", 403], ["session=broken", 503]]) {
-    const response = await page("/", { Cookie: cookie });
+    const response = await page("/fichas", { Cookie: cookie });
     assert.equal(response.status, status);
     assert.equal(response.headers.get("Location"), null);
     assert.equal(response.headers.get("X-Accel-Redirect"), null);

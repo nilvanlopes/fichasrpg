@@ -122,6 +122,10 @@ export function createApp({ pool, authUrl, publicOrigin, fetchAuth = fetch }) {
     // Nginx delivers its own index.html only after the application allows it.
     res.set("X-Accel-Redirect", "/_portal.html").end();
   };
+  app.get(["/", "/index.html"], (req, res) => {
+    // The landing page contains only public site information and link metadata.
+    res.set("X-Accel-Redirect", "/_landing.html").end();
+  });
   app.get(/^\/cadastro(?:\/.*)?$/, servePortal);
 
   function requireAccount(page = false) {

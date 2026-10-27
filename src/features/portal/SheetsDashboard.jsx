@@ -48,7 +48,7 @@ export function SheetsDashboard() {
   return (
     <main className="portal-page">
       <header className="portal-header">
-        <a className="portal-brand" href="/" aria-label="Fichas de RPG, início">
+        <a className="portal-brand" href="/fichas" aria-label="Fichas de RPG, início">
           <span className="portal-brand-name" aria-label="RPG">
             <span className="portal-brand-word portal-brand-word--vampiro" aria-hidden="true">RPG</span>
             <span className="portal-brand-word portal-brand-word--mutantes" aria-hidden="true">RPG</span>

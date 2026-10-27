@@ -54,7 +54,7 @@ export function SignupPage() {
 
   return (
     <main className="signup-page">
-      <a className="signup-home" href="/">← Voltar às fichas</a>
+      <a className="signup-home" href="/">← Voltar ao início</a>
       <section className="signup-card">
         <div className="signup-mark" aria-hidden="true">✦</div>
         <p className="portal-eyebrow">Fichas de RPG</p>
@@ -62,7 +62,7 @@ export function SignupPage() {
         {success ? (
           <div className="signup-message signup-message--success" role="status" aria-live="polite">
             <p>{message}</p>
-            <p>Depois de confirmar o endereço, <a href="/">entre para acessar suas fichas.</a></p>
+            <p>Depois de confirmar o endereço, <a href="/fichas">entre para acessar suas fichas.</a></p>
           </div>
         ) : (
           <>
@@ -98,7 +98,7 @@ export function SignupPage() {
             </>}
           </>
         )}
-        {!success && <p className="signup-login-link">Já tem conta? <a href="/">Entrar</a></p>}
+        {!success && <p className="signup-login-link">Já tem conta? <a href="/fichas">Entrar</a></p>}
       </section>
       <p className="signup-invite-note">O cadastro dá acesso somente ao FichasRPG.</p>
     </main>

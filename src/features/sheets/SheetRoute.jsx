@@ -13,7 +13,7 @@ function SheetEditor({ system, sheetId, Editor }) {
 
 export function SheetRoute({ system, sheetId }) {
   if (!getSystem(system)) {
-    return <main className="account-notice"><h1>Sistema não encontrado</h1><a href="/">Voltar às fichas</a></main>;
+    return <main className="account-notice"><h1>Sistema não encontrado</h1><a href="/fichas">Voltar às fichas</a></main>;
   }
   return <SheetEditor key={`${system}/${sheetId}`} system={system} sheetId={sheetId} Editor={editors[system]} />;
 }

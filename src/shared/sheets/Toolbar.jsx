@@ -84,7 +84,7 @@ export function Toolbar({ onSave, onPrint, onClear, onNew, onReload, onLogout, o
       {open && <button className="toolbar-backdrop" type="button" aria-label="Fechar menu" onClick={() => setOpen(false)} />}
       <nav id="sheet-actions" className={`toolbar${open ? " is-open" : ""}`} aria-label="Ações da ficha">
         <header className="toolbar-header">
-          <a className="toolbar-home" href="/" aria-label="Voltar para Fichas RPG">
+          <a className="toolbar-home" href="/fichas" aria-label="Voltar para Fichas RPG">
             <img src="/assets/portal/favicon.svg" width="40" height="40" alt="" />
           </a>
           <button className="toolbar-close" type="button" onClick={() => setOpen(false)} aria-label="Fechar menu">×</button>

@@ -139,7 +139,7 @@ function publicPostOrigin(origin) {
 function googleLoginUrl() {
   const config = signupConfig();
   const url = new URL("/if/flow/fichasrpg-google-start/", config.authentikBaseUrl);
-  url.searchParams.set("next", config.appUrl);
+  url.searchParams.set("next", new URL("/fichas", config.appUrl).href);
   return url.toString();
 }
 
