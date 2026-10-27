@@ -4,3 +4,20 @@ dist/
 .env
 .env.*
 !.env.example
+
+# Private keys and local credential files
+*.pem
+*.key
+*.p12
+*.pfx
+*.jks
+*.keystore
+credentials.json
+service-account*.json
+secrets/
+
+# Local data exports and backups
+*.dump
+*.sql.gz
+*.bak
+*.backup
