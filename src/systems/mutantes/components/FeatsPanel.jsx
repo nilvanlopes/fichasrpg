@@ -27,7 +27,7 @@ const featRows = Array.from({ length: 16 }, (_, index) => {
 
 const compareFeatNames = (left, right) => left.localeCompare(right, "pt-BR", { sensitivity: "base" });
 
-export function FeatsPanel({ form, onChange }) {
+export function FeatsPanel({ form, onChange, printDescriptions = false }) {
   const dialogRef = useRef(null);
   const [activeSlot, setActiveSlot] = useState(null);
   const [query, setQuery] = useState("");
@@ -187,12 +187,26 @@ export function FeatsPanel({ form, onChange }) {
         onClick={openCatalogFromPanel}
       >
         <h2 className="section-title" id="feats-title">Feitos</h2>
-        <div className="feat-head">
-          <span>Nome</span>
-          <span>Benefício</span>
-        </div>
-        <div className="feat-rows">
-          {sheetFeatSlots.map((slot) => (
+        {printDescriptions ? (
+          <div className="feat-catalog-list print-feat-list">
+            {ownedFeats.map(({ name, feat, slot, ranks }) => (
+              <article className="feat-book-entry" key={slot.id}>
+                <div className="feat-book-title">
+                  <span>{name}</span>
+                  {feat && <span className="feat-book-meta">{feat.category} · {ranks} {ranks === "1" ? "graduação" : "graduações"}</span>}
+                </div>
+                <p>{feat?.description || form[slot.benefitField] || "Descrição não cadastrada."}</p>
+              </article>
+            ))}
+          </div>
+        ) : (
+          <>
+            <div className="feat-head">
+              <span>Nome</span>
+              <span>Benefício</span>
+            </div>
+            <div className="feat-rows">
+              {sheetFeatSlots.map((slot) => (
             <div className="feat-row" key={slot.id}>
               <button
                 className={`feat-picker-trigger${form[slot.nameField] ? " has-feat" : ""}`}
@@ -208,8 +222,10 @@ export function FeatsPanel({ form, onChange }) {
                 {form[slot.benefitField] || ""}
               </div>
             </div>
-          ))}
-        </div>
+              ))}
+            </div>
+          </>
+        )}
       </section>
 
       <dialog

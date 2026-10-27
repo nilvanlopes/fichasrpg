@@ -11,6 +11,7 @@ import {
 } from "./PageOnePanels";
 import { FeatsPanel } from "./FeatsPanel";
 import { PowersPanel } from "./PowersPanel";
+import { SkillsPanel } from "./CampaignPage";
 
 export function CharacterPage({ form, derived, onChange, onOpenPointsBreakdown }) {
   return (
@@ -29,6 +30,7 @@ export function CharacterPage({ form, derived, onChange, onOpenPointsBreakdown }
             <FatiguePanel form={form} onChange={onChange} />
           </div>
           <PowersPanel form={form} onChange={onChange} />
+          <SkillsPanel form={form} derived={derived} onChange={onChange} className="print-skill-proxy" idPrefix="print-skills" />
         </div>
 
         <FeatsPanel form={form} onChange={onChange} />

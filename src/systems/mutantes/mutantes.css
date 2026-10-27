@@ -112,6 +112,8 @@
   text-align: center;
   text-transform: uppercase;
 }
+:where(.mutantes-root) .print-only-page,
+:where(.mutantes-root) .print-campaign-notes { display: none; }
 
 :where(.mutantes-root) .game-logo {
   position: absolute;
@@ -1045,7 +1047,6 @@
   padding: .5em;
   background: transparent;
 }
-
 :where(.mutantes-root) .drawing-drop-area { cursor: pointer; }
 :where(.mutantes-root) .drawing-drop-area.has-drawing { cursor: default; }
 :where(.mutantes-root) .drawing-drop-area:focus-visible,
@@ -1172,6 +1173,7 @@
   grid-template-rows: max-content max-content minmax(0, 1fr);
   min-height: 0;
 }
+:where(.mutantes-root) .skills-panel.print-skill-proxy { display: none; }
 :where(.mutantes-root) .skills-title {
   display: grid;
   grid-template-columns: minmax(0, 1fr) 4.5em;
@@ -1374,16 +1376,178 @@
 
 @media print {
   @page mutantes-sheet { size: A4 portrait; margin: 0; }
-  body:has(.mutantes-root) { background: #000; }
-  :where(.mutantes-root) .feat-catalog-dialog { display: none; }
-  :where(.mutantes-root).sheets { gap: 0; padding: 0; }
+  @page mutantes-feats { size: A4 portrait; margin: 7mm 10mm; }
+  @page mutantes-points { size: A4 portrait; margin: 7mm 10mm; }
+  body:has(.mutantes-root) { background: #fff !important; }
+  :where(.mutantes-root) .print-only-page,
+  :where(.mutantes-root) .print-skill-proxy { display: none !important; }
+  :where(.mutantes-root) .feat-catalog-dialog,
+  :where(.mutantes-root) .mutantes-points-dialog,
+  :where(.mutantes-root) .drawing-editor-dialog,
+  :where(.mutantes-root) .drawing-actions,
+  :where(.mutantes-root) .drawing-drop-hint,
+  :where(.mutantes-root) .drawing-busy,
+  :where(.mutantes-root) .drawing-error { display: none !important; }
+  :where(.mutantes-root).sheets { display: block !important; gap: 0; padding: 0; }
   :where(.mutantes-root) .sheet-page {
     width: 210mm;
-    height: 272.4mm;
+    height: 297mm;
+    aspect-ratio: auto;
+    padding: 7mm 10mm 9mm;
+    border: 0;
+    font-size: 9pt;
     box-shadow: none;
     page-break-after: always;
+    break-after: page;
   }
-  :where(.mutantes-root) .sheet-page:last-child { page-break-after: auto; }
+  :where(.mutantes-root) .page-one-middle { grid-template-columns: minmax(0, 46fr) minmax(0, 54fr); }
+  :where(.mutantes-root) .page-one-left .ability-name { font-size: 11pt; }
+  :where(.mutantes-root) .page-one-left .save-name,
+  :where(.mutantes-root) .page-one-left .combat-name { font-size: 10pt; }
+  :where(.mutantes-root) .page-one-left .box-input { font-size: 10pt; }
+  :where(.mutantes-root) .page-one-left .ability-head,
+  :where(.mutantes-root) .page-one-left .ability-row {
+    grid-template-columns: minmax(32mm, 1fr) minmax(0, .52fr) minmax(0, .52fr) 2mm minmax(0, .52fr) 2mm minmax(0, .52fr);
+    gap: .5mm;
+    padding-inline: 1mm;
+  }
+  :where(.mutantes-root) .page-one-left .save-head,
+  :where(.mutantes-root) .page-one-left .save-row {
+    grid-template-columns: 30mm minmax(0, .55fr) minmax(0, .55fr) minmax(0, .7fr) minmax(0, .55fr);
+    gap: .6mm;
+    padding-inline: 1mm;
+  }
+  :where(.mutantes-root) .page-one-left .combat-head,
+  :where(.mutantes-root) .page-one-left .combat-row {
+    grid-template-columns: 27mm 9mm 13mm repeat(3, minmax(0, .7fr));
+    gap: .6mm;
+    padding-inline: 1mm;
+  }
+  :where(.mutantes-root) .page-one-left .attack-row { gap: 2mm; padding-inline: 1mm; }
+  :where(.mutantes-root) .page-one-left .attack-label { font-size: 9pt; }
+  :where(.mutantes-root) .page-one-left .attack-pair .box-input { flex-basis: 8mm; width: 8mm; }
+  :where(.mutantes-root) .page-one-left .table-head,
+  :where(.mutantes-root) .page-one-left .save-head,
+  :where(.mutantes-root) .page-one-left .combat-head { font-size: 6pt; }
+  :where(.mutantes-root) .page-one-left .table-head > span,
+  :where(.mutantes-root) .page-one-left .save-head > span,
+  :where(.mutantes-root) .page-one-left .combat-head > span { min-width: 0; overflow-wrap: anywhere; }
+  :where(.mutantes-root) .page-one-left .condition-name,
+  :where(.mutantes-root) .page-one-left .fatigue-name { font-size: 7.5pt; }
+  :where(.mutantes-root) .campaign-layout { display: grid; grid-template-columns: 60% minmax(0, 40%); height: 100%; }
+  :where(.mutantes-root) .campaign-left { display: grid; grid-template-rows: minmax(0, 10fr) minmax(0, 35fr) minmax(0, 32fr) minmax(0, 23fr); }
+  :where(.mutantes-root) .campaign-right { display: grid; grid-template-rows: minmax(0, 69fr) minmax(0, 31fr); }
+  :where(.mutantes-root) .page-one-middle > .powers-panel,
+  :where(.mutantes-root) .page-one-content > .feats-panel,
+  :where(.mutantes-root) .campaign-right > .skills-panel { display: none !important; }
+  :where(.mutantes-root) .campaign-right { grid-template-rows: minmax(0, 1fr) minmax(0, 1fr); }
+  :where(.mutantes-root) .campaign-right > .print-campaign-notes { display: grid !important; }
+  :where(.mutantes-root) .campaign-info-row:nth-child(2) > .campaign-note-label { display: none !important; }
+  :where(.mutantes-root) .print-campaign-notes {
+    grid-template-rows: max-content minmax(0, 1fr) max-content minmax(0, 1fr);
+  }
+  :where(.mutantes-root) .print-campaign-note-body {
+    display: grid;
+    grid-auto-rows: 4.3mm;
+    align-content: start;
+    min-height: 0;
+    overflow: hidden;
+    background: repeating-linear-gradient(to bottom, transparent 0, transparent calc(4.3mm - 1px), var(--rule) calc(4.3mm - 1px), var(--rule) 4.3mm);
+    background-size: 100% 4.3mm;
+  }
+  :where(.mutantes-root) .print-campaign-note-line {
+    display: flex;
+    align-items: flex-end;
+    min-width: 0;
+    height: 4.3mm;
+    overflow: hidden;
+    padding: 0 .5mm .15mm;
+    font-size: 10pt;
+    line-height: 3.8mm;
+    white-space: nowrap;
+  }
+  :where(.mutantes-root) .page-one-content { grid-template-rows: 11.7% minmax(0, 1fr); }
+  :where(.mutantes-root) .page-one-middle > .print-skill-proxy { display: grid !important; }
+  :where(.mutantes-root) .print-only-page { display: grid !important; }
+  :where(.mutantes-root) .print-powers-page { grid-template-rows: minmax(0, 1fr); }
+  :where(.mutantes-root) .print-powers-page > .powers-panel {
+    grid-template-rows: 8% 5% minmax(0, 1fr);
+  }
+  :where(.mutantes-root) .print-powers-page .power-head { font-size: 9pt; }
+  :where(.mutantes-root) .print-powers-page .power-fields input { font-size: 10.5pt; }
+  :where(.mutantes-root) .print-powers-page .power-description { font-size: 11pt; line-height: 1.35; }
+  :where(.mutantes-root) :is(.print-feats-page, .print-points-page) {
+    display: block !important;
+    width: auto;
+    height: auto;
+    min-height: 0;
+    max-height: none;
+    padding: 0;
+    overflow: visible;
+    page-break-inside: auto;
+    break-inside: auto;
+    page-break-after: auto;
+    break-after: auto;
+  }
+  :where(.mutantes-root) .print-feats-page { page: mutantes-feats; }
+  :where(.mutantes-root) .print-points-page { page: mutantes-points; }
+  :where(.mutantes-root) .print-points-page .section-title { min-height: 11mm; break-after: avoid; }
+  :where(.mutantes-root) .print-points-budget { margin: 3mm 0; font-size: 10pt; }
+  :where(.mutantes-root) .print-points-page .mutantes-points-breakdown { padding: 0; }
+  :where(.mutantes-root) .print-points-group { padding: 3mm 0; border-bottom: 1px solid var(--rule); }
+  :where(.mutantes-root) .print-points-group h3 { font-size: 11pt; break-after: avoid; }
+  :where(.mutantes-root) .print-points-group ul { display: block; margin-top: 2mm; }
+  :where(.mutantes-root) .print-points-group li { padding-block: .5mm; font-size: 9pt; break-inside: avoid; }
+  :where(.mutantes-root) .print-points-group li > span { min-width: 0; overflow-wrap: anywhere; }
+  :where(.mutantes-root) .print-points-group > p { font-size: 9pt; }
+  :where(.mutantes-root) .print-points-page .mutantes-points-total { padding-top: 3mm; font-size: 11pt; break-inside: avoid; }
+  :where(.mutantes-root) .print-feats-page > .print-feats-panel {
+    display: block;
+    border: 0;
+    min-height: 0;
+    overflow: visible;
+  }
+  :where(.mutantes-root) .print-feats-page .print-feat-list {
+    display: block;
+    min-height: 0;
+    overflow: visible;
+    padding: 0;
+  }
+  :where(.mutantes-root) .print-feats-page .feat-book-entry {
+    min-width: 0;
+    margin-bottom: 2mm;
+    break-inside: avoid;
+    page-break-inside: avoid;
+    box-shadow: none;
+  }
+  :where(.mutantes-root) .print-feats-page .feat-book-title { min-height: 8mm; padding: 1.5mm 2mm; }
+  :where(.mutantes-root) .print-feats-page .feat-book-title > span:first-child { font-size: 10pt; }
+  :where(.mutantes-root) .print-feats-page .feat-book-meta { font-size: 7.5pt; }
+  :where(.mutantes-root) .print-feats-page .feat-book-entry > p { padding: 2mm; font-size: 9pt; line-height: 1.3; }
+  :where(.mutantes-root) .print-feats-page .section-title { min-height: 11mm; margin-bottom: 2mm; break-after: avoid; }
+  :where(.mutantes-root) .print-only-page .page-footer { bottom: .7%; }
+  :where(.mutantes-root) .print-skill-proxy .skills-head,
+  :where(.mutantes-root) .print-skill-proxy .skill-row {
+    grid-template-columns: minmax(0, 2.4fr) .5fr .16fr .5fr .16fr .5fr .16fr .45fr;
+  }
+  :where(.mutantes-root) .print-skill-proxy .skills-head { font-size: 6.5pt; }
+  :where(.mutantes-root) .print-skill-proxy .skill-row { font-size: 8pt; }
+  :where(.mutantes-root) .print-skill-proxy .skill-name { overflow: visible; }
+  :where(.mutantes-root) .print-skill-proxy .skills-title { grid-template-columns: minmax(0, 1fr) 52mm; }
+  :where(.mutantes-root) .print-skill-proxy .max-ranks {
+    grid-template-columns: minmax(0, 1fr) 12mm;
+    column-gap: 2mm;
+    width: 52mm;
+    font-size: 9pt;
+    line-height: 1.1;
+    text-align: left;
+  }
+  :where(.mutantes-root) .print-skill-proxy .max-ranks .box-input {
+    width: 12mm;
+    height: 9mm;
+    font-size: 11pt;
+  }
+  :where(.mutantes-root) .sheet-page:last-child { page-break-after: auto; break-after: auto; }
 }
 
 @media print { :where(.mutantes-root) { page: mutantes-sheet; } }

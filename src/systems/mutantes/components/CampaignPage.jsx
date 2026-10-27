@@ -4,6 +4,7 @@ import { LineField, TextField } from "../../../shared/ui/FormField";
 import { SheetNotesDialog } from "../../../shared/sheets/SheetNotesDialog";
 import { BoxField, MiniField } from "./NumericFields";
 import { DrawingField } from "./DrawingField.jsx";
+import { PowerPointsBreakdown } from "./PowerPointsBreakdown";
 
 function CampaignInfo({ form, derived, onChange, pointsBreakdownRef }) {
   const heroesNoteRef = useRef(null);
@@ -125,19 +126,7 @@ function CampaignInfo({ form, derived, onChange, pointsBreakdownRef }) {
             }}
           >Adicionar</button>
         </div>}
-        <div className="mutantes-points-breakdown">
-          {derived.powerPointBreakdown.map((group) => (
-            <details key={group.label}>
-              <summary><h3><span>{group.label}</span><strong>{formatPoints(group.points)} PP</strong></h3></summary>
-              {group.entries.length ? (
-                <ul>{group.entries.map((entry, index) => (
-                  <li key={`${entry.label}-${index}`}><span>{entry.label}</span><strong>{formatPoints(entry.points)} PP</strong></li>
-                ))}</ul>
-              ) : <p>Sem pontos gastos nesta categoria.</p>}
-            </details>
-          ))}
-          <p className="mutantes-points-total"><span>Total usado</span><strong>{usedText} PP</strong></p>
-        </div>
+        <PowerPointsBreakdown derived={derived} />
       </dialog>
     </>
   );
@@ -161,11 +150,11 @@ function WritingPanel({ title, prefix, amount, form, onChange, className = "" })
   );
 }
 
-function SkillsPanel({ form, derived, onChange }) {
+export function SkillsPanel({ form, derived, onChange, className = "", idPrefix = "skills" }) {
   return (
-    <section className="panel skills-panel" aria-labelledby="skills-title">
+    <section className={`panel skills-panel ${className}`.trim()} aria-labelledby={`${idPrefix}-title`}>
       <div className="skills-title">
-        <h2 className="section-title" id="skills-title">Perícias</h2>
+        <h2 className="section-title" id={`${idPrefix}-title`}>Perícias</h2>
         <label className="max-ranks">
           Graduações<br />máximas
           <BoxField
@@ -221,6 +210,56 @@ function SkillsPanel({ form, derived, onChange }) {
   );
 }
 
+function wrapPrintNote(value, maxCharacters = 36) {
+  return String(value || "").split(/\r?\n/).flatMap((paragraph) => {
+    const words = paragraph.trim().split(/\s+/).filter(Boolean);
+    if (!words.length) return [""];
+
+    const lines = [];
+    let line = "";
+    words.forEach((word) => {
+      if (word.length > maxCharacters) {
+        if (line) lines.push(line);
+        line = "";
+        for (let start = 0; start < word.length; start += maxCharacters) {
+          lines.push(word.slice(start, start + maxCharacters));
+        }
+        return;
+      }
+      const candidate = line ? `${line} ${word}` : word;
+      if (candidate.length > maxCharacters && line) {
+        lines.push(line);
+        line = word;
+      } else {
+        line = candidate;
+      }
+    });
+    if (line) lines.push(line);
+    return lines;
+  });
+}
+
+function PrintNoteLines({ value }) {
+  return (
+    <div className="print-campaign-note-body">
+      {wrapPrintNote(value).map((line, index) => (
+        <div className="print-campaign-note-line" key={`${index}-${line}`}>{line}</div>
+      ))}
+    </div>
+  );
+}
+
+function PrintCampaignNotes({ form }) {
+  return (
+    <section className="panel print-campaign-notes" aria-label="Heróis amigos e parceiros ou capangas">
+      <h2 className="section-title">Heróis amigos</h2>
+      <PrintNoteLines value={form["herois-amigos"]} />
+      <h2 className="section-title">Parceiros ou capangas</h2>
+      <PrintNoteLines value={form.parceiros} />
+    </section>
+  );
+}
+
 export function CampaignPage({ form, derived, sheetId, user, saving, saveSheet, onChange, pointsBreakdownRef }) {
   return (
     <section className="sheet-page page-two" aria-labelledby="campaign-title">
@@ -233,6 +272,7 @@ export function CampaignPage({ form, derived, sheetId, user, saving, saveSheet, 
         </div>
         <div className="campaign-right">
           <SkillsPanel form={form} derived={derived} onChange={onChange} />
+          <PrintCampaignNotes form={form} />
           <section className="panel drawing-panel" aria-labelledby="drawing-title">
             <h2 className="section-title" id="drawing-title">Desenho do personagem</h2>
             <DrawingField sheetId={sheetId} user={user} saving={saving} saveSheet={saveSheet}
